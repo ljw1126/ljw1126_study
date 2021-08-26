@@ -1,0 +1,5 @@
+{
+    "python.analysis.extraPaths": [
+        "./ReadingBooks/DoIt/자료구조와알고리즘/4_스택과큐"
+    ]
+}
