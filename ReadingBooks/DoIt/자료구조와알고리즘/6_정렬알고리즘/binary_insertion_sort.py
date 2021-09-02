@@ -1,4 +1,4 @@
-# 이진 삽입 정렬 알고리즘 구현 
+# 이진 삽입 정렬 알고리즘 구현 (210902모르겠음 )
 
 from typing import MutableSequence
 

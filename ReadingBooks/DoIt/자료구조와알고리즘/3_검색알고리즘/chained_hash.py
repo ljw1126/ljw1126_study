@@ -48,7 +48,9 @@ class ChainedHash:
             if p.key == key : 
                 return False  #추가실패 
             p = p.next          # 뒤쪽 노드를 주목 
-
+        
+        # 해당 인덱스가 None인 경우 self.table[hash] 는 None 해당 
+        # 해당 인덱스 값이 있는 경우 self.table[hash] 는 특정 Node 가르킴 ( 신규 None -> Node -> None )
         temp = Node(key, value, self.table[hash])
         self.table[hash] = temp # 노드를 추가 
         return True # 추가 설공 
@@ -59,6 +61,7 @@ class ChainedHash:
         p = self.table[hash]         # 노드를 주목
         pp = None                    # 바로 앞의 노드 주목 
 
+        # 예시 그림 참고해서 값이 3개 있을때 각각 삭제하는 경우를 생각해보기! 
         while p is not None : 
             if p.key == key : 
                 if pp is None : 
