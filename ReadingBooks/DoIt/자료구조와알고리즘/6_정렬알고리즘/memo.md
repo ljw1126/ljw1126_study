@@ -131,3 +131,18 @@ print('Too Big') if a > 100 else print('Big') if a > 10 else print('Small')
 ```
 
 ##### shell_sort.py , shell_sort2.py 예제 참고
+
+<br/>
+
+#### 5. 퀵 정렬 (quick sort)
+```
+# x 피벗 , pl 왼쪽 , pr 오른쪽 인덱스
+1) a[pl] >= x 가 성립하는 원소를 찾을 때까지 pl을 오른쪽 방향으로 스캔함 
+2) a[pr] <= x 가 성립하는 원소를 찾을 때까지 pr를 왼쪽 방향으로 스캔함 
+
+# pl , pr 교차 발생시 그룹을 나눔 
+1) 피벗 이하인 그룹 : a[0] ~ a[pl-1]
+2) 피벗 이상인 그룹 : a[pr+1] ~ a[n-1]
+3) 피벗과 일치하는 그룹 : a[pr+1] ~ a[pl-1]
+
+```
