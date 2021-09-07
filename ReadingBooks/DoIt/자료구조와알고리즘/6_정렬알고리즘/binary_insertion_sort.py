@@ -8,6 +8,11 @@ def binary_insertion_sort(a:MutableSequence)->None:
         key = a[i]
         pl = 0        # 검색 범위의 맨 앞 원소 인덱스 
         pr = i -1     # 검색 범위의 맨 끝 원소 인덱스
+       
+        print(f' i = {i}')
+        print(f' key = {key}')
+        print(f' pl = {pl} ')
+        print(f' pr = {pr}')
 
         while True:
             pc = (pl+pr)//2  # 검색 범위의 가운데 원소 인덱스 
@@ -21,7 +26,12 @@ def binary_insertion_sort(a:MutableSequence)->None:
             if pl > pr : 
                 break 
 
+        print(f' pl` = {pl}')
+        print(f' pr` = {pr}')
+                
         pd = pc + 1 if pl <= pr else pr + 1 # 삽입해야 할 위치의 인덱스 
+
+        print(f' pd = {pd}')
 
         for j in range(i, pd, -1):
             a[j] = a[j-1]

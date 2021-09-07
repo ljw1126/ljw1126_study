@@ -11,8 +11,11 @@ def merge_sort(a:MutableSequence) -> None:
         if left < right : 
             center = ( left + right ) // 2
 
+            
             _merge_sort(a, left, center)
+            print(f'left : {left} , center : {center}')
             _merge_sort(a, center+1 , right)
+            print(f'center+1 : {center+1} , right : {right}')
 
             p = j = 0 
             i = k = left 
@@ -21,7 +24,7 @@ def merge_sort(a:MutableSequence) -> None:
                 buff[p] = a[i]
                 p += 1 
                 i += 1
-
+            print(f'buff1: {buff}')
             while i <= right and j < p : 
                 if buff[j] <= a[i]:
                     a[k] = buff[j]
@@ -30,11 +33,12 @@ def merge_sort(a:MutableSequence) -> None:
                     a[k] = a[i]
                     i += 1 
                 k += 1
-
+            print(f'a1: {a}')
             while j < p :
                 a[k] = buff[j]
                 k += 1 
                 j += 1 
+            print(f'a2: {a}')
 
 
     # 0. 여기부터 실행됨    
