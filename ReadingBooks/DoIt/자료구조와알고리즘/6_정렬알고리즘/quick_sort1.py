@@ -10,12 +10,16 @@ def qsort(a:MutableSequence, left:int, right:int) -> None :
 
      # 앞 partition 예제 동일
      while pl <= pr : 
+         print(f' 0. pl = {pl} , pr = {pr}')
          while a[pl] < pivot : pl += 1
          while a[pr] > pivot : pr -= 1 
+         print(f' 1. pl = {pl} , pr = {pr}')
          if pl <= pr : 
            a[pl],a[pr] = a[pr],a[pl]
            pl += 1 
            pr -= 1 
+         print(f' a = {a} ') 
+         print(f' 2. pl = {pl} , pr = {pr}')
 
      # 여기 주목 
      if left < pr : qsort(a,left,pr)
@@ -37,4 +41,6 @@ if __name__ == '__main__':
     print('오름차순 정렬결과=======')    
     for i in range(num):
         print(f' x[{i}] = {x[i]}')
+
+
 

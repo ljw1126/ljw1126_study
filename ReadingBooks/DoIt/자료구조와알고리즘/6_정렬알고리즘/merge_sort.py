@@ -19,7 +19,7 @@ def merge_sort(a:MutableSequence) -> None:
 
             p = j = 0 
             i = k = left 
-
+            print(f'left = {left} , right = {right}, center = {center}')
             while i <= center : 
                 buff[p] = a[i]
                 p += 1 

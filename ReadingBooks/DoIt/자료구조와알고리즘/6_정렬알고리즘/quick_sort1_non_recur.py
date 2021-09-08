@@ -7,10 +7,11 @@ def qsort(a:MutableSequence , left:int, right:int) -> None:
     range = Stack(len(a)) # 스택생성 , 굳이 right - left +1 ? 
 
     range.push((left,right))
-
+    print(f' 초기 range = {range.dump()}')
     while not range.is_empty():
+        print(f' 시작 range = {range.dump()}')
         pl, pr = left,right = range.pop()     # 왼쪽, 오른쪽 커서를 꺼냄 unpack
-        x = [(left+right) // 2]
+        x = a[(left+right) // 2]
 
         # 앞 예제 동일 
         while pl <= pr :
@@ -20,9 +21,10 @@ def qsort(a:MutableSequence , left:int, right:int) -> None:
                 a[pl],a[pr] = a[pr],a[pl]
                 pl += 1 
                 pr -= 1
-    
-    if left < pr : range.push((left, pr))
-    if pl < right : range.push((pl,right))
+        print(f' pl = {pr}, pr = {pr} , left = {left}, right={right} , x = {x}')
+        print(f' 정렬 후 range = {range.dump()}')
+        if left < pr : range.push((left, pr))
+        if pl < right : range.push((pl,right))
 
 
 if __name__ == '__main__':

@@ -17,7 +17,7 @@ def partition(a:MutableSequence) -> None:
             pr -= 1 
 
     print(f'피벗은 {x}입니다.')
-
+    print(f'pl = {pl} , pr = {pr}')
     print('피벗 이하인 그룹입니다.')
     print(*a[0:pl])  # a[0] ~ a[pl-1] 출력    , 이게 pl , pr 피벗에 겹치면 의미 없는 스왑발생하면서 pl= 5, pr = 3이 됨 
 
