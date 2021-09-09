@@ -5,18 +5,24 @@ from typing import MutableSequence
 def heap_sort(a:MutableSequence) -> None : 
 
     def down_heap(a:MutableSequence, left:int, right:int) -> None:
+        print(f'시작 a = {a}')
+        print(f'left = {left} , right = {right} ')
         temp = a[left]
 
         parent = left 
         while parent < (right + 1) // 2 :
+            print(f'반복문: parent = {parent} , right = {right}')
             cl = parent * 2 + 1  # 왼쪽 자식 
             cr = cl + 1 
             child = cr if cr <= right and a[cr] > a[cl] else cl  # 큰 값을 선택 
+            print(f'cl = {cl} , cr = {cr} , child = {child}')
             if temp >= a[child]:
                 break 
             a[parent] = a[child]
-            parent = child 
+            parent = child
+            print(f'반복문 a = {a}') 
         a[parent] = temp 
+        print(f'종료 a = {a}')
 
     n = len(a)
 
