@@ -3,7 +3,7 @@
 from enum import Enum 
 from linked_list import LinkedList 
 
-Menu = Enum('Menu', ['머리에노드삽입','꼬리에노드삽입','머리노드삭제'
+Menu = Enum('Menu', ['머리에노드삽입','꼬리에노드삽입','머리노드삭제',
                      '꼬리노드삭제','주목노드출력','주목노드이동',
                      '주목노드삭제','모든노드삭제','검색',
                      '멤버십판단','모든노드출력','스캔','종료'])
@@ -54,7 +54,7 @@ while True :
             print('해당 데이터가 없음')
 
     elif menu == Menu.멤버십판단:
-        print('그 값의 데이터는 포함되어'+ '있습니다.' if int(input('판단할 값을 입력하세요 . : ')) in lst else '있지 않습니다.' )
+        print('그 값의 데이터는 포함되어'+ ('있습니다.' if int(input('판단할 값을 입력하세요 . : ')) in lst else '있지 않습니다.' ))
 
     elif menu == Menu.모든노드출력:
         lst.print()
