@@ -47,5 +47,9 @@
 - 원형 이중 연결 리스트(circular doubly linked list) 
   = 원형 리스트 + 이중 연결 리스트 
 ```
-
+- prev, next 속성은 각 Node()를 가르킴 ( point* )
+- self.head에 더미노드를 두고 삽입/삭제 이뤄짐
+- self.current( 초기 = self.head = 더미노드) 주목노드 기준으로 삽입/삭제 수행됨 
+- 더미노드 (self.head) 의 prev는 마지막 노드 혹은 자기자신(다른 노드 없을때)
+- 더미노드 (self.head) 의 next는 헤더노드 혹은 자기자신(다른 노드 없을때)
 

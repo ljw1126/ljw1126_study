@@ -28,12 +28,12 @@ class DoubleLinkedList:
     """
     def is_empty(self) -> bool : 
         """리스트가 비었는지 확인"""
-        return self.head.next is self.head 
+        return self.head.next is self.head # self.head.next 가 자기 자신(self.head , 더미노드)인 경우 
 
     def search(self, data:Any)->Any:
         """data와 값이 같은 노드를 검색"""
         cnt = 0 
-        ptr = self.head.next # 현재 스캔 중인 노드 
+        ptr = self.head.next # 현재 스캔 중인 노드 , 더미노드 다음 노드부터
         while ptr is not self.head : 
             if data == ptr.data : 
                 self.current = ptr 
@@ -84,19 +84,19 @@ class DoubleLinkedList:
     def add(self, data:Any)->None: 
         """주목 노드 바로 뒤에 노드 삽입"""
         node = Node(data, self.current, self.current.next)
-        self.current.next.prev = node 
+        self.current.next.prev = node  # 현시점에 self.current.next는 더미노드 자기 자신
         self.current.next = node 
         self.currnet = node 
         self.no += 1 
 
     def add_first(self, data:Any)->None:
         """맨 앞에 노드를 삽입"""
-        self.current = self.head # 더미 노드 head의 바로 뒤에 삽입 
+        self.current = self.head # 더미 노드(self.head)의 바로 뒤에 삽입 
         self.add(data)
 
     def add_last(self, data:Any)->None: 
         """맨 뒤에 노드를 삽입"""
-        self.current = self.head.prev # 꼬리 노드 head.prev의 바로 뒤에 삽입  
+        self.current = self.head.prev # 꼬리 노드(self.head.prev)의 바로 뒤에 삽입 , self.head.prev 의 경우 마지막 노드 또는 자기자신(더미노드) 가르킴
         self.add(data)
 
     def remove_current_node(self)->None:
@@ -111,17 +111,17 @@ class DoubleLinkedList:
 
     def remove(self, p:None)->None: 
         """노드 p를 삭제"""
-        ptr = self.head.next 
+        ptr = self.head.next # 더미노드.next 부터 시작해서 검색 
 
         while ptr is not self.head : 
-            if ptr is p : 
-                self.current = p 
-                self.remove_current_node() 
+            if ptr is p : # 찾을 경우
+                self.current = p    # self.current 주목 노드를 p로 변경
+                self.remove_current_node() # 주목 노드 삭제  
                 break 
             ptr = ptr.next 
 
     def remove_first(self) -> None:
-        """머리 노드 삭제"""
+        """머리 노드(=더미노드 다음노드) 삭제"""
         self.current = self.head.next       # 머리 노드 head.next를 삭제 
         self.remove_current_node()
 
