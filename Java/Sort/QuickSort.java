@@ -7,6 +7,9 @@ public class QuickSort {
 
     //분할정복법 
     public ArrayList<Integer> sort(ArrayList<Integer> list){
+
+        System.out.println("확인:"+list.toString());
+
         if(list.size() <= 1) return list; 
        
         int pivot = list.get(0);
@@ -21,6 +24,8 @@ public class QuickSort {
                 leftArr.add(list.get(i));
         }//
 
+        System.out.println("leftArr = " + leftArr.toString());
+        System.out.println("rightArr = " + rightArr.toString());
         
         ArrayList<Integer> mergedList = new ArrayList<>();
         mergedList.addAll(sort(leftArr));
@@ -33,7 +38,7 @@ public class QuickSort {
     public static void main(String[] args) {
         ArrayList<Integer> dataList = new ArrayList<>();    
 
-        for(int i = 1 ; i < 11 ; i++ ){
+        for(int i = 1 ; i < 6 ; i++ ){
             dataList.add((int)(Math.random() * 100));
         }
 

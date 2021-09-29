@@ -5,16 +5,15 @@ import java.util.*;
 public class MergeSort {
     //병합정렬 재귀가 그려지지 않음..
     public static ArrayList<Integer>  mergeSplitFunc(ArrayList<Integer> list){
-        
+        System.out.println("시작 === "  + list.toString());
         if(list.size() <= 1) return list; 
 
         int mid = list.size()/2;
      
         ArrayList<Integer> leftArr = mergeSplitFunc(new ArrayList(list.subList(0, mid)));
+        System.out.println("leftArr : "+leftArr.toString());
         ArrayList<Integer> rightArr = mergeSplitFunc(new ArrayList(list.subList(mid, list.size())));
-
-        System.out.println(leftArr.toString());
-        System.out.println(rightArr.toString());
+        System.out.println("rightArr : " + rightArr.toString());
 
         return mergeFunc(leftArr, rightArr);
     }
@@ -59,7 +58,7 @@ public class MergeSort {
         }
         System.out.println(dataList.toString());
 
-        System.out.println("결과값=================");
+        System.out.println("====================");
         System.out.println(mergeSplitFunc(dataList));
 
     }

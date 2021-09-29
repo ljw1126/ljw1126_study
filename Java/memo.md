@@ -25,4 +25,20 @@ list2 = new ArrayList<Integer>(Arrays.asList(4,1,2,3,5));
 int[] arr = {4,1,2,3,5};
 ArrayList<Integer> list = new ArrayList<Integer>(Arrays.asList(arr));
 
+// 5. 배열 정렬 하는 class method 
+import java.util.Collections;
+// 이진 탐색은 이미 정렬되어 있는 배열에서 검색하기 때문에 , 정렬이 선행 되야 함 
+Collections.sort(ArrayList객체); // 해당 ArrayList객체는 정렬이 됨
+
+// 6. ArrayList에 값 존재 여부 
+if(list.contains("A")) // A라는 값의 존재 여부를 boolean 값으로 리턴함 
+
+// 7. HashMap
+
+HashMap<K,V> hm = new HashMap<>(); // 1.7타입추론 추가 
+hm.put("키", "값"); // 키와 값 형태로 값 저장
+hm.get("키"); // 값 가져오기 
+hm.remove("키"); // 키값 제거 
+// iterator 사용가능한걸로 알고 있음
+
 ```
