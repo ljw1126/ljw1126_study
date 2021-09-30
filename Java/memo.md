@@ -42,3 +42,43 @@ hm.remove("키"); // 키값 제거
 // iterator 사용가능한걸로 알고 있음
 
 ```
+
+
+## Comparable과 Comparator 인터페이스
+- Comparable 와 Comparator 는 둘 다 인터페이스로, 정렬 기준을 구현하기 위해 사용됨
+  - Comparable 인터페이스는 compareTo() 메서드를 override 해서 구현
+    -일반적으로는 **정렬할 객체**에 implements 로 Comparable 인터페이스를 추가하여 구현
+- Comparator 인터페이스는 compare() 메서드를 override 해서 구현
+  - 일반적으로는 **별도 클래스를 정의해서 구현**하며, 따라서, 동일 객체에 다양한 정렬 기준을 가진 클래스를 작성 가능
+
+```
+-일반적인 객체에 Comparble 인터페이스 상속 후 compareTo() 함수를 구현해야 정렬됨 
+  - Wrapper 클래스 배열은 Arrays.sort(String[]) 먹힘 
+  - Collections 클래스의 경우 Collections.sort(ArrayList) 먹힘 
+
+- 요약 
+Comparable - 객체 스스로에게 부여하는 한 가지 기본 정렬 규칙을 설정하는 것이 목적
+Comparator - 기본 정렬 규칙과 다르게 원하는대로 정렬 기준을 지정하고 싶을 때(다른 정렬 기준을 사용하고 싶을 때) 사용
+
+- 예시 
+  [Java > Greedy > ComparableTest.java 와 FractionalKnapsackProblem.java 참고]
+```
+
+##### 참고 블로그 
+https://cwondev.tistory.com/15
+https://www.daleseo.com/java-comparable-comparator/
+https://ifuwanna.tistory.com/232
+https://hee96-story.tistory.com/75
+
+
+## VScode 단축키 
+```
+1. 인터페이스 상속시 오버라이드 함수 표시 하는 방법
+    - 인터페이스 명 선택 후 crtl + . 
+2. import 한번에 다 하기 
+    - Alt + Shift + O
+3. getter / setter 생성하기 
+    - 해당 속성 드래그 해서 선택 
+    - F1 또는 다른 단축키 
+    - getter 검색하면 generator 나옴 
+```
