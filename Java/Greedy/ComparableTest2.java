@@ -56,11 +56,20 @@ public class ComparableTest2 {
                 }else{
                     return 0;
                 }
-            }   
+            } 
         });
         for(Student obj : list){
             System.out.println(obj.getNo() + ", "+ obj.getName()+ ", " + obj.getScore());
         }
 
+
+        int[] nums = {3,4,5,7,1,2};
+        Arrays.sort(nums);
+        for(int i : nums) System.out.print(i + " ");
+
+        ArrayList<String> arr = new ArrayList<>(Arrays.asList("마","다","가","나"));
+        Collections.sort(arr);
+        for(String j : arr) System.out.print(j + " ");
+        
     }
 }

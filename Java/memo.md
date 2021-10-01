@@ -41,6 +41,28 @@ hm.get("키"); // 값 가져오기
 hm.remove("키"); // 키값 제거 
 // iterator 사용가능한걸로 알고 있음
 
+
+// 8. 우선 순위 큐 
+import java.util.PriorityQueue;
+
+PriorityQueue<T> priorityQueue = new PriorityQueue<T>(); // 기본 최소힙? T타입의 정렬기준 따르는듯?
+// PriorityQueue 데이터 추가 (add() 와 offer() 둘다 동일하게 데이터를 추가하는 기능을 제공함) : (1) 데이터를 넣기
+priorityQueue.add(new Edge(2, "A"));
+priorityQueue.add(new Edge(5, "B"));
+priorityQueue.offer(new Edge(1, "C"));
+priorityQueue.offer(new Edge(7, "D"));
+// PriorityQueue 최상단 데이터 확인만 
+priorityQueue.peek();
+// PriorityQueue 최상단 데이터 꺼내기
+Edge edge1 = priorityQueue.poll();
+System.out.println(edge1);
+System.out.println(priorityQueue);
+// 데이터 사이즈 확인 
+priorityQueue.size();
+
+
+
+
 ```
 
 
