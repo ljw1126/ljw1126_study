@@ -1,5 +1,6 @@
 ﻿import java.util.*;
 // 최단 경로 문제 -단일 출발(single-source), 다익스트라 알고리즘 사용
+// 시간복잡도 : O(ElogE)
 public class DijkstraPath {
 
     public HashMap<String,Integer> dijkstraFunc(HashMap<String, ArrayList<Edge>> graph, String start) {

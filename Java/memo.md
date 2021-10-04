@@ -40,6 +40,10 @@ hm.put("키", "값"); // 키와 값 형태로 값 저장
 hm.get("키"); // 값 가져오기 
 hm.remove("키"); // 키값 제거 
 // iterator 사용가능한걸로 알고 있음
+for(String key : hm.keySet()){
+  Sytem.out.println(key); // HashMap에 있는 key를 iterator 받아 사용가능 
+}
+
 
 
 // 8. 우선 순위 큐 
