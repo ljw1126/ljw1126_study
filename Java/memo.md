@@ -39,10 +39,24 @@ HashMap<K,V> hm = new HashMap<>(); // 1.7타입추론 추가
 hm.put("키", "값"); // 키와 값 형태로 값 저장
 hm.get("키"); // 값 가져오기 
 hm.remove("키"); // 키값 제거 
+
 // iterator 사용가능한걸로 알고 있음
 for(String key : hm.keySet()){
   Sytem.out.println(key); // HashMap에 있는 key를 iterator 받아 사용가능 
 }
+
+// HashMap 특정키 존재 여부 확인 
+import java.util.HashMap;
+
+HashMap<String, ArrayList<Edge>> graph = new HashMap<String, ArrayList<Edge>>();
+graph.put("A" , new ArrayList<Edge>());
+graph.put("B" , new ArrayList<Edge>());
+
+graph.containsKey("C");  // false 리턴 
+
+// 찾는 key에 대한 value가 없을때, 디폴트 값 반환하기 
+graph.getOrDefault("C", new ArrayList<Edge>()); // []
+
 
 
 
@@ -55,12 +69,15 @@ priorityQueue.add(new Edge(2, "A"));
 priorityQueue.add(new Edge(5, "B"));
 priorityQueue.offer(new Edge(1, "C"));
 priorityQueue.offer(new Edge(7, "D"));
+
 // PriorityQueue 최상단 데이터 확인만 
 priorityQueue.peek();
-// PriorityQueue 최상단 데이터 꺼내기
+
+// PriorityQueue 최상단 데이터 꺼낸 후 삭제
 Edge edge1 = priorityQueue.poll();
 System.out.println(edge1);
 System.out.println(priorityQueue);
+
 // 데이터 사이즈 확인 
 priorityQueue.size();
 

@@ -57,4 +57,8 @@
 // node를 연결시 부모를 확인하여 같을 경우 사이클이 생긴다고 판단함 (처음에는 부모가 서로소인데 가중치 작은 순으로 연결하다보면 부모가 같아지는 순간이 나옴 , 그때가 사이클이 생기는 순간)
 ※ 참고 - https://chanhuiseok.github.io/posts/algo-33/
 
+
+[프림 알고리즘 (Prim algorithm)]
+- 시작 vertex(노드) 선택 후 인접한 vertex 중 weight가 가작 작은 vertex를 선택하여 연결하며 최소 신장 트리 만드는 알고리즘 
+
 ```
