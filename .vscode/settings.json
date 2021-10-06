@@ -4,6 +4,7 @@
     ],
     "java.project.sourcePaths": [
         "Java/Tree/Prim",
-        "Java/Tree/ImprovedPrim"
+        "Java/Tree/ImprovedPrim",
+        "Java/Backtracking"
     ]
 }
