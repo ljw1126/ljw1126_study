@@ -1,0 +1,537 @@
+﻿/*
+1. (SFWO)
+	문구생산부와 가구생산부의 직원정보를 확인하려한다.
+	위에 해당하는 직원들의 직원명과 입사일을 입사일이 빠른 순서대로 출력하세요.
+	(문구생산부의 DNumber는 'D1001', 가구생산부는 'D2001'이며 입사일은 연,월,일까지만 출력되어야 한다)
+	- temployee 테이블은 직원 정보가 들어있는 테이블이다. 
+ */
+
+select 
+	e.ename, 
+	TO_CHAR(e.startdate,'YYYY-MM-dd') as 입사일,
+	d.dname
+from temployee e left outer join tdepartment d on e.dnumber = d.dnumber -- 부서명은 필요없는데 추가함
+where e.dnumber in ('D1001','D2001')
+order by e.startdate ;    -- 입사일이 빠른 순 == 오래된 순 
+
+
+/*
+2. (SFWO)
+	2020년 크리스마스부터 입사일이 만 2년이 넘어가는 사람에게 보너스를 지급하려고 한다.
+	위 조건에 해당하는 직원의 직원명과 입사일을 출력하시오.
+	(단, 정렬은 고려하지 않는다)
+	- temployee 테이블은 직원 정보가 들어있는 테이블이다. 
+*/
+
+
+select 
+	tem.ename, 
+	tem.startdate
+from temployee as tem
+where tem.startdate < CAST('2020-12-25' as timestamp) - CAST('2 year' as INTERVAL);
+
+select * from temployee;
+select * from tdepartment ;
+select CAST('2020-12-25' as timestamp) - CAST('2 year' as INTERVAL);     -- 결과값 2018-12-25 00:00:00
+
+
+/*
+ 3. (GROUP BY)
+	생산량 조정을 위해 2020년 2월의 총 생산량을 알려고 한다.
+	해당 월에 생산된 제품들의 코드와 해당 제품들의 총 생산량을 출력하시오.
+	tproduction 테이블은 직원들이 제품을 생산한 정보가 들어있는 테이블이다.
+ */ 
+
+select 
+	inumber, 
+	sum(pcount)
+from tproduction
+--where TO_CHAR(pdate, 'YYYYMM') = '202002'
+where pdate between CAST('2020-02-01' as timestamp) and CAST('2020-03-01' as timestamp)
+group by inumber
+order by inumber;
+
+select * from tproduction;
+
+/*
+4. 가구류 제품들의 선호도 조사를 위하여 고객들이 가구류 제품들의 주문을 몇 번 했는지 고객코드별로 출력하시
+오. (*가구류의 생산코드는 P2~로 시작한다)
+   - torder 테이블 사용
+ **/
+
+select 
+	cnumber ,
+	count(pnumber)
+from torder 
+where substring(pnumber,1,2) = 'P2' 
+group by cnumber
+
+
+/*
+//문제 순서가 뒤죽박죽
+5. (GROUP BY)
+	2020년 1월의 성실직원을 뽑기 위해 성실직원의 기준인 생산량 500개 이상을 달성한 인원들의 직원코드와 총
+	생산량을 출력하시오.
+	- tproduction 테이블은 직원들이 제품을 생산한 정보가 들어있는 테이블이다. 
+*/
+select 
+	enumber,
+	sum(pcount) as 총합
+from tproduction 
+where pdate BETWEEN CAST('2020-01-01' as timestamp) and CAST('2020-02-01' as timestamp)
+group by enumber 
+HAVING sum(pcount) >= 500;
+
+select * from tproduction;
+
+
+/*
+6. (CASE WHEN)
+	판매 가능한 제품들의 재고 파악을 위해 2020년 2월에 생산된 양을 확인하려하는데 우선 문구류 제품들을 먼저
+	파악하려 한다. 해당 제품명과 제품들의 총 생산량을 출력하시오.
+	(문구류의 제품코드(INumber)는 I100(1~5)이며 1번은 가위, 2번은 풀, 3번은 공책, 4번은 볼펜, 5번은 지우개이다,
+	ex - I1001 = 가위)
+
+	- tproduction 테이블 사용 , 직원들이 제품을 생산한 정보가 들어있는 테이블
+*/
+
+select 
+	--inumber, 
+	(case inumber when 'I1001' then '가위' 
+				 when 'I1002' then '풀'
+				 when 'I1003' then '공책'
+				 when 'I1004' then '볼펜'
+				 when 'I1005' then '지우개'
+	else '' 
+	end ) as 제품명,
+	sum(pcount)
+from tproduction
+where 
+	substring(inumber, 1,4) = 'I100'  and 
+	TO_CHAR(pdate, 'YYYYMM') = '202002'
+	--pdate between CAST('2020-02-01' as timestamp) and CAST('2020-03-01' as timestamp)
+group by inumber;
+
+select * from tproduction;
+
+/*
+ 7. (UNION)
+	제품이 한번이라도 주문됐거나, 반품이 한번이라도 발생한 월의 정보를 알아보려고한다.
+	위, 조건에 해당하는 월들을 중복을 제거하고 출력하시오
+	- torder 테이블은 제작된 제품을 고객들이 주문한 정보가 들어있는 테이블
+	- treturn 테이블은 주믄을 한 고객이 반품을 진행한 정보들이 들어있는 테이블 
+*/
+
+select * from torder;
+select * from treturn;
+
+select 
+	  TO_CHAR(odate,'MM') as moth 
+from torder 
+group by TO_CHAR(odate,'MM') -- 답안에서는 group by 가 추가되어 있음
+UNION
+select TO_CHAR(rdate, 'MM') as moth 
+from treturn 
+group by TO_CHAR(rdate,'MM')
+
+
+/*
+8. (UNION ALL) //중복을 허용한다는 말에 조금 헷갈렸으나, 그냥 문제대로 푸니 답임 
+여태까지 회사에 입사했던 사람들의 총 인원 수와 연도별 입사한 직원 수를 출력하시오. 
+tEmployee 테이블 사용
+*/
+select 
+	'총 인원 수' as 입사년도,
+	count(*) as 입사_한_직원수
+from temployee 
+union all 
+select 
+	TO_CHAR(startdate, 'YYYY'),
+	count(*)
+from tEmployee
+group by TO_CHAR(startdate,'YYYY');
+
+/*
+9. (서브쿼리 COLUMN)
+	회사에서 제공해주는 기숙사에 머무를 수 있는 인원의 제한을 위해 부서와 직급, 그리고 현재 거주지를 따져 제
+	한하려고 한다. 이에 따라 부서명과 직급명, 직원명 그리고 현재 직원의 주소를 출력하시오
+	(부서코드, 직급코드가 아닌 부서명, 직급명으로 출력되어야 한다.)
+	- tdepartment 테이블은 직원들이 속한 부서 정보가 있는 테이블
+	- temployee 테이블은 직원 정보가 들어있는 테이블
+	- trank 테이블은 회사 내의 직급 정리한 테이블 
+*/
+
+select * from tdepartment ;
+select * from temployee ;
+select * from trank ;
+
+select 
+	(select dname from tdepartment td where td.dnumber = te.dnumber) as 부서명,
+	(select rname from trank tr where tr.rnumber = te.rnumber ) as 직급명,
+	te.ename as 직원명,
+	te.eaddr as 직원주소
+from temployee te ;
+
+/*
+10. (서브쿼리 WHERE)
+	회사 내 전 직원들의 평균 생산량보다 한번이라도 많이 생산한 직원들에게는 상여금을 주려한다.
+	이에 해당하는 직원명을 출력하시오 (생산량은 tProduction 테이블의 PCount이다.) 
+	- temployee 테이블은 직원 정보가 들어있는 테이블
+	- tproduction 테이블 사용 , 직원들이 제품을 생산한 정보가 들어있는 테이블
+*/
+
+select * from temployee;
+select * from tproduction; 
+
+-- 내가 한거는 enumber 중복제거 안해서 중복 발생하네(정답x)
+select tp.enumber , te.ename , tp.pcount
+from tproduction tp left outer join temployee te on tp.enumber = te.enumber 
+where tp.pcount > (select avg(pcount) from tproduction );
+
+-- 해설 답안 
+select te.ename as 직원명 
+from temployee te  
+where te.enumber in ( 
+						select tp.enumber 
+						from tproduction tp 
+						where tp.pcount > (select avg(pcount) from tproduction )
+);
+
+/*
+ 12. (서브쿼리 FROM)
+	2021년부터 판매가 시작됨에 따라 지난 1년(20년 1월 1일 ~ 20년 12월 31일) 동안 생산된 제품들의 제품코드와
+	총 생산량을 생산량이 많은 순으로 확인하려한다. 위의 조건에 맞춰 출력하시오
+	- tproduction 테이블은 직원들이 제품을 생산한 정보가 들어있는 테이블이다.
+ */
+
+SELECT 
+	tbl.inumber as 제품코드,
+	tbl.total as 총생산량
+FROM(
+	select 
+		inumber, 
+		sum(pcount) as total
+	from tproduction 
+	where pdate between CAST('2020-01-01' as timestamp) and CAST('2020-12-31' as timestamp)
+	group by inumber
+) tbl 
+order by tbl.total desc
+;
+
+/*
+13. (RANK)
+
+	회사 내 우수직원을 생산량이 많은 직원을 기준으로 하여 상위 10명까지 뽑아 상여금을 주려한다.
+	이에 해당하는 직원들의 직원코드와 총 생산량을 상위 10명까지 순위를 매겨 출력하시오.
+	(만약 공동순위(ex. 공동 1등)가 있다면 다음 순위는 중복 된 순위의 수 만큼 떨어진다.)
+	
+	- tproduction 테이블은 직원들이 제품을 생산한 저옵가 들어있는 테이블 
+*/
+-- 이거는 낯설어서 조금 참고해서 품 
+select 
+	tp.enumber ,
+	sum(tp.pcount),
+	rank() OVER(ORDER BY SUM(tp.pcount) desc) as 총생산량순위
+from tproduction tp 
+group by enumber
+limit 10 
+;
+
+/*
+ 14. (ROW_NUM)
+	현재 판매하는 제품들 중 장농의 인기가 많아져 판매 가능한 장농의 재고를 확인하기 위하여
+	장농 생산이력을 전부 출력하되 생산량이 높은순서대로 생산한 직원의 코드와 제품코드, 생산량을 순위를 매겨
+	출력하시오.
+	(공동 순위가 나오지 않게** 출력 해야 하며 또한 동률일경우 직원코드(ENumber)가 작은 코드가 우선순위를 가지
+	도록 한다, 장농의 제품코드는 I2003번이다)
+	- tproduction 테이블 사용 
+*/
+-- 문법 찾아보고 직접품 , PARTITION BY inumber .. 그룹화라는데 없어도 결과 동일 
+select 
+	enumber ,
+	inumber , 
+	pcount ,
+	ROW_NUMBER() OVER( PARTITION BY inumber ORDER BY pcount desc, enumber asc  ) as 순위
+from tproduction
+where inumber = 'I2003';
+
+/*
+15. (DENSE_RANK)
+	부서별로 연령의 평균을 파악하기 위해서 각 부서마다 속해있는 직원들의 나이로 출생연도를 알아보려한다.
+	이를 위해 부서명, 직원명, 출생연도를 출력하되 각 부서의 직원들을 출생연도가 빠른 순(=오래된 순)으로 순위를 매겨라.
+	(공동순위는 동일하게 부여하고 그 다음 순위는 공동 순위 다음 번호로 순위가 출력되어야 하며 출생연도는
+	tEmplyee의 ERRN의 앞 2자리로 비교하여 출력할 수 있다. D1001 부서는 문구생산부, D2001은 가구생산부,
+	D3001은 액세서리생산부, D4001은 전자기기생산부, D5001은 음료생산부이다.)
+	- temployee 테이블은 직원정보가 들어있는 테이블이다. 
+*/
+select * from tdepartment ;
+select * from temployee ;
+-- 해설답안 보고 추가 > PARTITION BY te.dnumber 추가함으로써 부서별로 랭크가 구해짐 
+-- 해설답안에서는 dname 을 case when 문을 써서 그냥 구함 
+select
+	td.dname, 
+	te.ename,
+	substring(te.errn,1,2) as 출생년도,
+	DENSE_RANK() OVER(PARTITION BY te.dnumber ORDER BY substring(te.errn,1,2)) as 랭크    
+from temployee te left outer join tdepartment td on te.dnumber = td.dnumber;
+
+
+/*
+16. (INNER JOIN)
+	현재까지 입사했던 모든 직원들의 직원코드, 부서명, 직원명, 직급명, 입사일, 퇴사일을 출력하시오
+	(부서와 직급의 경우는 코드가 아닌 부서명과 직급명으로 출력하고 입사일과 퇴사일은 연,월,일만 출력되어야한다)
+	- temployee 테이블은 직원 정보가 들어있는 테이블 
+	- tdepartment 테이블은 직원들이 속한 부서들의 정보가 있는 테이블 
+	- trank 테이블은 직급코드 정보 테이블
+*/
+
+select * from temployee;
+select * from tdepartment ;
+
+select 
+	te.enumber as 직원코드,
+	te.ename as 직원명,
+	td.dname as 부서명,
+	tr.rname as 직급명,
+	to_char(te.startdate, 'YYYY-MM-DD') as 입사일,
+	to_char(te.resignationdate , 'YYYY-MM-DD') as 퇴사일
+from temployee te inner join tdepartment td on te.dnumber = td.dnumber 
+	 inner join trank tr on te.rnumber = tr.rnumber ;
+
+/*
+17. (INNER JOIN)
+	2021년 1월의 전자기기류 판매금 정산을 위해/ 전자기기류 제품들의 제품명과/ 해당 제품의 총 판매량/을 출력하세
+	요. (전자기기류의 제품코드는 INumber 번호가 I4로 시작한다.)
+	- torder 테이블은 제작된 제품을 고객들이 주문한 정보가 들어있는 테이블 
+	- tproduction 테이블은 직원들이 제품을 생산한 정보가 들어있는 테이블 
+	- titem 테이블은 생산하기 위한 제품들의 정보가 들어있는 테이블 
+*/
+	
+select * from torder;
+select * from tproduction;
+select * from titem;
+
+-- where문에 날짜 검색 부분 참고하고 
+-- group by 참고함 
+select 
+	ti.iname,
+	sum(tp.pcount)
+from torder tor join tproduction tp on tor.pnumber = tp.pnumber 
+	 join titem ti on tp.inumber = ti.inumber 
+where TO_CHAR(tor.odate, 'YYYY-MM') = '2021-01' and substring(tp.inumber, 1,2) = 'I4' 
+group by  ti.iname;
+
+/*
+19. (INNER JOIN) *****
+	2022년 3월 20일 기준으로 현재 판매 가능한 공책(I1003)의 재고량을 구하시오
+	(반품되어 돌아온 공책의 경우 재판매 하지 않는다.)
+	- torder 테이블은 제작된 제품을 고객들이 주문한 정보가 들어있는 테이블 
+	- tproduction 테이블은 직원들이 제품을 생산한 정보가 들어있는 테이블 
+	- titem 테이블은 생산하기 위한 제품들의 정보가 들어있는 테이블 
+*/
+
+select * from torder;
+select * from tproduction;
+select * from titem;
+-- 이해가 안되서 해설 참고해서 품(잠옴)
+select * 
+from tproduction tp join titem ti on tp.inumber = ti.inumber 
+	 join torder tor on tp.pnumber != tor.pnumber 
+where ti.inumber = 'I1003';    -- 잠옴
+
+-- 서브쿼리를 구해서 join 
+SELECT 
+	item1.iname , 
+	(item2.pcount - item1.ocount) as 재고량
+FROM (
+	-- 1. 20220321 이전 order 된 공책 수량
+	select 
+		tit.iname ,
+		sum(tp.pcount) as ocount
+	from tproduction tp join torder tor on tp.pnumber = tor.pnumber 
+		 join titem tit on tp.inumber = tit.inumber  
+	where tit.iname ='공책' and tor.odate < CAST('20220321' as timestamp)
+	group by tit.iname 
+) as item1 join (
+-- 2. 20220321 이전 생산된 총 공책량
+	select 
+		tit.iname ,
+		sum(tp.pcount) as pcount
+	from tproduction tp join titem tit on tp.inumber = tit.inumber 
+	where tit.iname ='공책' and tp.pdate < CAST('20220321' as timestamp)
+	group by tit.iname 
+) as item2 on item1.iname = item2.iname;
+-- 결과 2268 - 1394  = 874
+
+/*
+ 20. (OUTER JOIN) *****
+	2020년 1월의 제품 별 생산량의 순위를 확인하기 위하여 제품명과 생산량을 순위를 매겨 출력하시오.
+	(모든 제품이 출력되어야 하며 공동순위가 있다면 다음 순위는 공동순위의 수 만큼 밀려나고 생산되지 않은 제품
+	은 제일 마지막 순위로 결정되어야 한다) -- rank() 
+	- tproduction 테이블은 직원들이 제품을 생산한 정보가 들어있는 테이블 
+	- titem 테이블은 생산하기 위한 제품들의 정보가 들어있는 테이블 
+*/
+-- 내 풀이 , '생산되지 않은 제품은 제일 마지막 순위로 결정되어야 한다' 를 처리 못함
+select 
+	tit.iname,
+	sum(tp.pcount) as 생산량,
+	RANK() OVER(ORDER BY sum(tp.pcount) desc)
+from tproduction tp left outer join titem tit on tp.inumber = tit.inumber 
+where TO_CHAR(tp.pdate, 'YYYYMM') = '202001'
+group by tit.iname 
+;
+
+-- 해설답안 , 서브쿼리 사용하고 rank에서 nulls last(<-> nulls first) 사용함
+select 
+	tit.iname as 제품명, 
+	tbase.pcount as 생산량,
+	RANK() OVER(ORDER BY tbase.pcount desc NULLS last) as 생산량_순위
+from titem tit left outer join (
+		select tpr.inumber , sum(tpr.pcount) as pcount
+		from tproduction tpr 
+		where TO_CHAR(tpr.pdate, 'YYYYMM') = '202001'
+		group by tpr.inumber
+	) as tbase on tit.inumber = tbase.inumber ;
+
+
+/*
+21. (INNER JOIN)
+	우리 회사의 고객인 ‘오랜문방구’의 반품제품명, 주문코드, 주문량, 반품량, 반품사유를 출력하세요
+	- treturn 테이블은 주물을 한 고객이 반품을 진행한 정보가 들어있는 테이블 
+	- torder 테이블은 제작된 제품을 고객들이 주문한 정보가 들어있는 테이블
+	- tcustomer 테이블은 가입한 고객의 모든 정보가 들어있는 테이블 
+	- treturnreason 테이블은 반품의 사유 종류의 정보가 들어있는 테이블 
+	- tproduction 테이블은 직원들이 제품을 생산한 정보가 들어있는 테이블 
+	- titem 테이블은 생산하기 위한 제품 정보가 들어있는 테이블 
+**/
+
+select * from treturn; -- 반품코드 ,주문코드, 반품수량, 반품사유코드
+select * from torder; -- 
+select * from tcustomer;
+select * from treturnreason; -- 반품사유 코드 , 반품사유 
+select * from tproduction;
+select * from titem;
+
+-- 내가 푼 풀이 
+select 
+	tit.iname  as 반품제품명,
+	tbase.onumber as 주문코드,
+	tp.pcount as 주문량,
+	tre.rcount  as 반품량,
+	trr.rreason as 반품사유
+from (
+	-- 2. 주문 정보 찾음 , 이걸 기준으로 데이터 찾아감
+	select 
+		   tor.onumber, 
+		   tor.pnumber 
+	from torder tor
+	where tor.cnumber = (
+						-- 1. 고객 찾음
+						select 
+							tc.cnumber 
+						from tcustomer tc 
+						where tc.cname = '오랜문방구'
+	)
+) tbase join treturn tre on tbase.onumber = tre.onumber 
+	join treturnreason trr on tre.rrnumber = trr.rrnumber 
+  join tproduction tp on tbase.pnumber = tp.pnumber 
+join titem tit on tit.inumber = tp.inumber ;
+
+-- 해설답안 , 결과 동일
+select 
+	tit.iname  as 반품제품명,
+	tor.onumber as 주문코드,
+	tpr.pcount as 주문량,
+	tre.rcount  as 반품량,
+	trr.rreason as 반품사유
+from 
+	treturn as tre join torder tor on tre.onumber = tor.onumber 
+	join tcustomer tcu on tor.cnumber = tcu.cnumber 
+	join treturnreason trr on tre.rrnumber = trr.rrnumber 
+	join tproduction tpr on tor.pnumber = tpr.pnumber 
+	join titem tit on tpr.inumber = tit.inumber 
+where tcu.cname = '오랜문방구';
+
+
+/*
+23. (INNER JOIN)
+	부서별로 생산하는 제품들의 총 생산량을 부서명과 함께 순위를 매겨서 출력하세요
+	(부서명, 부서에서 생산하는 제품의 총 생산량, 순위가 나와야 하며 공동순위(ex 공동 1등)가 있어도 다음 순위는
+	순차적으로 매겨진다. - DENSE_RANK())
+	- tproduction 테이블은 직원들이 제품을 생산한 정보가 들어있는 테이블 
+	- temployee 테이블은 직원 정보가 들어있는 테이블 
+	- tdepartment 테이블은 직원들이 속한 부서들의 정보가 있는 테이블이다. 
+*/
+select * from tproduction ;
+select * from temployee ;
+select * from tdepartment ;
+
+-- 내 풀이 
+select 
+	tbase.dname as 부서명,
+	tbase.tcount as 총생산량, 
+	DENSE_RANK() OVER (ORDER BY tbase.tcount desc) as 순위
+from (
+	select 
+		td.dname ,
+		sum(tpr.pcount) as tcount
+	from tproduction tpr join temployee tem on tpr.enumber = tem.enumber 
+		join tdepartment td on td.dnumber = tem.dnumber 
+	group by td.dname
+) tbase ;
+
+-- 해설답안 , 서브쿼리 안하고 그냥 해도 되네 
+select 
+	td.dname as 부서명,
+	sum(tpr.pcount) as 총생산량,
+	DENSE_RANK() OVER (ORDER BY sum(tpr.pcount) desc) as 순위
+from tproduction tpr join temployee tem on tpr.enumber = tem.enumber 
+	join tdepartment td on td.dnumber = tem.dnumber 
+group by td.dname;
+
+
+
+/*
+24. (OUTER JOIN)
+	시장조사를 위하여 불량을 제외한 반품내역을 가진 고객들의 주변에 거주하는 직원들의 명단을 출력하시오
+	(고객들의 주소와 고객명단, 고객 주변에 거주하는 직원명단은 전부 출력되어야 한다) 
+	- treturn 테이블은 주물을 한 고객이 반품을 진행한 정보가 들어있는 테이블 
+	- torder 테이블은 제작된 제품을 고객들이 주문한 정보가 들어있는 테이블
+	- tcustomer 테이블은 가입한 고객의 모든 정보가 들어있는 테이블 
+	- treturnreason 테이블은 반품의 사유 종류의 정보가 들어있는 테이블 
+	- temployee 테이블은 직원정보 테이블 
+*/
+select * from torder;
+select * from tcustomer ;
+select * from temployee;
+select * from treturn ;
+select * from tproduction ;
+
+select * 
+from treturnreason tre 
+where tre.rreason <> '불량';
+
+-- 결과는 동일한데.. 역시 inner join과 left outer join 섞어 쓰네 
+select 
+	tcu.cname as 고객명, 
+	tcu.caddr as 고객주소 , 
+	tem.ename as 직원명  
+from torder tor 
+	 left outer join treturn tre on tor.onumber = tre.onumber 
+	 left outer join treturnreason tret on tre.rrnumber = tret.rrnumber 
+	 left outer join tcustomer tcu on tcu.cnumber = tor.cnumber 
+	 left outer join temployee tem on tem.eaddr = tcu.caddr 
+where tret.rreason  <> '불량';
+
+-- 해설답안 보고 inner join  이랑 left outer join 섞어서 해봄 , 결과동일 
+select tbase.cname, 
+	   tbase.caddr, 
+	   tem.ename 
+from (
+		select 
+			*
+		from tcustomer tcu join torder tor on tcu.cnumber = tor.cnumber 
+			 join treturn tre on tor.onumber = tre.onumber
+			 join treturnreason tret on tre.rrnumber = tret.rrnumber 
+		where tret.rreason <> '불량'
+) tbase left outer join temployee tem on tbase.caddr = tem.eaddr ;
