@@ -1,0 +1,65 @@
+﻿/*
+25. (OUTER JOIN)
+	고객별 반품 현황을 파악하기 위하여 고객별로 고객명과 제품을 구매한 양과 반품한 양 그리고 이를 구매량 대
+	비 반품량을 반품률로 나타내시오.
+	(반품률은 높은 순으로 소숫점 2자리까지 반올림되어 출력되어야하며 반품내역이 없는 값(null)은 0으로 대체 되
+	면서 마지막에 출력되어야 한다.)
+	
+	- treturn 테이블은 주물을 한 고객이 반품을 진행한 정보가 들어있는 테이블 
+	- torder 테이블은 제작된 제품을 고객들이 주문한 정보가 들어있는 테이블
+	- tcustomer 테이블은 가입한 고객의 모든 정보가 들어있는 테이블 
+	- treturnreason 테이블은 반품의 사유 종류의 정보가 들어있는 테이블 
+	- tproduction
+*/
+
+
+select * from torder;
+select * from tcustomer;
+select * from treturn ;
+
+-- postgresql 에서 null 처리는 COALESCE()로 하는듯
+-- 반품률 구하는거 해섭답안 봄 
+-- treturn 테이블 제외한 나머지는 equal(inner) join 이 였음
+select 
+	tc.cname, 
+	sum(tp.pcount),0 as 구매량,
+	COALESCE(sum(tre.rcount),0) as 반품량,
+	--round( (sum(tre.rcount)/sum(tp.pcount))::numeric ,1)as 반품률안됨
+	COALESCE( 
+		ROUND( 
+			CAST(
+				CAST( sum(tre.rcount) as float) / CAST( sum(tp.pcount ) as float ) * 100 as decimal 
+			),2
+		), 0 
+	) as 반품률
+from tcustomer tc  join torder tor on tc.cnumber = tor.cnumber
+	 join tproduction tp on tp.pnumber = tor.pnumber
+	 left outer join treturn tre on tor.onumber = tre.onumber 
+group by tc.cname; 
+
+/*
+26. (INNER JOIN)
+	부서별로 직급이 제일 높은 직원을 확인하려 한다. 이에 해당하는 직원의 부서명과 직급명, 직원명을 출력하시오
+	- temployee 직원 정보 테이블
+	- trank 직급 정보 테이블
+**/
+
+select * from temployee ;
+select * from trank;
+
+-- 해설 참고해서 rank 사용하는거 보고 풀이함 
+select 
+	tbl.ename, 
+	tbl.rname, 
+	tbl.dname
+from (
+	select 
+		tem.ename,
+		rnk.rname ,
+		tdp.dname,
+		rank() OVER (PARTITION BY tem.dnumber order by tem.rnumber desc ) as drank
+	from temployee tem join trank rnk on tem.rnumber = rnk.rnumber 
+		 join tdepartment tdp on tem.dnumber = tdp.dnumber 
+) tbl 
+where tbl.drank = 1
+;
