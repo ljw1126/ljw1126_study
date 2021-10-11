@@ -63,3 +63,143 @@ from (
 ) tbl 
 where tbl.drank = 1
 ;
+
+/*
+27. (INNER JOIN)
+    입사일이 10년이 넘는 직원들에게는 해당 직원들의 평균판매량을 기준으로 추가수당을 주려한다.
+    2022년 2월 28일을 기준으로 해당 직원들의 평균 판매 금액을 출력하시오.
+    (반품 내역은 고려하지 않지만 퇴사자는 제외되어야 한다.)
+
+*/
+
+select * from temployee
+select * from torder;
+select * from tproduction;
+select * from titem;
+-- 날짜 계산 부분 이전 쿼리 참고함 
+-- 평균 판매 금액을 생각 못 함 , 퇴사자 제외해야 하는데 is not null로 퇴사자를 구해서 오답이 나옴 (결과값 182318400.00000000)
+select 
+	avg(tbl.sell_sum) as 평균판매금액
+from(
+	select  
+		tem.ename, 
+		sum(tpr.pcount * tit.price) as sell_sum 
+	from torder tor join tproduction tpr on tor.pnumber = tpr.pnumber 
+		 join titem tit on tpr.inumber = tit.inumber 
+		 join temployee tem on tpr.enumber = tem.enumber 
+	where tem.resignationdate is null and
+		  tem.startdate < CAST('2022-02-28' as timestamp) - CAST('10 year' as INTERVAL) 
+	group by tem.ename
+)tbl;	 
+
+
+/*
+ 28. (OUTER JOIN) ** 두번 틀림
+	직원들의 평균 불량률이 5%라고 가정하였을 때, 전체 직원명과 직원별 전체 생산량과 평균 불량률을
+	고려한 예상 불량품량과 실제로 나온 실제 불량품량을 직원명과 함께 모두 출력하시오
+
+	직원명/ 전체 생산량 / 
+*/
+
+select * from tproduction ;
+select * from torder ;
+select * from treturn;
+select * from treturnreason ;
+select * from temployee ;
+-- 나의 답안 : 이경희 , 남궁수영, 박수혜, 최양 이 결과값이 틀림.. 
+select 
+	tbase.ename as 직원명,
+	tbase.total as 전체_생산량, 
+	(tbase.total * 0.05) as 예상_불량품량,
+	tbase.total_return as 실제_불량품량
+from (
+	select
+		 tem.ename,
+		 sum(tpr.pcount) as total,
+		 sum(tre.rcount) as total_return
+	from torder tor join tproduction tpr on tor.pnumber = tpr.pnumber 
+		 join temployee tem on tpr.enumber =tem.enumber
+		 left outer join treturn tre on tor.onumber = tre.onumber 
+		 left outer join treturnreason trr on tre.rrnumber = trr.rrnumber and trr.rrnumber = 'RR0001'
+	group by tem.ename
+) tbase
+where tbase.ename = '최양';
+
+-- 해설 답안 , 서브 쿼리 두개로 구해서 하는걸 생각 못함 
+SELECT tBase.EName AS 직원명, tBase.PCount AS 생산량, -------------- ①
+tBase.avg_PCount AS 예상불량품량, tBase2.RCount AS 실제불량품량
+FROM
+(
+ SELECT tpr.ENumber, tem.EName, SUM(tpr.PCount) AS PCount, --------- ②
+SUM(tpr.PCount)*0.05 AS avg_PCount
+ FROM tProduction AS tpr
+ JOIN tEmployee AS tem ------------ ③
+ ON tpr.ENumber = tem.ENumber
+ GROUP BY tem.EName, tpr.ENumber ------------ ④
+) AS tBase
+LEFT OUTER JOIN ------------ ⑤
+(
+ SELECT tpr.ENumber, tre.RCount ------------- ⑥
+ FROM tProduction AS tpr
+JOIN tOrder AS tor ------------- ⑦
+ ON tor.PNumber = tpr.PNumber
+ JOIN tReturn AS tre ------------- ⑧
+ ON tor.ONumber = tre.ONumber
+ JOIN tReturnReason AS trr ------------- ⑨
+ ON tre.RRNumber = trr.RRNumber
+WHERE trr.RReason = '불량' --------------------- ⑩
+) AS tBase2
+ON tBase.ENumber = tBase2.ENumber
+
+-- 해설답안 보고 다시 해봄 
+
+-- 3. 두 subquery를 left outer join 해서 최종 결과 도출 
+
+select 
+	tbl2.ename, 
+	tbl2.total,
+	tbl2.expcted,
+	tbl.rcount
+from (
+-- 1. 사원별 반품수량 구함
+	select 
+		tpr.enumber , 
+		tre.rcount 
+	from tproduction tpr join torder tor on tor.pnumber = tpr.pnumber 
+	     join treturn tre on tor.onumber = tre.onumber 
+	     join treturnreason trr on tre.rrnumber = trr.rrnumber 
+	where trr.rreason ='불량'
+) as tbl  right outer join (
+-- 2. 사원별 생산량 구함 >> 틀린 이유 :  torder과 join 을 했는데 빼니 정상 결과 도출됨
+	select
+		 tem.ename,
+		 tem.enumber, 
+		 sum(tpr.pcount) as total,
+		 sum(tpr.pcount) * 0.05 as expcted
+	from tproduction tpr join temployee tem on tpr.enumber =tem.enumber
+	group by tem.ename, tem.enumber
+) tbl2 
+on tbl2.enumber = tbl.enumber
+
+/*
+29. (OUTER JOIN)
+부서별로 제품의 판매량에 따라 추가혜택을 제공하려 한다. 각 부서별 부서명과 총 판매량을 출력하시오.
+※ 문제에 반품에 대한 내용이 없었음 , 반품된 판매내역은 출력하지 않아야 한다는 조건이 필요
+*/
+
+select * from tproduction ;
+select * from torder ;
+select * from temployee ;
+select * from tdepartment ;
+select * from treturn ;
+
+-- 내 답안 : 결과값 틀림 , 문제에 반품에 대한 내용이 없었음 
+select
+	tde.dname,
+	sum(tpr.pcount)
+from torder tor join tproduction tpr on tor.pnumber = tpr.pnumber 
+	 join temployee tem on tpr.enumber = tem.enumber 
+	 join tdepartment tde on tem.dnumber = tde.dnumber 
+	 left outer join treturn tre on tor.onumber =tre.onumber 
+where tre.onumber is null 
+group by tde.dname;

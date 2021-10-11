@@ -1,4 +1,4 @@
-﻿package Graph;
+﻿
 // 깊이 우선 탐색의 경우 stack으로 구현함
 import java.util.*; 
 
