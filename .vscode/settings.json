@@ -5,7 +5,8 @@
     "java.project.sourcePaths": [
         "Java/Tree/Prim",
         "Java/Tree/ImprovedPrim",
+        "Java/Graph",
         "Java/Backtracking",
-        "Java/Graph"
+        "Java/algorithm/BruteForce"
     ]
 }
