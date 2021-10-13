@@ -1,6 +1,8 @@
 ﻿## 강의자료 
+- **백준 사이트 정답 제출시 클래스명은 Main**으로 해야 동작함 ! 
 - 깃허브에 올려둠 
 [https://github.com/rhs0266/FastCampus/tree/main/](https://github.com/rhs0266/FastCampus/tree/main/)
+
 
 ## Brute Force(완전탐색)
 - 문제를 해결하기 위해 확인해야 하는 모든 경우를 전부 탐색하는 방법 
@@ -41,13 +43,16 @@
 
 ```
 ## 문제 링크 
-|번호|주소|
-|:------:|:--------------:|
-|문제1|[https://www.acmicpc.net/problem/15651](https://www.acmicpc.net/problem/15651)|
-|문제2|[https://www.acmicpc.net/problem/15649](https://www.acmicpc.net/problem/15649)|
-|문제3|[https://www.acmicpc.net/problem/15652](https://www.acmicpc.net/problem/15652)|
-|문제4|[https://www.acmicpc.net/problem/15650](https://www.acmicpc.net/problem/15650)|
-
+|번호|명칭|난이도|주소|
+|:------:|:--------:|:--------:|:--------------:|
+| 문제1  |N과 M (3)|실버3|[https://www.acmicpc.net/problem/15651](https://www.acmicpc.net/problem/15651)|
+| 문제2  |N과 M (1)|실버3|[https://www.acmicpc.net/problem/15649](https://www.acmicpc.net/problem/15649)|
+| 문제3  |N과 M (4)|실버3|[https://www.acmicpc.net/problem/15652](https://www.acmicpc.net/problem/15652)|
+| 문제4  |N과 M (2)|실버3|[https://www.acmicpc.net/problem/15650](https://www.acmicpc.net/problem/15650)|
+| 응용1  |연산자 끼워넣기||[https://www.acmicpc.net/problem/14888](https://www.acmicpc.net/problem/14888)|
+| 응용2  |N Queen||[https://www.acmicpc.net/problem/9663](https://www.acmicpc.net/problem/9663)|
+| 응용3  |부분 수열의 합||[https://www.acmicpc.net/problem/1182](https://www.acmicpc.net/problem/1182)|
+||||[]()|
 
 ## 1번 문제(난이도2) : N과 M (3)
 - N 개중 1) 중복을 허용해서 , M개를 A) 순서있게 나열하는 방법
@@ -88,3 +93,47 @@
 
 #### 참고 
 [https://mathbang.net/545](https://mathbang.net/545) -- 순열(nPr)에 대해 
+
+---------------------------------------------------
+## 응용 문제 1. 연산자 끼워넣기 -- 14888 
+https://www.acmicpc.net/problem/14888
+- 출력 설명 중 
+```
+첫째 줄에 만들 수 있는 식의 결과의 최댓값을, 둘째 줄에는 최솟값을 출력한다. 
+연산자를 어떻게 끼워넣어도 항상 -10억보다 크거나 같고, 10억보다 작거나 같은 결과가 나오는 입력만 주어진다. 
+또한, 앞에서부터 계산했을 때, 중간에 계산되는 식의 결과도 항상 -10억보다 크거나 같고, 10억보다 작거나 같다.
+```
+- **int 범위 : -21억 ~ 21억**  이므로 **int형 변수**를 쓰면 된다 ! 
+- 시간복잡도 계산 
+  - **N-1개의 카드 중에서 중복없이(같은 카드는 한번 사용) N-1개를 순서있게 나열하기**
+  - O(nPr)
+
+- 심화 
+  - 재귀 호출 완료 후 calculator() 함수 통해 결과값 구하는데, for문을 도는 부분 개선하려함 ( = 최적화하려 함 )
+  - 그래서 재귀 호출시  매개변수 인자에 value를 추가하여 바로바로 계산하도록 하도록 수정하여 개선함 ( = 최적화함 ) 
+
+## 응용 문제2. N Queen -- 9663
+https://www.acmicpc.net/problem/9663
+- 유명한 백트래킹 문제 
+- 문제 접근   
+  - N = 14 일때 정답? -> 21억을 넘을지도 모른다
+  - 일단 int로 정하고 N=14를 입력으로 넣어보고 확인하기
+  - N개 중에서 중복을 허용해서 N개를 순서대로 나열하는 모든 경우 탐색하기
+  - 시간복잡도 : O(N^M) 이므로 14^14 > 10^16이라 시간초과 발생가능 
+- 첫번째 풀이 방식의 문제점 
+  - validechark() 통해 불필요한 탐색을 다함으로 시간초과 발생가능!
+  - 그래서 애초에 열을 검사할 때 배치가능여부 파악하도록 변경 
+  
+## 응용 문제3. 부분 수열의 합 -- 1182
+https://www.acmicpc.net/problem/1182
+- 부분 수열 : 수열의 일부 항을 선택해서 원래 순서대로 나열 
+- 진 부분 수열(=아무것도 안고른 경우 뺀 경우)들 중에서 합이 정확히 S가 되는 경우 ( 목표 S = 0 일때) 
+- 복잡도 계산 
+  -  N <= 20 
+    - 부분 수열의 개수 상한 : 2^20 <= 1,048,576 -- 정답변수는 int를 쓰면 된다!
+  - 목표값 |s| <= 1,000,000
+    - 부분 수열의 합 상한 : 20^1,000,000 -- 합을 기록하는 변수로 int형 쓰면 된다!
+  - |Ai| <= 1,000,000
+  - 1~N번 원소에 대해 
+    - 0: 부분 수열에 포함 x , 1: 부분수열에 포함 o
+    - 시간복잡도 O(N^M) = O(2^20)

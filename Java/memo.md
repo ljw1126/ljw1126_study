@@ -82,7 +82,14 @@ System.out.println(priorityQueue);
 priorityQueue.size();
 
 
+// 9. MAX, MIN 
+int max, min;
+max = Integer.MIN_VALUE;
+min = Integer.MAX_VALUE; 
 
+int value = 1000;
+max = Math.max(max, value); // 기존 max값과 value 값중 최대값으로 갱신
+min = Math.min(min, value); // 기존 min값과 value 값중 최소값으로 갱신
 
 ```
 

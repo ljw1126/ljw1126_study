@@ -16,7 +16,8 @@ public class ComparableTest2 {
         Collections.sort(list); // Student 클래스에서 구현한 Comparable 인터페이스 함수 기준으로 정렬함
 
         for(Student obj : list){
-            System.out.println(obj.getNo() + ", "+ obj.getName()+ ", " + obj.getScore());
+            System.out.println(obj);
+            //System.out.println(obj.getNo() + ", "+ obj.getName()+ ", " + obj.getScore());
         }
         /*
             1, 이순신, 89

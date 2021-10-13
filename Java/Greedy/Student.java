@@ -34,6 +34,9 @@
         this.score = score;
     }
 
+    public String toString(){
+        return "( no : " + this.no + ", name : " + name + ", scroe :" + this.score + ")";
+    }
 
     @Override
     public int compareTo(Student o) {
