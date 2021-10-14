@@ -52,7 +52,19 @@
 | 응용1  |연산자 끼워넣기||[https://www.acmicpc.net/problem/14888](https://www.acmicpc.net/problem/14888)|
 | 응용2  |N Queen||[https://www.acmicpc.net/problem/9663](https://www.acmicpc.net/problem/9663)|
 | 응용3  |부분 수열의 합||[https://www.acmicpc.net/problem/1182](https://www.acmicpc.net/problem/1182)|
-||||[]()|
+| 응용4 |암호 만들기||[https://www.acmicpc.net/problem/1759](https://www.acmicpc.net/problem/1759)|
+| 응용5 |N과 M (9)|실버2|[https://www.acmicpc.net/problem/15663](https://www.acmicpc.net/problem/15663)|
+| 연습1 |N과 M (5)|실버3|[https://www.acmicpc.net/problem/15654](https://www.acmicpc.net/problem/15654)|
+| 연습2 |N과 M (6)|실버3|[https://www.acmicpc.net/problem/15655](https://www.acmicpc.net/problem/15655)|
+| 연습3 |N과 M (7)|실버3|[https://www.acmicpc.net/problem/15656](https://www.acmicpc.net/problem/15656)|
+| 연습4 |N과 M (8)|실버3|[https://www.acmicpc.net/problem/15657](https://www.acmicpc.net/problem/15657)|
+| 연습5 |N과 M (10)|실버2|[https://www.acmicpc.net/problem/15664](https://www.acmicpc.net/problem/15664)|
+| 연습6 |N과 M (11)|실버2|[https://www.acmicpc.net/problem/15665](https://www.acmicpc.net/problem/15665)|
+| 연습7 |N과 M (12)|실버2|[https://www.acmicpc.net/problem/15666](https://www.acmicpc.net/problem/15666)|
+| 연습8 |||[]()|
+
+
+
 
 ## 1번 문제(난이도2) : N과 M (3)
 - N 개중 1) 중복을 허용해서 , M개를 A) 순서있게 나열하는 방법

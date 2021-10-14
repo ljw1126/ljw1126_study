@@ -91,6 +91,14 @@ int value = 1000;
 max = Math.max(max, value); // 기존 max값과 value 값중 최대값으로 갱신
 min = Math.min(min, value); // 기존 min값과 value 값중 최소값으로 갱신
 
+// 10. 고정길이 배열 정렬
+int[] nums = new int[10]; // 순서 아무렇게 넣었다고 가정 [0,9,,5,1,23,3,1..]
+
+Arrays.sort(nums); // 처음부터 끝까지 정렬 
+Arrays.sort(nums, 1, N+1); // 1부터 N 인덱스까지 지정해서 정렬 
+
+System.out.println(Arrays.toString(nums));
+
 ```
 
 

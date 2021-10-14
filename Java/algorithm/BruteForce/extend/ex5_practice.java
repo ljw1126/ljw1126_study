@@ -1,65 +1,56 @@
-﻿import java.util.*;
+﻿package extend;
+
+import java.util.*;
 import java.io.*;
-/*
-    실버3 . 
-    https://www.acmicpc.net/problem/15652
-    - N개 중 1) 중복을 허용해서 , M개를 B) 고르기 
-    - 비내림차순
-    - 시간복잡도 : O(N^M) => 최대값이 8이므로 8^8 = 1677만보단 작다 
-                  N=4이고, M= 3일때 4 * 4 * 4 = 4^3 보단 작다
-    - 공간복잡도 : O(M)  
-    # 입력예시 1 
-        4 2
-    # 출력예시 1
-        1 1
-        1 2
-        1 3
-        1 4
-        2 2        // 2 1 은 1 2 로 썻다고 생각하고 넘어간거 
-        2 3
-        2 4
-        3 3
-        3 4
-        4 4
-    # 입력예시 2
-        3 3
-    # 출력예시 2    
-        1 1 1
-        1 1 2
-        1 1 3
-        1 2 2
-        1 2 3
-        1 3 3
-        2 2 2
-        2 2 3
-        2 3 3
-        3 3 3
-*/
-public class ex3_15652 {
+
+public class ex5_practice {
     static int N, M;
-    static int[] selected;
+    static int[] nums, selected, used; 
+
     static StringBuilder sb = new StringBuilder();
 
     static void input(){
         FastReader scan = new FastReader();
         N = scan.nextInt();
         M = scan.nextInt();
+
+        nums = new int[N+1];
+        used = new int[N+1];
         selected = new int[M+1];
+
+        for(int i=1; i<=N; i++) nums[i] = scan.nextInt();
+
+        Arrays.sort(nums, 1, N+1); // 1부터 N+1 미만 까지 정렬
     }
 
-    // 문제 해결 함수 , 재귀 
+    // 문제 해결 함수(재귀용법 사용)
     static void rec_func(int k){
         if(k == M+1){
-            for(int i=1; i<=M;i++) sb.append(selected[i]).append(' ');
-            sb.append('\n');
-        }else{
-            int start = selected[k-1];
-            if(start == 0) start = 1;
-            for(int cand = start; cand <= N; cand++){
-                    selected[k] = cand; 
-                    rec_func(k+1);
-                    selected[k] = 0;
-            }
+           // 결과값 처리 
+           for(int i = 1; i <= M ; i++) sb.append(selected[i]).append(" ");
+           sb.append('\n');
+
+        }else{  
+           // 반복문 내에 재귀용법으로 처리하는 부분
+           int last_cand = 0;
+           for(int cand=1; cand <= N; cand++){
+                // 이미 사용했는지, 앞에 수랑 비교해서 중복인지 
+                if(used[cand] == 1) continue;
+                if(nums[cand] == last_cand) continue; 
+
+                last_cand = nums[cand];
+                //1.검사
+                selected[k] = nums[cand];
+                used[cand] = 1;    
+                
+                //2.재귀 
+                rec_func(k+1);
+                
+                //3.초기화    
+                selected[k] = 0;
+                used[cand] = 0;
+             
+           }
         }
     }
 
@@ -116,7 +107,5 @@ public class ex3_15652 {
             }
             return str;
         }
-
-
     }
 }

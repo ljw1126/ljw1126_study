@@ -22,7 +22,7 @@ public class ex1_advanced {
         
         nums = new int[N+1];
         operators = new int[5]; // 연산자는 총 4개이므로
-        order = new int[N+1];
+        //order = new int[N+1]; // 바로 꼐산하니 필요없어짐
 
         for(int i=1; i<= N; i++) nums[i] = scan.nextInt();
         for(int i=1; i<= 4; i++) operators[i] = scan.nextInt();
@@ -61,11 +61,11 @@ public class ex1_advanced {
             for(int cand=1; cand<=4 ; cand++){
                 if(operators[cand] >= 1){
                     operators[cand]--;
-                    order[k] = cand;
+                    //order[k] = cand;
                     rec_func(k+1, calculator(value, cand, nums[k+1]));
                     //함수가 끝난 뒤 
                     operators[cand]++;
-                    order[k] = 0;
+                    //order[k] = 0;
                 }
             }
         }

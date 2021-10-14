@@ -1,64 +1,72 @@
-﻿import java.util.*;
+﻿package personal;
+
+import java.util.*;
 import java.io.*;
 /*
-    실버3 . 
-    https://www.acmicpc.net/problem/15652
-    - N개 중 1) 중복을 허용해서 , M개를 B) 고르기 
-    - 비내림차순
-    - 시간복잡도 : O(N^M) => 최대값이 8이므로 8^8 = 1677만보단 작다 
-                  N=4이고, M= 3일때 4 * 4 * 4 = 4^3 보단 작다
-    - 공간복잡도 : O(M)  
-    # 입력예시 1 
-        4 2
+    https://www.acmicpc.net/problem/15656
+    - 중복 ok 순서대로 나열하는거라 .. O(N^M) , 공간복잡도 O(M)
+    # 입력예시 1
+        3 1
+        4 5 2
     # 출력예시 1
-        1 1
-        1 2
-        1 3
-        1 4
-        2 2        // 2 1 은 1 2 로 썻다고 생각하고 넘어간거 
-        2 3
-        2 4
-        3 3
-        3 4
-        4 4
+        2
+        4
+        5
     # 입력예시 2
-        3 3
-    # 출력예시 2    
-        1 1 1
-        1 1 2
-        1 1 3
-        1 2 2
-        1 2 3
-        1 3 3
-        2 2 2
-        2 2 3
-        2 3 3
-        3 3 3
+        4 2
+        9 8 7 1
+
+    # 출력예시 2
+        1 1
+        1 7
+        1 8
+        1 9
+        7 1
+        7 7
+        7 8
+        7 9
+        8 1
+        8 7
+        8 8
+        8 9
+        9 1
+        9 7
+        9 8
+        9 9
 */
-public class ex3_15652 {
+public class ex_15656 {
     static int N, M;
-    static int[] selected;
+    static int[] nums, selected; 
+
     static StringBuilder sb = new StringBuilder();
 
     static void input(){
         FastReader scan = new FastReader();
         N = scan.nextInt();
         M = scan.nextInt();
-        selected = new int[M+1];
+
+        nums = new int[N+1];
+        selected= new int[M+1];
+        for(int i=1; i <= N; i++) nums[i] = scan.nextInt();
+    
+        Arrays.sort(nums, 1, N+1);
     }
 
-    // 문제 해결 함수 , 재귀 
+    // 문제 해결 함수(재귀용법 사용)
     static void rec_func(int k){
         if(k == M+1){
-            for(int i=1; i<=M;i++) sb.append(selected[i]).append(' ');
-            sb.append('\n');
-        }else{
-            int start = selected[k-1];
-            if(start == 0) start = 1;
-            for(int cand = start; cand <= N; cand++){
-                    selected[k] = cand; 
-                    rec_func(k+1);
-                    selected[k] = 0;
+           // 결과값 처리 
+           for(int i=1; i<= M ; i++) sb.append(selected[i]).append(" ");
+           sb.append("\n");
+        }else{  
+           // 반복문 내에 재귀용법으로 처리하는 부분
+            for(int cand = 1 ; cand <= N ; cand++){
+                // 수행할 
+                selected[k] = nums[cand];
+                // 반복할
+                rec_func(k+1);
+                // 수행한거 초기화
+                selected[k] = 0;
             }
         }
     }
@@ -116,7 +124,5 @@ public class ex3_15652 {
             }
             return str;
         }
-
-
     }
 }

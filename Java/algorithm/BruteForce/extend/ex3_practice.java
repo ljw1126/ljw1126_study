@@ -3,61 +3,45 @@
 import java.util.*;
 import java.io.*;
 
-public class ex1_practice {
-    static int N, max, min;
-    static int[] nums, operators;
+public class ex3_practice {
+    
+    static int N, S, ans;
+    static int[] nums; 
 
     static StringBuilder sb = new StringBuilder();
 
     static void input(){
         FastReader scan = new FastReader();
         N = scan.nextInt();
+        S = scan.nextInt();
         nums = new int[N+1];
-        operators = new int[5];
-
-        for(int i = 1; i<N+1 ; i++) nums[i] = scan.nextInt();
-        for(int i = 1; i<=4 ; i++) operators[i] = scan.nextInt();
-
-        max = Integer.MIN_VALUE;
-        min = Integer.MAX_VALUE;
+        for(int i= 1; i <= N ; i++) nums[i] = scan.nextInt();
     }
 
-
-    static int cal(int operand1, int operator, int operand2){
-        if(operator == 1)    // +
-            return operand1 + operand2;
-        else if(operator == 2) // -
-            return operand1 - operand2;
-        else if(operator == 3) // *
-            return operand1 * operand2;
-        else //  /
-            return operand1 / operand2;
-    }
-
+    // 문제 해결 함수(재귀용법 사용)
     static void rec_func(int k, int value){
-        if( k == N){ // 모든 연산자를 나열하는 방법 찾았을때 
-            min = Math.min(min, value);
-            max = Math.max(max, value);
-        }else{
-            for(int cand=1; cand <= 4 ; cand++){ // cand 값이 operator 연산자 인덱스 번호니깐
-                if(operators[cand] >= 1){
-                    operators[cand]--;
-                    rec_func(k+1, cal(value, cand, nums[k+1]));
-                    operators[cand]++;
-                }
-            }
+        if(k == N+1 ){
+           // 결과값 처리 
+           if(S == value)ans++;
+        }else{  
+           // 반복문 내에 재귀용법으로 처리하는 부분
+            rec_func(k+1, value + nums[k]);
+            rec_func(k+1, value);
+        
         }
     }
 
     public static void main(String[] args) {
+        // 1. 입력값 , 초기화 
         input();
+        // 2. 함수 실행 
+        rec_func(1,0);
+        if( S == 0 ){
+            ans--;
+        }
+        System.out.println(ans); //3. 최종 출력
 
-        rec_func(1, nums[1]);
-        sb.append(max).append('\n').append(min);
-        System.out.println(sb.toString());
     }
-
-
 
     static class FastReader{
         BufferedReader br;
@@ -103,5 +87,7 @@ public class ex1_practice {
             }
             return str;
         }
+
+
     }
 }
