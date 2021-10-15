@@ -6,8 +6,9 @@
         "Java/algorithm/BruteForce",
         "Java/Tree/Prim",
         "Java/Tree/ImprovedPrim",
+        "Java/Greedy",
         "Java/Graph",
         "Java/Backtracking",
-        "Java/Greedy"
+        "Java/algorithm/Sorting"
     ]
 }
