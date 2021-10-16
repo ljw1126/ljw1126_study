@@ -1,0 +1,21 @@
+﻿
+public class template {
+    // x 를 갈 수 있다는 걸 알고 방문한 상태
+    static void dfs(int x){ //  ←← x라는 정점 받았을때, 모든 정점이 x로 한번씩만 등장한다 O(V)
+        // x를 방문했다.
+        visit[x] = true; 
+        
+        // x에서 갈 수 있는 곳들은 모두 방문한다.
+        for(int y: x에서 갈 수 있는 점들){ // ←← 인접행렬 O(V) / 인접 리스트 O(deg(x))
+            if(visit[y]) // y를 이미 갈 수 있다는 사실을 안다면, 굳이 갈 필요 없음 
+                continue; 
+
+            // y에서 갈 수 있는 곳들도 확인 해보자 
+            dfs(y);
+        }
+    }
+
+    public static void main(String[] args) {
+        dfs(5);
+    }
+}

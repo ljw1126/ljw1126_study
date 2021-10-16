@@ -3,12 +3,14 @@
         "./ReadingBooks/DoIt/자료구조와알고리즘/4_스택과큐"
     ],
     "java.project.sourcePaths": [
+        "Java/algorithm/Sorting",
+        "Java/algorithm/Graph",
         "Java/algorithm/BruteForce",
         "Java/Tree/Prim",
         "Java/Tree/ImprovedPrim",
         "Java/Greedy",
         "Java/Graph",
         "Java/Backtracking",
-        "Java/algorithm/Sorting"
+        "ReadingBooks/DoIt/자료구조와알고리즘/4_스택과큐"
     ]
 }

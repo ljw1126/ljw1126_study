@@ -24,19 +24,19 @@ public class Gstack<E> {
     }
 
     // push : 데이터 삽입 
-    public E push(E x) throws OverflowInStackException{
+    public E push(E x){
         if(ptr >= max) throw new OverflowInStackException(); //스택 가득찬 경우 
         return stk[ptr++] = x;
     }
 
     // pop: 스택에서 데이터를 꺼냄 (마지막 값부터)
-    public E pop() throws EmptyInStackException{
+    public E pop(){
         if (ptr <= 0) throw new EmptyInStackException(); // 스택이 비어있음
         return stk[--ptr]; //ptr을 감소시키고
     }
 
     // peek : 스택 정상에 있는 데이터를 확인 
-    public E peek() throws EmptyInStackException{
+    public E peek(){
         if(ptr <= 0 ) throw new EmptyInStackException(); // 스택이 비어있음
         return stk[ptr-1];
     }
