@@ -28,7 +28,7 @@ public class Gqueue<E> {
     }
 
     // 큐에 데이터를 인큐 (삽입)
-    public E enque(E x) throws OverflowGenricQueueException{
+    public E enque(E x){
         if(num >= max) throw new OverflowGenricQueueException();
         // 데이터 삽입
         que[rear++] = x;
@@ -40,7 +40,7 @@ public class Gqueue<E> {
     }
 
     // 큐에서 데이터를 디큐(꺼내기)
-    public E deque() throws EmptyGenericQueueException{
+    public E deque(){
         if(num <= 0) throw new EmptyGenericQueueException();
 
         E x = que[front++];
@@ -52,7 +52,7 @@ public class Gqueue<E> {
     }
 
     // 큐에서 peek 값 확인(front 데이터 확인)
-    public E peek() throws EmptyGenericQueueException{
+    public E peek(){
         if(num<=0) throw new EmptyGenericQueueException();
         return que[front];
     }
