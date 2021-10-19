@@ -11,54 +11,52 @@ public class ex1_1260 {
     static StringBuilder sb = new StringBuilder();
 
     static int N, M, V;
-    static ArrayList<ArrayList<Integer>> graph;
-    static ArrayList<Integer> list;
-    
+    static ArrayList<Integer>[] adj;
+    static boolean[] visit;
+
     //x를 갈 수 있다는 걸 알고 방문한 상태
-    static void dfs(int x){
-        /* To do */
-        visit[x] = true; 
-        sb.append(x).append(' ');
-        for(int y=1; y <= N ; y++){
-            if(adj[x][y] == 0) continue;
-            if(visit[y] == 1) continue; 
+    static void dfs(int start){
+        
+        //x를 방문했다고 표시 
+        visit[start] = true; 
+        sb.append(start).append(' ');
+
+        //x에서 갈 수 있는 곳들을 작은 번호부터 모두 방문함
+        for(int y : adj[start]){
+            //y를 이미 갈 수 있다는걸 알면 굳이 갈 필요없다.
+            if(visit[y]) continue;
+            //y에서 갈 수 있는 곳을 확인한다 
             dfs(y);
         }
     }
 
     //start에서 시작해서 갈 수 있는 정점들을 모두 탐색하기 
-    static void bfs(int x){
+    static void bfs(int start){
         Queue<Integer> que = new LinkedList<>();
-        /* To do */
-        que.add(x);
-        visit[x] = true;
+        // start는 방문가능한 점이므로que에 넣어줌
+        que.add(start); // 초기값 셋팅
+        visit[start] = true;
         
         while(!que.isEmpty()){
-            x = que.poll();
+            int x = que.poll();
             sb.append(x).append(' ');
 
-            for(int y=1; y<=N; y++){
-                if(adj[x][y] == 0) continue;
-                if(visit[y] == 1) continue;
-                
+            for(int y : adj[x]){
+                if(visit[y]) continue;
+
+                que.add(y);
+                visit[y] = true;
             }
         }
     }
 
     static void pro(){
-        visit = new boolean[N+1];
+        visit = new boolean[N+1]; // default 는 전부 false
         dfs(V);
         sb.append('\n');
-
-        
-        //모든 x에 대해서 adj[x] 정렬하기 
-        /* To do */
-
-        //DFS, BFS 결과 구하기
-        /* To do */
-
-        //결과 출력
-        System.out.println();
+        for(int i=1; i<=N;i++) visit[i] = false;
+        bfs(V);
+        System.out.println(sb);
     }
 
     static void input(){
@@ -66,19 +64,24 @@ public class ex1_1260 {
         M = scan.nextInt();
         V = scan.nextInt(); 
 
-        graph = new ArrayList<>();
+        adj = new ArrayList[N+1];
+        for(int i=1; i<= N ; i++)
+            adj[i] = new ArrayList<>();
         
-        for(int i=1; i <= M ; i++) {
-            list = new ArrayList<>();
-            list.add(scan.nextInt());
-            list.add(scan.nextInt());
-            graph.add(list);
+        for(int i=0; i < M ; i++) {
+            int x = scan.nextInt(), y= scan.nextInt();
+            adj[x].add(y);
+            adj[y].add(x);
         }
+
+        for(int i=1; i<= N ; i++)
+            Collections.sort(adj[i]);
+
     }
 
     public static void main(String[] args) {
         input();
-        System.out.println(graph);
+        pro();
     }
 
     static class FastReader{
