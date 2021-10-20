@@ -4,6 +4,14 @@ import java.io.*;
 
 /*
     https://www.acmicpc.net/problem/1260
+
+    인접행렬 사용시 
+    시간/공간 : O(V^2)
+
+    인접리스트 사용시
+    시간 : O(ElogE)    //문제 내용대로 작은 간선부터 해야하므로 정렬해야함 
+    공간 : O(E)
+
 */
 public class ex1_1260 {
 

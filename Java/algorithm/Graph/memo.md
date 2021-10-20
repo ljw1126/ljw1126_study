@@ -6,17 +6,41 @@
 ## 문제 링크 
 |번호|명칭|난이도|주소|
 |:------:|:--------:|:--------:|:--------------:|
-| 연습1 | DFS와 BFS ||[https://www.acmicpc.net/problem/1260](https://www.acmicpc.net/problem/1260)|
-||||[]()|
-||||[]()|
-||||[]()|
+| 연습1 | DFS와 BFS |기본개념|[https://www.acmicpc.net/problem/1260](https://www.acmicpc.net/problem/1260)|
+| 응용1 | 단지번호 붙이기|난이도2|[https://www.acmicpc.net/problem/2667](https://www.acmicpc.net/problem/2667)|
+| 추천문제 ||||
+|격자형|유기농배추||[https://www.acmicpc.net/problem/1012](https://www.acmicpc.net/problem/1012)|
+||연결요소의개수||[https://www.acmicpc.net/problem/11724](https://www.acmicpc.net/problem/11724)|
+||섬의개수||[https://www.acmicpc.net/problem/4963](https://www.acmicpc.net/problem/4963)|
+||양||[https://www.acmicpc.net/problem/3184](https://www.acmicpc.net/problem/3184)|
+|일반그래프|바이러스||[https://www.acmicpc.net/problem/2606](https://www.acmicpc.net/problem/2606)|
+||경로찾기||[https://www.acmicpc.net/problem/11403](https://www.acmicpc.net/problem/11403)|
+||트리의부모찾기||[https://www.acmicpc.net/problem/11725](https://www.acmicpc.net/problem/11725)|
+| 응용2 | 물통 | 난이도(4) |[https://www.acmicpc.net/problem/2251](https://www.acmicpc.net/problem/2251)|
+| 응용3 | 연구소 | 난이도(4.5), 삼성코테 |[https://www.acmicpc.net/problem/14502](https://www.acmicpc.net/problem/14502)|
+| 응용4 | 미로 탐색 | 난이도2 | [https://www.acmicpc.net/problem/2178](https://www.acmicpc.net/problem/2178)|
+|추천문제||||
+||나이트의 이동||[https://www.acmicpc.net/problem/7562](https://www.acmicpc.net/problem/7562)|
+||촌수 계산||[https://www.acmicpc.net/problem/2644](https://www.acmicpc.net/problem/2644)|
+||현명한||[https://www.acmicpc.net/problem/18404](https://www.acmicpc.net/problem/18404)|
+| 응용5 | 숨바꼭질 | 난이도3 | [https://www.acmicpc.net/problem/1697](https://www.acmicpc.net/problem/1697) | 
+|추천문제||||
+||||[https://www.acmicpc.net/problem/1389](https://www.acmicpc.net/problem/1389)|
+||||[https://www.acmicpc.net/problem/5567](https://www.acmicpc.net/problem/5567)|
+| 응용6 | 탈출(고슴도치) | 난이도4~5| [https://www.acmicpc.net/problem/3055](https://www.acmicpc.net/problem/3055)|
+|추천문제||||
+||||[https://www.acmicpc.net/problem/7569](https://www.acmicpc.net/problem/7569)|
+||||[https://www.acmicpc.net/problem/2644](https://www.acmicpc.net/problem/2644)|
+
+
+// 물통 문제의 경우 그래프라는 언급이 없으므로 판단이 필요하여 어려움 
 
 ## 그래프(Graph)란?
 - 자료구조로써 Graph = 정점(vertex) + 간선(edge)
   - 간선(Edge) → 무방향(양방향)/방향 + **가중치**
   - deg(x) = 정점 x의 차수(degree), 정점 x에 연결된 간선의 수 
     - ∑deg(x) = 모든 정점의 차수의 합 = 간선의 개수의 2배 ! ( 공식 알 것 !)
-- Graph를 컴퓨터에 인식시키는 방식 (상황에 따라 선택사용) 
+- Graph를 컴퓨터에 인식시키는 방식 (상황에 따라 선택사용) , 그래프를 저장하는 대표적인 두가지 방법
   - 1. 인접 행렬(Adjacency Matrix)
     - 2차원 배열 형태로 표현 
     - int[][] adj = int new [V][V];
@@ -34,7 +58,7 @@
       - V = 10만 , **E = 50만**
         - 5 * 10 ^5 = 500K 
     - A에서 B로 이동가능? 가중치 얼마?
-      - O(min(deg(A),deg(B)))     // 양방향성인 경우 
+      - O(min(deg(A),deg(B)))     // 양방향성인 경우 , A가 1이고 B가 3일때 
       - O(deg(A)) //방향성인 경우 
     - 정점A에서 갈수 있는 점점들은?
       - O(deg(A)) 
@@ -64,3 +88,11 @@
     - Queue가 비어있다. → 시작점에서 갈 수 있는 모든 점을 찾아냈다! or 탐색이 끝났다!
   - 인접 행렬 사용시 → O(V^2)
   - 인접 리스트 → O( deg(1) + deg(2) + .. + deg(V) ) = O(E)     
+
+
+#### '최소이동횟수','최단시간' 키워드
+- 최소 "이동" 횟수와 관련된 것이기 대문에, 가중치에 대한개념이 없는 문제에서만 생기는 부가효과!
+  - 동생을 찾을 수 있는 가장 빠른 시간이 몇 초 후 
+  - 이동할 때 지나야 하는 **최소의 칸 수** 
+  - 고슴도치가 안전하게 비버의굴로 이동하기 위해 **필요한 최소시간** 
+- **때로는 그래프가 없는 문제에서 "정점"과 "간선"의 정의를 만들어서 그래프 문제로 접근해야함(중요!문제에는 그래프라고 설명안함)**

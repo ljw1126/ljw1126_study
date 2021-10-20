@@ -1,5 +1,16 @@
 ﻿
 public class template {
+    // 인접 행렬 사용시 O(V^2), 인접리스트 사용시 O(E)
+    // 인접 행렬은 각 정점(V) 갯수만큼 조회하고 
+    // 인접리스트는 정점에 연결된 간선(E)만큼만 조회하면됨
+    static ArrayList<ArrayList<Integer>> list = new ArrayList<>();
+    list.add(new ArrayList<Integer>(Arrays.asList()));
+    list.add(new ArrayList<Integer>(Arrays.asList()));
+    list.add(new ArrayList<Integer>(Arrays.asList()));
+    list.add(new ArrayList<Integer>(Arrays.asList()));
+    list.add(new ArrayList<Integer>(Arrays.asList()));
+    list.add(new ArrayList<Integer>(Arrays.asList()));
+
     // x 를 갈 수 있다는 걸 알고 방문한 상태
     static void dfs(int x){ //  ←← x라는 정점 받았을때, 모든 정점이 x로 한번씩만 등장한다 O(V)
         // x를 방문했다.
