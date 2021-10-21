@@ -9,14 +9,14 @@
 | 연습1 | DFS와 BFS |기본개념|[https://www.acmicpc.net/problem/1260](https://www.acmicpc.net/problem/1260)|
 | 응용1 | 단지번호 붙이기|난이도2|[https://www.acmicpc.net/problem/2667](https://www.acmicpc.net/problem/2667)|
 | 추천문제 ||||
-|격자형|유기농배추||[https://www.acmicpc.net/problem/1012](https://www.acmicpc.net/problem/1012)|
+|격자형|유기농배추|*|[https://www.acmicpc.net/problem/1012](https://www.acmicpc.net/problem/1012)|
 ||연결요소의개수||[https://www.acmicpc.net/problem/11724](https://www.acmicpc.net/problem/11724)|
-||섬의개수||[https://www.acmicpc.net/problem/4963](https://www.acmicpc.net/problem/4963)|
-||양||[https://www.acmicpc.net/problem/3184](https://www.acmicpc.net/problem/3184)|
-|일반그래프|바이러스||[https://www.acmicpc.net/problem/2606](https://www.acmicpc.net/problem/2606)|
-||경로찾기||[https://www.acmicpc.net/problem/11403](https://www.acmicpc.net/problem/11403)|
-||트리의부모찾기||[https://www.acmicpc.net/problem/11725](https://www.acmicpc.net/problem/11725)|
-| 응용2 | 물통 | 난이도(4) |[https://www.acmicpc.net/problem/2251](https://www.acmicpc.net/problem/2251)|
+||섬의개수|*|[https://www.acmicpc.net/problem/4963](https://www.acmicpc.net/problem/4963)|
+||양|*|[https://www.acmicpc.net/problem/3184](https://www.acmicpc.net/problem/3184)|
+|일반그래프|바이러스|*|[https://www.acmicpc.net/problem/2606](https://www.acmicpc.net/problem/2606)|
+||경로찾기|추가이론필요|[https://www.acmicpc.net/problem/11403](https://www.acmicpc.net/problem/11403)|
+||트리의부모찾기|*힌트|[https://www.acmicpc.net/problem/11725](https://www.acmicpc.net/problem/11725)|
+| 응용2 | 물통 | 난이도(4),실버1 |[https://www.acmicpc.net/problem/2251](https://www.acmicpc.net/problem/2251)|
 | 응용3 | 연구소 | 난이도(4.5), 삼성코테 |[https://www.acmicpc.net/problem/14502](https://www.acmicpc.net/problem/14502)|
 | 응용4 | 미로 탐색 | 난이도2 | [https://www.acmicpc.net/problem/2178](https://www.acmicpc.net/problem/2178)|
 |추천문제||||
@@ -32,8 +32,15 @@
 ||||[https://www.acmicpc.net/problem/7569](https://www.acmicpc.net/problem/7569)|
 ||||[https://www.acmicpc.net/problem/2644](https://www.acmicpc.net/problem/2644)|
 
-
+ 
 // 물통 문제의 경우 그래프라는 언급이 없으므로 판단이 필요하여 어려움 
+// 추천문제에서 직접 푼 경우 * 표시함
+// 경로 찾기 - '플로이드 와샬' 알고리즘 필요 
+[https://m.blog.naver.com/PostView.nhn?blogId=ndb796&logNo=221234427842&proxyReferer=https:%2F%2Fwww.google.com%2F](https://m.blog.naver.com/PostView.nhn?blogId=ndb796&logNo=221234427842&proxyReferer=https:%2F%2Fwww.google.com%2F)
+###### 응용3	- 연구소
+- **'Multisource BFS'** 활용해서 문제 풀이함
+- 모든 시작점을 전부 Queue에 넣은 상태로 BFS를 시작하면 됨
+- **시간 복잡도는 O(V+E)가 유지됨**
 
 ## 그래프(Graph)란?
 - 자료구조로써 Graph = 정점(vertex) + 간선(edge)

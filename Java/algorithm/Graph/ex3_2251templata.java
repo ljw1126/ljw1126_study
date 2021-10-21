@@ -3,7 +3,7 @@ import java.util.Queue;
 
 public class ex3_2251templata {
     
-    //물통의 현재 상태와 물을 붓는 행위를 관리하는 구조체 
+    //물통의 현재 상태와 물을 붓는 행위를 관리하는 구조체 - 구조체를 만드는게 이해하는데 깔끔
     class State{
         int[] X;
         State(int[] _X){
@@ -23,7 +23,6 @@ public class ex3_2251templata {
                 nX[to] += nX[from];
                 nX[from] = 0;
             }
-
 
             return new State(nX);
         }
