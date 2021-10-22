@@ -25,18 +25,20 @@
 ||현명한||[https://www.acmicpc.net/problem/18404](https://www.acmicpc.net/problem/18404)|
 | 응용5 | 숨바꼭질 | 난이도3 | [https://www.acmicpc.net/problem/1697](https://www.acmicpc.net/problem/1697) | 
 |추천문제||||
-||||[https://www.acmicpc.net/problem/1389](https://www.acmicpc.net/problem/1389)|
+||케빈 베이컨의 6단계 법칙| 플로이드 공부필요 |[https://www.acmicpc.net/problem/1389](https://www.acmicpc.net/problem/1389)|
 ||||[https://www.acmicpc.net/problem/5567](https://www.acmicpc.net/problem/5567)|
-| 응용6 | 탈출(고슴도치) | 난이도4~5| [https://www.acmicpc.net/problem/3055](https://www.acmicpc.net/problem/3055)|
+| 응용6 | 탈출(고슴도치) | 난이도4~5(삼성, 쉬운)| [https://www.acmicpc.net/problem/3055](https://www.acmicpc.net/problem/3055)|
 |추천문제||||
-||||[https://www.acmicpc.net/problem/7569](https://www.acmicpc.net/problem/7569)|
-||||[https://www.acmicpc.net/problem/2644](https://www.acmicpc.net/problem/2644)|
+||토마토||[https://www.acmicpc.net/problem/7569](https://www.acmicpc.net/problem/7569)|
+||촌수계산||[https://www.acmicpc.net/problem/2644](https://www.acmicpc.net/problem/2644)|
 
  
 // 물통 문제의 경우 그래프라는 언급이 없으므로 판단이 필요하여 어려움 
 // 추천문제에서 직접 푼 경우 * 표시함
 // 경로 찾기 - '플로이드 와샬' 알고리즘 필요 
 [https://m.blog.naver.com/PostView.nhn?blogId=ndb796&logNo=221234427842&proxyReferer=https:%2F%2Fwww.google.com%2F](https://m.blog.naver.com/PostView.nhn?blogId=ndb796&logNo=221234427842&proxyReferer=https:%2F%2Fwww.google.com%2F)
+// 케빈 베이컨의 6단계 법칙 - '플로이드 와샬' 알고리즘 필요 .. 정답은 구했는데 틀린걸로 표시됨
+
 ###### 응용3	- 연구소
 - **'Multisource BFS'** 활용해서 문제 풀이함
 - 모든 시작점을 전부 Queue에 넣은 상태로 BFS를 시작하면 됨
