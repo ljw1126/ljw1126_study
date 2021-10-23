@@ -3,7 +3,10 @@ package extend;
 
 import java.util.*;
 import java.io.*;
-
+/*
+    https://www.acmicpc.net/problem/15970
+    화살표 그리기 
+*/
 public class ex3_15970 {
     static int N;
     static ArrayList<Integer>[] a;
