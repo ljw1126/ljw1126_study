@@ -18,6 +18,8 @@ public class ex2_2470 {
         for (int i = 1; i <= N; i++) {
             A[i] = scan.nextInt();
         }
+
+        
     }
 
     static int lower_bound(int[] A, int L, int R, int X) {
