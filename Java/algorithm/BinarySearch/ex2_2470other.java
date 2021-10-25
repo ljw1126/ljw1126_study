@@ -1,14 +1,10 @@
 ﻿package algorithm.BinarySearch;
+
 import java.util.*;
 import java.io.*;
-/*
-    [두 용액]
-    https://www.acmicpc.net/problem/2470
-
-    // 이해가 안되서 인터넷 풀이 찾음 --- 답은 구해지지만 제출시 틀렸다함
-    https://velog.io/@hyunjkluz/%EB%B0%B1%EC%A4%802470-%EB%91%90-%EC%9A%A9%EC%95%A1-Java
-*/
-public class ex2_2470 {
+// https://velog.io/@hyunjkluz/%EB%B0%B1%EC%A4%802470-%EB%91%90-%EC%9A%A9%EC%95%A1-Java
+// 답은 맞는데 틀려다 함..
+public class ex2_2470other {
     static FastReader scan = new FastReader();
     static StringBuilder sb = new StringBuilder();
 
@@ -21,51 +17,37 @@ public class ex2_2470 {
         for (int i = 1; i <= N; i++) {
             A[i] = scan.nextInt();
         }
-
-        
     }
 
-    static int lower_bound(int[] A, int L, int R, int X) {
-        // A[L...R] 에서 X 이상의 수 중 제일 왼쪽 인덱스를 return 하는 함수
-        // 그런 게 없다면 R + 1 을 return 한다
-
-        int result = R + 1; // 만약 A[L..R]중 .. ???
-        while(L<=R){
-            int mid = (L+R)/2;
-            if(A[mid] >= X){
-                result = mid;    // 왜 이게 오는지 이해가 안됨 ;;
-                R = mid -1;
-            } else {
-                L = mid + 1;
-            }
-        }
-
-        return result;
-    }
-
+    // 답은 구하는데 틀렸다 함
     static void pro() {
         // A 에 대해 이분 탐색을 할 예정이니까, 정렬을 미리 해주자.
         Arrays.sort(A, 1, N + 1);
 
         int best_sum = Integer.MAX_VALUE;
         int v1 = 0, v2 = 0;
-        for (int left = 1; left <= N - 1; left++) {
-            // A[left] 용액을 쓸 것이다. 고로 -A[left] 와 가장 가까운 용액을 자신의 오른쪽 구간에서 찾자.
-            int result = lower_bound(A, left+1, N, -A[left]);
+        int L = 1 , R = A.length - 1;
+       
+        while(L <= R){
 
-            // result = 6 인 경우 여기서 처리되고 
-            if(left < result -1 && Math.abs(A[left] + A[result -1]) < best_sum){
-                best_sum = Math.abs(A[left] + A[result -1]);
-                v1 = A[left];
-                v2 = A[result -1];
+            int sum = A[L] + A[R];
+
+            //0에 더 가까운 수를 찾기 위함이니깐 절대값으로 변경
+            if(Math.abs(sum) < best_sum){
+                best_sum = Math.abs(sum);
+                v1 = A[L];
+                v2 = A[R];
             }
 
-            if(result <= N && Math.abs(A[left] + A[result]) < best_sum){
-                best_sum = Math.abs(A[left] + A[result]);
-                v1 = A[left];
-                v2 = A[result];
+            // 이분 탐색할 것 = 배연 안에서 숫자들의 합
+            // 합이 0보다 크다는 것 = end번째 수의 절대값이 start번째 수의 절대값보다 크다는 의미
+            if(sum > 0){
+                R--;
+            }else{
+                L++;
             }
         }
+
         sb.append(v1).append(' ').append(v2);
         System.out.println(sb);
     }

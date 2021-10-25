@@ -1,14 +1,9 @@
 ﻿package algorithm.BinarySearch;
+
 import java.util.*;
 import java.io.*;
-/*
-    [두 용액]
-    https://www.acmicpc.net/problem/2470
 
-    // 이해가 안되서 인터넷 풀이 찾음 --- 답은 구해지지만 제출시 틀렸다함
-    https://velog.io/@hyunjkluz/%EB%B0%B1%EC%A4%802470-%EB%91%90-%EC%9A%A9%EC%95%A1-Java
-*/
-public class ex2_2470 {
+public class ex2_2470practice {
     static FastReader scan = new FastReader();
     static StringBuilder sb = new StringBuilder();
 
@@ -21,22 +16,20 @@ public class ex2_2470 {
         for (int i = 1; i <= N; i++) {
             A[i] = scan.nextInt();
         }
-
-        
     }
 
     static int lower_bound(int[] A, int L, int R, int X) {
         // A[L...R] 에서 X 이상의 수 중 제일 왼쪽 인덱스를 return 하는 함수
         // 그런 게 없다면 R + 1 을 return 한다
+        int result = R+1;
 
-        int result = R + 1; // 만약 A[L..R]중 .. ???
-        while(L<=R){
+        while(L <= R){
             int mid = (L+R)/2;
             if(A[mid] >= X){
-                result = mid;    // 왜 이게 오는지 이해가 안됨 ;;
+                result = mid;
                 R = mid -1;
-            } else {
-                L = mid + 1;
+            }else{
+                L = mid +1;
             }
         }
 
@@ -53,7 +46,7 @@ public class ex2_2470 {
             // A[left] 용액을 쓸 것이다. 고로 -A[left] 와 가장 가까운 용액을 자신의 오른쪽 구간에서 찾자.
             int result = lower_bound(A, left+1, N, -A[left]);
 
-            // result = 6 인 경우 여기서 처리되고 
+            
             if(left < result -1 && Math.abs(A[left] + A[result -1]) < best_sum){
                 best_sum = Math.abs(A[left] + A[result -1]);
                 v1 = A[left];
