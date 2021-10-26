@@ -41,20 +41,20 @@
 |추천1|수찾기|직접 품(뭔가꼬임)|[https://www.acmicpc.net/problem/1920](https://www.acmicpc.net/problem/1920)|
 |추천2|듣보잡|직접 품|[https://www.acmicpc.net/problem/1764](https://www.acmicpc.net/problem/1764)|
 |추천3|두 수의 합|직접 품|[https://www.acmicpc.net/problem/3273](https://www.acmicpc.net/problem/3273)|
-|추천4|숫자카드2||[https://www.acmicpc.net/problem/10816](https://www.acmicpc.net/problem/10816)|
+|추천4|숫자카드2|실버4(양방향검색후 차로구하는데 부등호 어려움)*|[https://www.acmicpc.net/problem/10816](https://www.acmicpc.net/problem/10816)|
 |문제2|두 용액|난이도3(이해안됨)|[https://www.acmicpc.net/problem/2470](https://www.acmicpc.net/problem/2470)|
 |||||
 |매개변수탐색문제||||
 |문제3|**나무 자르기**||[https://www.acmicpc.net/problem/2805](https://www.acmicpc.net/problem/2805)|
 |추천문제||||
-|추천5|랜선 자르기||[https://www.acmicpc.net/problem/1654](https://www.acmicpc.net/problem/1654)|
-|추천6|예산||[https://www.acmicpc.net/problem/2512](https://www.acmicpc.net/problem/2512)|
+|추천5|랜선 자르기|실버3(R범위틀림)|[https://www.acmicpc.net/problem/1654](https://www.acmicpc.net/problem/1654)|
+|추천6|예산|실버3(직접한건어설픔)*|[https://www.acmicpc.net/problem/2512](https://www.acmicpc.net/problem/2512)|
 |문제4|**공유기 설치**||[https://www.acmicpc.net/problem/2110](https://www.acmicpc.net/problem/2110)|
 |추천문제||||
-|추천7|기타 레슨||[https://www.acmicpc.net/problem/2343](https://www.acmicpc.net/problem/2343)|
-|추천8|용돈 관리||[https://www.acmicpc.net/problem/6236](https://www.acmicpc.net/problem/6236)|
-|추천9|이상한 술집||[https://www.acmicpc.net/problem/13702](https://www.acmicpc.net/problem/13702)|
-|추천10|어두운 굴다리||[https://www.acmicpc.net/problem/17266](https://www.acmicpc.net/problem/17266)|
+|추천7|기타🎸 레슨|문제 이해안됨|[https://www.acmicpc.net/problem/2343](https://www.acmicpc.net/problem/2343)|
+|추천8|용돈 관리|문제 이해안됨|[https://www.acmicpc.net/problem/6236](https://www.acmicpc.net/problem/6236)|
+|추천9|이상한 술집|(long타입..)|[https://www.acmicpc.net/problem/13702](https://www.acmicpc.net/problem/13702)|
+|추천10|어두운 굴다리|실버5(공식이해안됨)|[https://www.acmicpc.net/problem/17266](https://www.acmicpc.net/problem/17266)|
 |추천11|K번째수(고난도,4/5)||[https://www.acmicpc.net/problem/1300](https://www.acmicpc.net/problem/1300)|
 |추천12|날카로운눈(고난도,4/5)||[https://www.acmicpc.net/problem/1637](https://www.acmicpc.net/problem/1637)|
 
