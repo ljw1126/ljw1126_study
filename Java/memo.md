@@ -81,6 +81,9 @@ System.out.println(priorityQueue);
 // 데이터 사이즈 확인 
 priorityQueue.size();
 
+//  알고리즘 > ShortestPath 문제 풀이 중 이런게 등장함 (정렬하는 메서드로 보임, 211029)
+PriorityQueue<Info> pq = new PriorityQueue<>(Comparator.comparingInt(o -> o.dist));
+
 
 // 9. MAX, MIN 
 int max, min;
@@ -98,6 +101,9 @@ Arrays.sort(nums); // 처음부터 끝까지 정렬
 Arrays.sort(nums, 1, N+1); // 1부터 N 인덱스까지 지정해서 정렬 
 
 System.out.println(Arrays.toString(nums));
+
+//
+
 
 ```
 
