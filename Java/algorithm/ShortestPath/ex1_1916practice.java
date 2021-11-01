@@ -19,6 +19,28 @@ import java.io.*;
 
     [시간복잡도]
     - O(ElogV) = 10만 * 10g 1천(=10) = 100만 
+
+    # 예제 입력 1
+    5            -- 도시의 개수 N 
+    8            -- 버스의 개수 M 
+    1 2 2        -- 출발지 목적지 버스비용 (M개 만큼)
+    1 3 3
+    1 4 1
+    1 5 10
+    2 4 2
+    3 4 1
+    3 5 1
+    4 5 3
+    1 5           -- 출발지 , 도착지
+
+    # 예제 출력 1
+    4
+
+
+    dist[] // 최단거리 가중치 합
+    0,0,2,3,1,10 에서
+    0,0,2,3,1,4  됨
+
 */
 public class ex1_1916practice {
     
@@ -56,7 +78,7 @@ public class ex1_1916practice {
         dist = new int[N + 1];
         edges = new ArrayList[N + 1];
         for (int i = 1; i <= N; i++) edges[i] = new ArrayList<Edge>();
-        for (int i = 1; i <= M; i++) {
+        for (int i = 1; i <= M; i++) { // 간선 정보를 여기 넣음 
             int from = scan.nextInt();
             int to = scan.nextInt();
             int weight = scan.nextInt();
@@ -70,13 +92,13 @@ public class ex1_1916practice {
         // 모든 정점까지에 대한 거리를 무한대로 초기화 해주기.
         // ※주의사항※
         // 문제의 정답으로 가능한 거리의 최댓값보다 큰 값임을 보장해야 한다.
-        for(int i=1; i<=N;i++) dist[i] = Integer.MAX_VALUE;
+        for(int i=1;i<N+1;i++) dist[i] = Integer.MAX_VALUE;
 
         // 최소 힙 생성
-        PriorityQueue<Info> pq = new PriorityQueue<>(Comparator.comparingInt(o -> o.dist));
+        PriorityQueue<Info> pq = new PriorityQueue<>(Comparator.comparingInt( o -> o.dist));
 
         // 시작점에 대한 정보(Information)을 기록에 추가하고, 거리 배열(dist)에 갱신해준다.
-        pq.add(new Info(start,0));
+        pq.add(new Info(start, 0));
         dist[start] = 0;
 
         // 거리 정보들이 모두 소진될 때까지 거리 갱신을 반복한다.
@@ -84,23 +106,23 @@ public class ex1_1916practice {
             Info info = pq.poll();
             
             // 꺼낸 정보가 최신 정보랑 다르면, 의미없이 낡은 정보이므로 폐기한다.
-            if(dist[info.idx] < info.dist) continue;    // 현재 정보의 dist가 크다면 
+            if(dist[info.idx] < info.dist) continue;
 
             // 연결된 모든 간선들을 통해서 다른 정점들에 대한 정보를 갱신해준다.
             for (Edge e : edges[info.idx]) {
-                
-                if(dist[info.idx] + e.weight >= dist[e.to]) continue;
-
                 // e.to 까지 갈 수 있는 더 짧은 거리를 찾았다면 이에 대한 정보를 갱신하고 PQ에 기록해준다.
+                if(dist[info.idx] + e.weight >= dist[e.to]) continue;
+                
                 dist[e.to] = dist[info.idx] + e.weight;
                 pq.add(new Info(e.to, dist[e.to]));
             }
         }
+
+        sb.append(dist[end]);
     }
 
     static void pro() {
-        dijkstra(K);
-        /* TODO */
+        dijkstra(start);
         System.out.print(sb);
     }
 

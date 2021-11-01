@@ -7,6 +7,7 @@ import java.io.*;
     https://www.acmicpc.net/problem/1916
 */
 public class ex1_1916template {
+    
     static FastReader scan = new FastReader();
     static StringBuilder sb = new StringBuilder();
 
@@ -41,7 +42,7 @@ public class ex1_1916template {
         dist = new int[N + 1];
         edges = new ArrayList[N + 1];
         for (int i = 1; i <= N; i++) edges[i] = new ArrayList<Edge>();
-        for (int i = 1; i <= M; i++) {
+        for (int i = 1; i <= M; i++) { // 간선 정보를 여기 넣음 
             int from = scan.nextInt();
             int to = scan.nextInt();
             int weight = scan.nextInt();
@@ -79,7 +80,7 @@ public class ex1_1916template {
     }
 
     static void pro() {
-        dijkstra(K);
+        dijkstra(start);
         /* TODO */
         System.out.print(sb);
     }
