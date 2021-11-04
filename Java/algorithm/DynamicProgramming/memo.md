@@ -32,7 +32,7 @@
 |추천2|피보나치 수 5|쉬움|[https://www.acmicpc.net/problem/10870](https://www.acmicpc.net/problem/10870)|
 |추천3|1,2,3 더하기 3|동일문제|[https://www.acmicpc.net/problem/15988](https://www.acmicpc.net/problem/15988)|
 |추천4|1,2,3 더하기 6|경우실수|[https://www.acmicpc.net/problem/15991](https://www.acmicpc.net/problem/15991)|
-|추천5|카드 구매하기||[https://www.acmicpc.net/problem/11052](https://www.acmicpc.net/problem/11052)|
+|추천5|카드 구매하기|실버1(이해불가)|[https://www.acmicpc.net/problem/11052](https://www.acmicpc.net/problem/11052)|
 |추천6|암호 코드||[https://www.acmicpc.net/problem/2011](https://www.acmicpc.net/problem/2011)|
 |||||
 |문제3|계단오르기|난이도2|[https://www.acmicpc.net/problem/2579](https://www.acmicpc.net/problem/2579)|
