@@ -1,5 +1,8 @@
 ## Spring Native 
 ```
+
+해당 강의에서는 spring native image를 만들어서 dokcer에 올려 실행하는 내용 설명함
+
 # Native 란 ? (아래 연관 키워드)
     • GraalVM
     • AOT
@@ -43,7 +46,7 @@
         $ curl -s "https://get.sdkman.io" | bash
       - 에러1) Please install zip on your system using your favourite package manager.
         - 참고 http://dalinaum.github.io/java/2021/03/07/multiple-jdks-2.html
-        - sdkman을 설치하기 위해서는 zip 유틸리티가 필요한데 window에는 없으므로 따로 다운로드를 받아야 함
+        - sdkman을 설치하기 위해서는 zip 유틸리티가 필요함
           - 윈도우 powershell 실행후 아래 명령어 실행 
             Set-ExecutionPolicy RemoteSigned -scope CurrentUser
             iwr -useb get.scoop.sh | iex
@@ -94,6 +97,8 @@
 
 ## Testcontainers
 ```
+1. build.gradle에 testcontainer 의존성 추가 및 설정 추가 
+2. 
 
 
 ```
