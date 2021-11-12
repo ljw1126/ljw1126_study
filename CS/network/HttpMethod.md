@@ -1,5 +1,13 @@
 
-- CRUD = 'Create', 'Read', 'Update', 'Delete'
+## HTTP (HyperTexT Protocol)
+- 하이퍼텍스트를 빠르게 교환하기 위한 프로토콜의 일종
+- 즉, HTTP는 서버와 클라이언트의 사이에서 어떻게 메시지를 교환할지를 정해놓은 규칙
+- 80번 포트를 사용하며 HTTP의 구조는 요청(Request)과 응답(Response)으로 구성
+- [https://namu.wiki/w/HTTP](https://namu.wiki/w/HTTP)
+
+## HTTP Request Method 
+- 서버에 요청시 주어진 리소스에 수행하길 원하는 행동을 Method 로 나타냄 
+- CRUD ('Create', 'Read', 'Update', 'Delete') 에 대해 Http Method를 보통 아래와 같이 구분함
   - Create = POST/PUT
   - Read = GET
   - Update = PUT 
@@ -68,26 +76,37 @@
 - 클라이언트가 서버로 TRACE 요청을 보내면 서버는 요청받은 메시지를 그대로 반환하여 응답한다.
 - XST : TRACE요청에 의해 반환되는 응답에는 사용자의 쿠키정보 등과 같은 중요정보도 포함되게 되는데 이걸 가로채는 공격
 - 보통 웹취약점 검사시 TRACE 되지 않도록 처리해야 함  
-  - 방법1. apache 설정파일 중 하나인 httpd.conf에 설정 통한 method 제한 
-  - 방법2. tomcat 설정파일 web.xml에 설정 통한 method 제한 
-  - 방법3. spring framework에 web.xml에 설정통한 method 제한 
+  - *방법1. apache 설정파일 중 하나인 httpd.conf에 설정 통한 method 제한 
+  - 방법2. tomcat 설정파일 web.xml/server.xml에 설정 통한 method 제한 
+  - *방법3. spring framework에 web.xml에 설정통한 method 제한 
+
+```
+  $ curl -v -X TRACE www.google.com                        // 405 Method Not Allowed 출력됨
+```
 
 [https://itinformation.tistory.com/49](https://itinformation.tistory.com/49)
+[https://eliez3r.github.io/post/2019/10/25/study-web-curl.html](https://eliez3r.github.io/post/2019/10/25/study-web-curl.html 'trace 점검')
 
 --- 
 
-###### Http status code (http 상태 코드)
+## Http Status Code (HTTP 프로토콜 응답 상태 코드)
 
-- 1xx (정보): 요청을 받았으며 프로세스를 계속함
-- 2xx (성공): 요청을 성공적으로 받았으며 인식했고 수용함
-- 3xx (리다이렉션): 요청 완료를 위해 추가 작업 조치가 필요함
-- 4xx (클라이언트 오류): 요청의 문법이 잘못되었거나 요청을 처리 불가 상태
+```
+업무 수행시 많이 봐왔던 에러 코드에 대해서만 기록 (※나머지는 위키 참고)
+```
+
+- **1xx (정보)**: 요청을 받았으며 프로세스를 계속함
+- **2xx (성공)**: 요청을 성공적으로 받았으며 인식했고 수용함
+  - 200(성공): 서버가 요청을 제대로 처리했다는 뜻
+- **3xx (리다이렉션)**: 요청 완료를 위해 추가 작업 조치가 필요함
+- **4xx (클라이언트 오류)**: 요청의 문법이 잘못되었거나 요청을 처리 불가 상태
   - 400(잘못된 요청) : 서버가 요청의 구문을 인식 못한 상태 
   - 401(권한 없음) : 서버에서 사용자 인증 요구,인증실패, Unauthorized 
   - 403(Forbidden, 금지됨) : 서버가 클라이언트 요청 거부. 예로 사용자가 리소스에 대한 권한을 갖지 않음
   - 404(Not Found) : 서버가 요청한 페이지(Resource)를 찾지 못함 
-- 5xx (서버 오류): 서버가 명백히 유효한 요청에 대해 충족을 실패
-  - 500(내부 서버 오류): 서버에 오류가 발생하여 요청을 수행 x 
+  - 405(허용되지 않는 메소드): 요청에 지정된 방법을 사용할 수 없다
+- **5xx (서버 오류)**: 서버가 명백히 유효한 요청에 대해 충족을 실패
+  - 500(내부 서버 오류,Internal Server Error): 서버에 오류가 발생하여 요청을 수행 x 
   - 501(구현되지 않음): 서버에 요청을 수행할 수 있는 기능이 없다. 예를 들어 서버가 요청 메소드를 인식하지 못할 때 이 코드를 표시한다.
   - 502 (Bad Gateway, 불량 게이트웨이): 서버가 게이트웨이나 프록시 역할을 하고 있거나 또는 업스트림 서버에서 잘못된 응답을 받았다.
   - 503(서비스를 사용할 수 없음): 서버가 오버로드되었거나 유지관리를 위해 다운되었기 때문에 현재 서버를 사용할 수 없다. 이는 대개 일시적인 상태이다.

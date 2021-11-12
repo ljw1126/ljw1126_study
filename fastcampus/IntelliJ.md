@@ -74,3 +74,10 @@
 
 - 시그니처 == 오버로딩 메소드 생성 
 - shift 2번 -> keymap 검색  
+
+## live template 설정 (psvm , sout 과 같은) 
+- preference == setting 메뉴 
+- ctrl + alt + s > Editor > Live Template 
+- java 부분에 항목 추가 후 Abbreviation 입력창에 명칭넣고 
+- Template text에 코드 구문 넣고 
+- 하단에 언어로 JAVA 선택 해주면 됨 

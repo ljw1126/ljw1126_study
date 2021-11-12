@@ -1,4 +1,19 @@
-﻿## 유용한 함수
+﻿## 객체와 인스턴스 비교 
+- 비슷한 개념이지만 정확히 구별하면 인스턴스(instance)가 객체(object)보다 큰 의미이다. 객체는 어떤 클래스를 사용해서 만들어진 것을 의미한다. 그리고 그 객체가 메모리에 할당되어 실제 메모리를 차지하는 것을 인스턴스라고 한다.(by Effetive Java)
+```java 
+/*
+  str 은 String 클래스를 사용하여 객체를 선언한 것이다. 
+  아직 str 에 문자열이 할당되어 있지 않은 상태이다.
+  new 키워드를 사용하여 JVM(Java Virtual Machine)에 데이터가 생성된 것을 보여준다. 
+  다시 말해, 객체 str 에 "Hello world"라는 문자열을 할당하였다(instantiate). 
+  이렇게 객체를 실제로 메모리에 할당하는 과정을 인스턴스화(instantiate)라고 한다. 
+  그리고 이렇게 인스턴스화된 객체를 인스턴스라고 부른다.
+*/
+String str; 
+str = new String("Hello world"); 
+```
+
+## 유용한 함수
 ```java
 // 1. 배열 swap
 import java.util.Collections;
@@ -135,14 +150,3 @@ https://ifuwanna.tistory.com/232
 https://hee96-story.tistory.com/75
 
 
-## VScode 단축키 
-```
-1. 인터페이스 상속시 오버라이드 함수 표시 하는 방법
-    - 인터페이스 명 선택 후 crtl + . 
-2. import 한번에 다 하기 
-    - Alt + Shift + O
-3. getter / setter 생성하기 
-    - 해당 속성 드래그 해서 선택 
-    - F1 또는 다른 단축키 
-    - getter 검색하면 generator 나옴 
-```

@@ -44,7 +44,7 @@
   → 한마디로 높은 자유도를 주고 계속 발전하는 고품질의 다양성이 있는 프로젝트, 그런데 너무 자유로워서 때론 어렵다.
 ```
 
-#### # IoC(Inversion of Control), DI(Dependency Injection)
+#### IoC(Inversion of Control), DI(Dependency Injection)
 ```
 
 ```
