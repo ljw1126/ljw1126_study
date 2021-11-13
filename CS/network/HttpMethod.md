@@ -70,6 +70,10 @@
 
 [https://developer.mozilla.org/ko/docs/Web/HTTP/Methods/OPTIONS](https://developer.mozilla.org/ko/docs/Web/HTTP/Methods/OPTIONS)
 
+###### PUT과 PATCH 비교 (링크 참조)
+[https://tecoble.techcourse.co.kr/post/2020-08-17-put-vs-patch/](https://tecoble.techcourse.co.kr/post/2020-08-17-put-vs-patch/ '우아한 형제')
+
+
 <br/>
 
 ###### TRACE 

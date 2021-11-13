@@ -2,7 +2,7 @@
 [https://evan-moon.github.io/2019/06/22/my-home-to-google/](https://evan-moon.github.io/2019/06/22/my-home-to-google/ '우리집에서 구글까지 가는 길')
 [https://galid1.tistory.com/53](https://galid1.tistory.com/53 'DNS 프로토콜')
 [https://www.youtube.com/watch?v=BEK354TRgZ8](https://www.youtube.com/watch?v=BEK354TRgZ8 '테크톡 TCP/IP')
-
+[https://tecoble.techcourse.co.kr/post/2021-10-02-tcp-ip/](https://tecoble.techcourse.co.kr/post/2021-10-02-tcp-ip/ '우아한 형제들 테크코스')
 
 ## TCP/IP 에 대해 
 ```

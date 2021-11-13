@@ -80,4 +80,11 @@
 - ctrl + alt + s > Editor > Live Template 
 - java 부분에 항목 추가 후 Abbreviation 입력창에 명칭넣고 
 - Template text에 코드 구문 넣고 
-- 하단에 언어로 JAVA 선택 해주면 됨 
+- 하단에 언어로 JAVA 선택 해주면 됨
+- 단축키 확인은 setting(ctrl + alt + s) > 좌측 keymap 메뉴 > 검색 
+  - auto formatting > **alt + ctrl + L**
+  - import 정리 > **alt + ctrl + O**
+  - macro 설정기능도 있음 
+- 최근 열었떤 파일 확인 : ctrl + e
+- DMakerService.java에 validateCreateDeveloperRequest() 보면 인텔리제이 리팩토링 기능 활용해서 지역변수 선언해서 좀더 깔끔하게 할 수 있음 
+  - 공통 지역변수로 사용할 부분을 선택 > 마우스 오른쪽 클릭 > Refactor > Introduce Variable .. 선택 > 전체 메소드에 대해 선택 

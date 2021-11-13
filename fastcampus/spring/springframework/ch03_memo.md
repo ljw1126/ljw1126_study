@@ -134,3 +134,80 @@ public class DMakerService {
 ###### 단축키
 - 미생성 클래스, enum 같은게 있을 경우 : 이름 옆에 커서 두고 alt + enter 
  
+
+###### ch03-10. 간단한 http 테스트 만들기 
+- test 폴더 하위에 http 폴더 생성 > dev.create.http 파일 생성 
+- dev.create.http 우측 탭에 Examples 통해 post 예제 확인 후 원하는 request 내용 작성
+
+```
+POST http://localhost:8080/create-developers             //요청라인
+Content-Type: application/json                           //헤더라인
+
+{                               // 한칸 띄우고 데이터가 담긴 body라인 
+  "developerLevel": "JUNIOR",
+  "developerSkillType" : "FRONT_END",
+  "experienceYears": 2,
+  "memberId": "Micky",
+  "name": "mouse",
+  "age" : "28"
+}
+```
+
+#### ch03_11 상세정보 호출 GET 
+```
+1. 실행시 콘솔에 sql 과 파라미터 출력되도록 application.yml 설정 수정 
+
+spring:
+  h2 :
+    console:
+      enabled : true
+  jpa:              // 요기 부터 추가
+    show-sql : true          
+    properties:              
+      hibernate:
+        format_sql: true        
+        use_sql_comments : true
+
+참고 주소 - https://www.baeldung.com/sql-logging-spring-boot
+
+
+2. get으로 정보 구현시 @Entity 사용하지 않고 Dto 신규 생성 
+- request 요청시 @Entity 로 된 객체 리스트 반환할 경우 불필요한 정보까지 노출가능! (좋지 않은 패턴)
+- transcation 이 없는 상태에서 접근하는 것은 좋지 않은 상태 
+- 그래서 Dto로 분리해서 하는게 유연성에 좋다함 (역할 분담하는 듯)
+
+```
+
+#### ch03_12 정보 수정 PUT 
+```
+※ PUT은 모든 정보 수정 , PATCH는 정보 일부 수정 
+- Edit(수정하기) 위해 DMakerService에 비즈니스 로직을 작성하는 validation을 따로 작성시 공통되는 부분이 또 존재하게 됨 
+- 그래서 해당 영역 선택 후 마우스 오른쪽 클릭 > Refactor > Extract Method..
+
+        if (developerLevel == DeveloperLevel.SENIOR
+                && experienceYears < 10) {
+            throw new DMakerException(LEVEL_EXPERIENCE_YEARS_NOT_MATCHED);
+        }
+        // 2. junior 인데 4년 미만, 10년 이상인 경우
+        if (developerLevel == DeveloperLevel.JUNGNIOR
+                && (experienceYears < 4 || experienceYears > 10)) {
+            throw new DMakerException(LEVEL_EXPERIENCE_YEARS_NOT_MATCHED);
+        }
+
+        // 3. 주니어인데 4년 이상
+        if (developerLevel == DeveloperLevel.JUNGNIOR && experienceYears > 4) {
+            throw new DMakerException(LEVEL_EXPERIENCE_YEARS_NOT_MATCHED);
+        }
+
+- validatioan 메소드 리팩토링 함 
+- 왜 Developer 객체에 setter만 했는데 update가 되는거지??
+
+```
+
+#### ch03_13 삭제 DELETE 
+```
+- entity패키지에 RetiredDeveloper.java 생성 후 불필요한거 제거
+- 삭제가 아닌, 따로 상태값을 변경해서 저장하도록 @Entity 정의 
+- (개인적인 생각) @Transcationl 붙어있을때 save() 또는 setter 동작시 해당 데이터가 데이터베이스에서 갱신되는거 같음! 
+- 트랜잭션의 Atomic 특성
+```
