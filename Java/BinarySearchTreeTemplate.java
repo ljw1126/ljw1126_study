@@ -15,10 +15,9 @@
 
     public void insertNode(int value){}
 
-    public void search(int value){}
+    public Node search(int value){ return null; }
 
-    public void delete(int value){}
-
+    public boolean delete(int value){ return false; }
 
     public static void main(String[] args) {
         
