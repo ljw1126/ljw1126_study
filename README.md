@@ -54,6 +54,7 @@ personal study repository
   https://www.youtube.com/watch?v=5rBzHoR4F2A
 - String, StringBuilder, StringBuffer, Scanner 
 - Strem API, ramda api 
+- Primitive Type, Wrapper Class
   
 - 생성인자가 많아 가독성이 떨어질때 사용하는 builder pattern 
   https://tecoble.techcourse.co.kr/post/2020-08-17-builder_pattern/
