@@ -9,7 +9,6 @@ public class MyHashChaining {
         this.hashTable = new Slot[size];
     }
 
-    // key랑 next 가 ㅜ가됨
     public class Slot{
         String key;
         String value;

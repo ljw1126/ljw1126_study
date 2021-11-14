@@ -5,14 +5,19 @@ public class MyStackPractice<T> {
     private ArrayList<T> stack = new ArrayList<T>();
     
     public void push(T item) {
+        stack.add(item);
     }
     
     public T pop() {
-        return null;
+        if(stack.isEmpty()){
+            return null;
+        }else{
+            return stack.remove(stack.size()-1);
+        }
     }
     
     public boolean isEmpty() {
-        return false;
+        return stack.isEmpty();
     }
     
     public static void main(String[] args) {

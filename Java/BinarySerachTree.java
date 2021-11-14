@@ -199,7 +199,23 @@ public class BinarySerachTree {
         myTree.insertNode(7);
         myTree.insertNode(8);
         myTree.insertNode(6);
-        //System.out.println(myTree.delete(15));
+        
+        System.out.println("HEAD: " + myTree.head.value);
+        System.out.println("HEAD LEFT: " + myTree.head.left.value);
+        System.out.println("HEAD LEFT LEFT: " + myTree.head.left.left.value);
+        System.out.println("HEAD LEFT RIGHT: " + myTree.head.left.right.value);
+
+        System.out.println("HEAD RIGHT: " + myTree.head.right.value);
+        System.out.println("HEAD RIGHT LEFT: " + myTree.head.right.left.value);
+        System.out.println("HEAD RIGHT RIGHT: " + myTree.head.right.right.value);
+
+        System.out.println("HEAD RIGHT RIGHT LEFT: " + myTree.head.right.right.left.value);
+        System.out.println("HEAD RIGHT RIGHT LEFT RIGHT: " + myTree.head.right.right.left.right.value);
+        System.out.println("HEAD RIGHT RIGHT RIGHT: " + myTree.head.right.right.right.value);
+
+        System.out.println(myTree.delete(15));
+        System.out.println("====================삭제후 ");
+        
         System.out.println("HEAD: " + myTree.head.value);
         System.out.println("HEAD LEFT: " + myTree.head.left.value);
         System.out.println("HEAD LEFT LEFT: " + myTree.head.left.left.value);
@@ -211,6 +227,7 @@ public class BinarySerachTree {
 
         System.out.println("HEAD RIGHT RIGHT LEFT: " + myTree.head.right.right.left.value);
         System.out.println("HEAD RIGHT RIGHT RIGHT: " + myTree.head.right.right.right.value);
+
     }
 }
 

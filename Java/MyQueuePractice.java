@@ -5,15 +5,17 @@ public class MyQueuePractice<T> {
     private ArrayList<T> queue = new ArrayList<T>();
     
     public void enqueue(T item) {
-        
+        queue.add(item);
     }
     
     public T dequeue() {
-        return null;    
+        if(queue.isEmpty())
+            return null;    
+        return queue.remove(0);    
     }
     
     public boolean isEmpty() {
-        return false; 
+        return queue.isEmpty(); 
     }
     
     public static void main(String[] args) {

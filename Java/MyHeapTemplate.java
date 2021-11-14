@@ -32,9 +32,9 @@ public class MyHeapTemplate {
         heapTest.insert(5);
         heapTest.insert(4);
         heapTest.insert(20);
-        System.out.println(heapTest.myHeap);
+        System.out.println(heapTest.myHeap); // [null,20,10,15,5,4,8]
 
-        System.out.println(heapTest.pop());
-        System.out.println(heapTest.myHeap);
+        System.out.println(heapTest.pop());  // 20
+        System.out.println(heapTest.myHeap); // [null,15,10,8,5,4,]
     }
 }
