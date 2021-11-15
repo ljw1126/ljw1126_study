@@ -6,11 +6,11 @@
 ## 문제 링크 
 |번호|명칭|난이도|주소|
 |:------:|:--------:|:--------:|:--------------:|
-| 연습1 | DFS와 BFS |기본개념|[https://www.acmicpc.net/problem/1260](https://www.acmicpc.net/problem/1260)|
-| 응용1 | 단지번호 붙이기|난이도2|[https://www.acmicpc.net/problem/2667](https://www.acmicpc.net/problem/2667)|
+| 연습1 | DFS와 BFS |기본개념*|[https://www.acmicpc.net/problem/1260](https://www.acmicpc.net/problem/1260)|
+| 응용1 | 단지번호 붙이기|난이도2*|[https://www.acmicpc.net/problem/2667](https://www.acmicpc.net/problem/2667)|
 | 추천문제 ||||
-|격자형|유기농배추|*|[https://www.acmicpc.net/problem/1012](https://www.acmicpc.net/problem/1012)|
-||연결요소의개수||[https://www.acmicpc.net/problem/11724](https://www.acmicpc.net/problem/11724)|
+|격자형|유기농배추|**|[https://www.acmicpc.net/problem/1012](https://www.acmicpc.net/problem/1012)|
+||연결요소의개수|*참고|[https://www.acmicpc.net/problem/11724](https://www.acmicpc.net/problem/11724)|
 ||섬의개수|*|[https://www.acmicpc.net/problem/4963](https://www.acmicpc.net/problem/4963)|
 ||양|*|[https://www.acmicpc.net/problem/3184](https://www.acmicpc.net/problem/3184)|
 |일반그래프|바이러스|*|[https://www.acmicpc.net/problem/2606](https://www.acmicpc.net/problem/2606)|
