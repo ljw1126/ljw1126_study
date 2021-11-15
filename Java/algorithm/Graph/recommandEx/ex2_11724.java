@@ -1,81 +1,92 @@
-﻿
+package recommandEx;
 
-import java.util.*;
 import java.io.*;
+import java.util.*;
+/*
+   https://www.acmicpc.net/problem/11724
 
-public class ex1_1260practice {
-    
+    #문제
+    방향 없는 그래프가 주어졌을 때, 연결 요소 (Connected Component)의 개수를 구하는 프로그램을 작성하시오.
+
+    #입력
+    첫째 줄에 정점의 개수 N과 간선의 개수 M이 주어진다. (1 ≤ N ≤ 1,000, 0 ≤ M ≤ N×(N-1)/2) 둘째 줄부터 M개의 줄에 간선의 양 끝점 u와 v가 주어진다. (1 ≤ u, v ≤ N, u ≠ v) 같은 간선은 한 번만 주어진다.
+
+    #출력
+    첫째 줄에 연결 요소의 개수를 출력한다.
+
+    #입력예시1 
+    6 5
+    1 2
+    2 5
+    5 1
+    3 4
+    4 6
+
+    #출력예시1
+    2
+
+    #입력예시2
+    6 8
+    1 2
+    2 5
+    5 1
+    3 4
+    4 6
+    5 4
+    2 4
+    2 3    
+
+    #출력예시2
+    1
+
+
+    문제풀이 참고 >> https://wonit.tistory.com/416
+*/
+public class ex2_11724 {
     static FastReader scan = new FastReader();
     static StringBuilder sb = new StringBuilder();
 
-    static int N, M, V;
+    static int N, M;
     static ArrayList<Integer>[] adj;
     static boolean[] visit;
 
     static void input() {
-        N = scan.nextInt(); // 정점의 개수
-        M = scan.nextInt(); // 간선의 개수
-        V = scan.nextInt(); // 시작할 정점의 번호 
+        N = scan.nextInt();
+        M = scan.nextInt();
         adj = new ArrayList[N + 1];
-        visit = new boolean[N + 1];
-        for (int i = 1;i <= N; i++)
+        for (int i = 1; i <= N; i++)
             adj[i] = new ArrayList<>();
-        //입력으로 주어지는 간선은 양방향이다.
-        for (int i=0; i < M ; i++){
-            int a = scan.nextInt(), b = scan.nextInt();
-            adj[a].add(b);
-            adj[b].add(a);
+        for (int i = 0; i < M; i++) {
+            int x = scan.nextInt(), y = scan.nextInt();
+            adj[x].add(y);
+            adj[y].add(x);
         }
-
     }
 
     // x 를 갈 수 있다는 걸 알고 방문한 상태
     static void dfs(int x) {
-        
+        // x 를 방문했다.
         visit[x] = true;
-        sb.append(x).append(" ");
 
-        for(int n : adj[x]){
-            if(visit[n]) continue;
-            dfs(n);
-        }
-    }
+        // x 에서 갈 수 있는 곳들을 작은 번호부터 모두 방문한다.
+        for (int y : adj[x]) {
 
-    // start 에서 시작해서 갈 수 있는 정점들을 모두 탐색하기
-    static void bfs(int start) {
-        Queue<Integer> que = new LinkedList<>();
-       
-        que.add(start);
-        visit[start] = true;
-
-        while(!que.isEmpty()){
-            int x = que.poll();
-            sb.append(x).append(" ");
-
-            for(int y : adj[x]){
-                if(visit[y]) continue;
-                que.add(y);
-                visit[y] = true;
-            }
-            
+            // y 를 이미 갈 수 있다는 사실을 안다면, 굳이 갈 필요 없다.
+            if(visit[y]) continue;
+            // y에서 갈 수 있는 곳들도 확인 해보자
+            dfs(y);
         }
     }
 
     static void pro() {
-        // 모든 x에 대해서 adj[x] 정렬하기
-        for(int i =1 ; i<=N ; i++){
-            Collections.sort(adj[i]);
+        visit = new boolean[N + 1];
+        int ans = 0;
+        for(int i=1; i <= N ; i++){
+            if(visit[i]) continue;
+            dfs(i);
+            ans++;
         }
-   
-        // DFS, BFS 결과 구하기
-        dfs(V);
-
-        sb.append("\n");
-        for(int i=1 ; i<=N; i++) visit[i] = false;
-        
-        bfs(V);
-        
-        System.out.println(sb);
+        System.out.println(ans);
     }
 
     public static void main(String[] args) {
@@ -129,5 +140,4 @@ public class ex1_1260practice {
             return str;
         }
     }
-
 }

@@ -1,54 +1,76 @@
-﻿
+package recommandEx;
+
 import java.util.*;
 import java.io.*;
 
-public class ex2_2667template {
+public class ex1_1012practice {
+    
     static FastReader scan = new FastReader();
     static StringBuilder sb = new StringBuilder();
 
-    static int N, group_cnt;
-    static String[] a;
+    static int T,M,N,K, group_cnt;
     static boolean[][] visit;
-    static int[][] dir = {{1, 0}, {0, 1}, {-1, 0}, {0, -1}};
     static ArrayList<Integer> group;
+    static int[][] areas;
+    static int[][] dir = {{1,0},{0,1},{-1,0},{0,-1}};
 
-    static void input() {
-        N = scan.nextInt();
-        a = new String[N];
-        for (int i = 0; i < N; i++)
-            a[i] = scan.nextLine();
-        visit = new boolean[N][N];
+    public static void input(){
+        T = scan.nextInt();
+        for(int i=0 ; i < T ; i++){
+            M = scan.nextInt();
+            N = scan.nextInt();
+            K = scan.nextInt();
+
+            visit = new boolean[M][N];
+            areas = new int[M][N];
+
+
+            for(int j = 0; j < K ; j++){
+                int x = scan.nextInt(), y = scan.nextInt();
+                areas[x][y] = 1;
+            }
+
+            pro();
+        }
     }
 
-    // x, y 를 갈 수 있다는 걸 알고 방문한 상태
-    static void dfs(int x, int y) {
-        // 단지에 속한 집의 개수 증가, visit 체크 하기
-        /* TODO */
+    public static void dfs(int x , int y){
+        group_cnt++;
+        visit[x][y] = true;
 
-        // 인접한 집으로 새로운 방문하기
-        /* TODO */
+        for(int i=0;i<4;i++){
+            int dx = x + dir[i][0];
+            int dy = y + dir[i][1];
+
+            if(dx < 0 || dy < 0 || dx >= M || dy >= N) continue;
+            if(visit[dx][dy]) continue; 
+            if(areas[dx][dy] == 0 ) continue;
+            
+            dfs(dx, dy);
+        }
     }
 
-    static void pro() {
-        group = new ArrayList<>();
-        for (int i = 0; i < N; i++) {
-            for (int j = 0; j < N; j++) {
-                if (!visit[i][j] && a[i].charAt(j) == '1') {
-                    // 갈 수 있는 칸인데, 이미 방문처리 된, 즉 새롭게 만난 단지인 경우!
-                    /* TODO */
+    public static void pro(){
+        group = new ArrayList<Integer>();
+
+        for(int i=0 ; i < M ; i++){
+            for(int j=0; j < N ; j++){
+                if(!visit[i][j] && areas[i][j] == 1){
+                    group_cnt = 0 ;
+                    dfs(i,j);
+                    group.add(group_cnt);
                 }
             }
         }
 
-        // 찾은 단지의 정보를 출력하기
-        /* TODO */
+        sb.append(group.size()).append('\n');
+
     }
 
     public static void main(String[] args) {
         input();
-        pro();
+        System.out.println(sb);
     }
-
 
     static class FastReader {
         BufferedReader br;
@@ -95,5 +117,6 @@ public class ex2_2667template {
             return str;
         }
     }
+
 
 }
