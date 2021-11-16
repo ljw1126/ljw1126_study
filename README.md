@@ -71,3 +71,7 @@ personal study repository
 - 브라우저 랜더링 
   https://d2.naver.com/helloworld/59361
   https://beomy.github.io/tech/browser/browser-rendering/
+
+- ApplicationContext와 BeanFactory 비교 
+  https://velog.io/@sangwoo0727/BeanFactory%EC%99%80-Application-Context-%EB%B9%88-%EB%A1%9C%EB%94%A9%EC%8B%9C%EC%A0%90%EC%9D%98-%EC%B0%A8%EC%9D%B4
+  https://beststar-1.tistory.com/39#%EC%8A%A4%ED%94%84%EB%A7%81_%EC%BB%A8%ED%85%8C%EC%9D%B4%EB%84%88(Spring_Container)

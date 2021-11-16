@@ -13,7 +13,7 @@ What happens when you type an URL in the browser and press enter?
   - 2.사용자 OS 캐시
   - 3.router 캐시
   - 4.ISP(Internet Service Provider) 캐시 
-- 캐싱을 하는 이유는 간단하게 생각하면, **네트워크 트래픽 조절, 데이터 전송기간↓, 서버 부하↓ 하기 위해서**
+- 캐싱을 하는 이유는 간단하게 생각하면, **네트워크 트래픽 조절, 데이터 전송시간↓, 서버 부하↓ 하기 위해서**
 - 그래도 없을 경우 DNS 서버를 통해 IP주소를 찾게 됨 
 
 <center>
@@ -25,9 +25,11 @@ What happens when you type an URL in the browser and press enter?
   -  root name 서버는 *.com* 도메인 name server로 redirect함 
   -  *.com* name server는 *google.com* name server로 redirect함 
   -  *google.com* name server는 DNS 기록에서 www.google.com에 매칭되는 IP 주소를 찾고 DNS recursor로 보내게 됨 
-  - 그리고 요청자에게 return 
+  - 그리고 요청자에게 찾은 IP주소 return 
 
-#### 참고. Domain 구입 
+---
+
+#### 참고. 홈페이지(Domain) 주소 구입 
 <center>
 
 [![노마드 코더 - 왜 도메인을 돈 주고 사야해? 도메인 시스템 6분 설명!](http://img.youtube.com/vi/ao0VtQnBBXA/0.jpg)](https://youtu.be/ao0VtQnBBXA) 
@@ -48,6 +50,7 @@ What happens when you type an URL in the browser and press enter?
 <center>
     <img src="/images/cs/dns_도메인이름_등록과정.png"/>
 </center>
+
 
 
 #### 참고. 내 컴퓨터에 연결되어 있는 DNS 확인하기
@@ -99,7 +102,7 @@ What happens when you type an URL in the browser and press enter?
 <img src="/images/cs/tracert네이버.png"/>
 
 
-#### 참고 
+#### 참고 기술 블로그
 [https://it-mesung.tistory.com/180](https://it-mesung.tistory.com/180 'DNS 과정')
 [https://devjin-blog.com/what-happen-browser-search/](https://devjin-blog.com/what-happen-browser-search/ '[번역] Browser에 www.google.com을 검색하면 어떤 일이 일어날까?')
 [https://medium.com/@maneesha.wijesinghe1/what-happens-when-you-type-an-url-in-the-browser-and-press-enter-bb0aa2449c1a](https://medium.com/@maneesha.wijesinghe1/what-happens-when-you-type-an-url-in-the-browser-and-press-enter-bb0aa2449c1a 'What happens when you type a URL in the browser and press enter?')
