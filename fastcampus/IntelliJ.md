@@ -89,3 +89,4 @@
 - DMakerService.java에 validateCreateDeveloperRequest() 보면 인텔리제이 리팩토링 기능 활용해서 지역변수 선언해서 좀더 깔끔하게 할 수 있음 
   - 공통 지역변수로 사용할 부분을 선택 > 마우스 오른쪽 클릭 > Refactor > Introduce Variable .. 선택 > 전체 메소드에 대해 선택 
 - 테스트 파일 만들기 : **ctrl + shift + t**
+- javaDoc : /** + enter
