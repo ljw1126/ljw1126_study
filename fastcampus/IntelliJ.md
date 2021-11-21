@@ -90,3 +90,4 @@
   - 공통 지역변수로 사용할 부분을 선택 > 마우스 오른쪽 클릭 > Refactor > Introduce Variable .. 선택 > 전체 메소드에 대해 선택 
 - 테스트 파일 만들기 : **ctrl + shift + t**
 - javaDoc : /** + enter
+- Override 메소드 확인 및 표출(extends 한 후에) : ctrl + o
