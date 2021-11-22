@@ -36,6 +36,7 @@ What happens when you type an URL in the browser and press enter?
 
 </center>
 
+[요약]
 - GoDaddy , 한국은 가비아, 후이즈(whois), 카페 24 같은 사이트를 통해 우리는 도메인 구매하게 됨 
 - 위와 같은 사이트를 **"도메인 리셀러(중계상인)"** 이라고 생각하면 됨 
   -  도메인 리셀러들은 유저관리, 결제프로세스, 도메인 관리 등을 처리함 
@@ -103,6 +104,8 @@ What happens when you type an URL in the browser and press enter?
 
 
 #### 참고 기술 블로그
+[https://aws.amazon.com/ko/route53/what-is-dns/](https://aws.amazon.com/ko/route53/what-is-dns/ 'AWS - DNS 란')
 [https://it-mesung.tistory.com/180](https://it-mesung.tistory.com/180 'DNS 과정')
 [https://devjin-blog.com/what-happen-browser-search/](https://devjin-blog.com/what-happen-browser-search/ '[번역] Browser에 www.google.com을 검색하면 어떤 일이 일어날까?')
 [https://medium.com/@maneesha.wijesinghe1/what-happens-when-you-type-an-url-in-the-browser-and-press-enter-bb0aa2449c1a](https://medium.com/@maneesha.wijesinghe1/what-happens-when-you-type-an-url-in-the-browser-and-press-enter-bb0aa2449c1a 'What happens when you type a URL in the browser and press enter?')
+[https://velog.io/@pu1etproof/%EB%84%A4%ED%8A%B8%EC%9B%8C%ED%81%AC-%EC%8A%A4%ED%84%B0%EB%94%94-2%EC%A3%BC%EC%B0%A8-DNS-%EC%84%9C%EB%B2%84](https://velog.io/@pu1etproof/%EB%84%A4%ED%8A%B8%EC%9B%8C%ED%81%AC-%EC%8A%A4%ED%84%B0%EB%94%94-2%EC%A3%BC%EC%B0%A8-DNS-%EC%84%9C%EB%B2%84)

@@ -77,7 +77,7 @@
 
 ## live template 설정 (psvm , sout 과 같은) 
 - preference == setting 메뉴 
-- 내가원하는 템플리 추가 하기 : ctrl + alt + s > Editor > Live Template  
+- **내가원하는 템플리 추가 하기** : ctrl + alt + s > Editor > Live Template  
 - java 부분에 항목 추가 후 Abbreviation 입력창에 명칭넣고 
 - Template text에 코드 구문 넣고 
 - 하단에 언어로 JAVA 선택 해주면 됨

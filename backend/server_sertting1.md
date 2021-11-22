@@ -438,7 +438,7 @@ worker.worker2.port=8019
 | Oracle         | 1521      |
 | Tibero         | 8629      |
 | svn            | 3690      |
-| tibero         |           |
+| TCP/UDP        | 53        |
 ※ 나머지는 알아서
 
 ###### SSL 설정
