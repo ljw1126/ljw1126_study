@@ -35,8 +35,8 @@
 | 최근 파일 열기            |     ⌘E               |    ctrl + E              |
 | 터미널 창                |   ⌥F12                 |  alt + f12              |
 | 구문 완성                |   ⇧⌘Enter             |   shift + ctrl + enter   |
-| 파일 내 대체(키워드)      |    ⌘R                 |  ctrl + R                |
-| 경로 내 대체(키워드)      |    ⌘⇧R                |  ctrl + shift + R        |
+| 파일 내 Replace(키워드)* |    ⌘R                 |  **ctrl + R **               |
+| 경로 내 Replace(키워드)* |    ⌘⇧R                |  **ctrl + shift + R**        |
 | Run anything            |     ⌃ 2번                |  ctrl 2번               |
 | 에디터 실행              |     ⌃⇧R                 |    ctrl + shift + F10   |
 | 실행                     |     ⌃R                 |   shift + F10            |
@@ -91,3 +91,6 @@
 - 테스트 파일 만들기 : **ctrl + shift + t**
 - javaDoc : /** + enter
 - Override 메소드 확인 및 표출(extends 한 후에) : ctrl + o
+- 인터페이스 구현체 목록 확인 : **ctrl+ alt + b**
+- break point 관리화면 : ctrl + shift + f8 또는 **shift + shift 누른 후 remove all breakpoints 선택**
+- 리 컴파일 : ctrl + shift + f9     // view 파일 수정 후 
