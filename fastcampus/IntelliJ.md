@@ -94,3 +94,5 @@
 - 인터페이스 구현체 목록 확인 : **ctrl+ alt + b**
 - break point 관리화면 : ctrl + shift + f8 또는 **shift + shift 누른 후 remove all breakpoints 선택**
 - 리 컴파일 : ctrl + shift + f9     // view 파일 수정 후 
+- 생성자/getter/setter 등 생성 : **alt + insert** 
+- 자동정렬 : ctrl + alt + l 
