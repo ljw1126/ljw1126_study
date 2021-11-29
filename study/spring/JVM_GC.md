@@ -6,6 +6,57 @@
 
 // javac와 같은 front build/compiler도구를 통해 개발자가 작성해 놓은 코드를 byte code로 변환하면서 추상적 문법을 분석하고, JIT 를 거쳐 JVM을 통해 구현이 된다함. 
 
+<center>
+    <img src="/images/spring/jvm.png" alt=""/>
+</center>
+
+
+```
+## 기록 
+
+- JVM의 GC는 Mark & Sweep 방식을 사용
+- root space에서 참조하는 객체가 heap 에 존재하는 mark한 뒤 unreachable 객체는 sweep 함
+- Runtime data area의 root space는 다음과 같다 
+  - JVM Language Stack 
+  - Native Method Area 
+  - Method Area 
+
+## Class Loader 
+- 생성된 class 파일을 Runtime Data Area에 적재하는 역할 
+
+## Execution Engine 
+- 메모리에 적재된 클래스를 기계어로 변경해 명령어 단위로 실행하는 역할 (인터프리터, JIT 방식)
+
+## G.C(Garbage Collection)
+- heap 메모리 영역에 생성된 객체 중 reachability를 잃은 객체를 탐색 후 제거함
+
+## Runtime Data Area  
+
+*Thread 공통 영역*
+1. Heap (GC 대상)
+ - 어플리케이션 실행시 동적 생성된 객체 인스턴스를 저장하는 영역
+ - GC의 대상 
+ - 모든 Thread에서 공유하는 영역이므로 동기화 문제 발생가능 
+   - immutable 객체 사용권장
+2. Method area (root space)
+ - 프로그램의 클래스 구조를 메타 데이터처럼 가지고 있고, 메서드의 코드를 저장함 
+ - class loader가 적재한 클래스(또는 인터페이스)에 대한 메타 데이터 정보가 저장됨
+ - 해당 영역에 등록된 class 만이 heap에 생성가능
+ - 논리적으로 Heap 영역에 포함되어 PermGem 영역에 속했으나, Java8 이후 Metaspace라는 OS관리하는 영역으로 옮김
+
+*Thread별 생성 영역*
+3. JVM Language Stack (root space)
+ - 메서드 호출을 stack frame 이라는 블록으로 쌓으며, 로컬변수, 중간 연산 결과가 저장되는 영역
+ - 메서드 호출 종료시 stack에서 제거함
+4. Native method stack (root space)
+ - java 외의 언어로 작성된 native code를 위한 stack 
+ - low level(C/C++) 코드를 실행하는 영역 
+5. Pc register (root spcae)
+ - 쓰레드가 현재 실행할 스택 프레임의 주소를 저장하고 있음(가르킴)
+
+
+```
+
 #### Garbage Collector 란?
 - 프로그램이 **동적으로 할당했던 메모리 영역(Heap)** 중 **필요 없게 된 영역**을 알아서 해제 
   - 할당받은 메모리 해제가 수동으로 되면 제대로 되지 않을 경우 memory leak(메모리 누수, 컴퓨터 프로그램이 필요하지 않은 메모리를 계속 점유하고 있는 현상) 발생
@@ -47,7 +98,8 @@
   - Sweep 후에 분산된 객체들을 Heap의 시작 주소로 모아 메모리가 할당된 부분과 그렇지 않은 부분으로 나눔
 - 특징
   - 의도적으로 GC를 실행시켜야 함 
-  - 어플리케이션 실행과 GC 실행이 병행됨
+  - 어플리케이션 실행과 GC 실
+  - 행이 병행됨
   - 그래서 최적화가 어려움 
 
 #### Reachability 
@@ -116,6 +168,10 @@ Stop the world 시간을 줄이는게 GC의 중요한 부분이라고함
   - 전체 Heap이 아닌 Region 단위로 탐색 
   - compact 진행 
   - stop-the-world 최적화 실행 
+  - 
+
+
+
 
 #### 참고 기술 블로그 
 [https://d2.naver.com/helloworld/1329](https://d2.naver.com/helloworld/1329 'NAVER D2 - Java Garbage Collection')
@@ -124,6 +180,9 @@ Stop the world 시간을 줄이는게 GC의 중요한 부분이라고함
 [https://d2.naver.com/helloworld/37111](https://d2.naver.com/helloworld/37111)
 
 [https://developer.mozilla.org/ko/docs/Web/JavaScript/Memory_Management](https://developer.mozilla.org/ko/docs/Web/JavaScript/Memory_Management '자바스크립트의 메모리관리')
+[https://velog.io/@litien/JVM-%EA%B5%AC%EC%A1%B0](https://velog.io/@litien/JVM-%EA%B5%AC%EC%A1%B0 '피누.log - JVM 구조')
+[https://www.holaxprogramming.com/2013/07/16/java-jvm-runtime-data-area/](https://www.holaxprogramming.com/2013/07/16/java-jvm-runtime-data-area/)
+[https://jithub.tistory.com/40](https://jithub.tistory.com/40)
 
 #### 참고 영상
 [https://www.youtube.com/watch?v=FMUpVA0Vvjw](https://www.youtube.com/watch?v=FMUpVA0Vvjw '[10분 테코톡] 🤔 조엘의 GC')

@@ -30,6 +30,7 @@
 
 - Strem API, ramda api 
 - Primitive Type, Wrapper Class
+  https://velog.io/@gillog/%EC%9B%90%EC%8B%9C%ED%83%80%EC%9E%85-%EC%B0%B8%EC%A1%B0%ED%83%80%EC%9E%85Primitive-Type-Reference-Type
   
 - 생성인자가 많아 가독성이 떨어질때 사용하는 builder pattern 
   https://tecoble.techcourse.co.kr/post/2020-08-17-builder_pattern/
