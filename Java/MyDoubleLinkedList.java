@@ -83,6 +83,7 @@
             Node<T> newHead = new Node<T>(addData);
             newHead.next = this.head; // prev 초기화시 null 
             this.head = newHead;
+            newHead.next.prev = this.head; // 이게 빠졌네 
             return true;
         }else{ // 노드 중간에 삽입하는 경우
             Node<T> node = this.head;

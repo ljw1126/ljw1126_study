@@ -1,36 +1,46 @@
 public class MySingleLinkedListPractice<T> {
-    // head 부터 순차적으로 노드 검색
     public Node<T> head = null;
-    
-    // 생성자
+
+    // Node 생성자
     public class Node<T>{
         T data;
-        Node<T> next;
-        public Node(T data){
-            this.data = data;
+        Node next;
+
+        public Node(T value){
+            this.data = value;
             this.next = null;
         }
-
     }
-    
-    //노드 추가 
+
+    // 노드 추가
     public void addNode(T data){
         if(this.head == null){
-            this.head = new Node<T>(data);
+            this.head = new Node(data);
+            return;
         }else{
-            Node<T> node = this.head; 
+            Node<T> node = this.head;
             while(node.next != null){
-                node = node.next; 
+                node = node.next;
             }
-            node.next = new Node<T>(data);
+            node.next = new Node(data);
         }
     }
-    
-    // 전체 노드 출력
+
+    // 전체 노드 출력 
     public void printAll(){
+        /*
         if(this.head == null){
-            System.out.println("데이터가 없습니다.");
+            System.out.println("등록된 데이터가 없습니다.");
+            return;
         }else{
+            Node<T> node = this.head;
+            while(node != null){
+                System.out.println(node.data);
+                node = node.next;
+            }
+        }
+        */
+        if(this.head != null){
             Node<T> node = this.head;
             System.out.println(node.data);
             while(node.next != null){
@@ -39,91 +49,100 @@ public class MySingleLinkedListPractice<T> {
             }
         }
     }
-    
-    //해당 데이터 가진 노드 리턴 
+
+    // 해당 데이터 가진 노드 리턴 
     public Node<T> search(T data){
         if(this.head == null){
             return null;
         }else{
             Node<T> node = this.head;
             while(node != null){
-                if(node.data == data)
-                    return node; 
+                if(node.data == data){
+                    return node;
+                }
                 node = node.next;
             }
         }
         return null;
     }
     
-    // 중간에 노드 삽입 (data : 신규 삽입데이터 , isData 찾는 데이터)
-   
-    public void addNodeInside(T data, T isData){ 
-       Node<T> searched = search(isData);
-       
-       // 찾는 노드가 없는 경우 
-       if(searched == null){ 
-           this.addNode(data);
-       }else{
-           // 찾는 노드가 존재하는 경우 (searched 노드의 뒤에 삽입 )
-           Node<T> snextNode = searched.next; 
-           searched.next = new Node<T>(data);
-           searched.next.next = snextNode;
-       }
+    // 중간에 노드 삽입(찾은 데이터 next에)
+    public void addNodeInside(T data, T isData){//data는 신규 삽입 데이터, isData는 찾는 데이터
+        
+        if(this.head == null) return;
+
+        Node<T> searchNode = search(isData);
+        
+        if(searchNode == null){
+            this.addNode(data);
+            return;
+        }else{
+            Node<T> nextNode = searchNode.next;
+            searchNode.next = new Node(data);
+            searchNode.next.next = nextNode;
+        }
+
     }
     
-    // 노드 삭제 ( Integer는 Wrapper클래스 )
     public boolean delNode(T isData){
-        Node<T> node = this.head;
-        // 0. head가 null 인경우
-        if(node == null){
-            return false;
+
+        if(this.head == null){
+             return false;
         }else{
-            // head가 내가 삭제하려는 노드일때 
-            if(node.data == isData){
+
+            if(this.head.data == isData){
                 this.head = this.head.next;
                 return true;
             }else{
+                Node<T> node = this.head;
 
-                Node<T> parentNode = node; 
-                Node<T> nextNode = node.next; 
-                
-                while(nextNode != null){
-                    if(nextNode.data == isData){
-                        parentNode.next = nextNode.next;
-                        return true;  
+                while(node.next != null){
+                    if(node.next.data == isData){
+                        node.next = node.next.next;
+                        return true;
                     }
-                    parentNode = nextNode;
-                    nextNode = nextNode.next;
+                    node = node.next;
                 }
-
-            }    
+            }
 
         }
 
-       return false;
-    }// end delNode
-    
-    public static void main(String[] args) {
-        MySingleLinkedListPractice<Integer> MyLinkedList = new MySingleLinkedListPractice<Integer>();
+        return false; 
+        /* head인 경우를 빼먹음 
+        Node<T> CurrentNode = this.head;
+        Node<T> ParentNode = this.head;
+        while(CurrentNode != null){
+            if(CurrentNode.data == isData){
+                break; 
+            }   
+            ParentNode = CurrentNode;
+            CurrentNode = CurrentNode.next;
+        }
 
-        MyLinkedList.addNode(1);
-        MyLinkedList.addNode(2);
-        MyLinkedList.addNode(3);
-        MyLinkedList.addNode(4);
-        MyLinkedList.addNode(5);
+        ParentNode.next = CurrentNode.next;
 
-        MyLinkedList.printAll();
-
-        System.out.println("==============");
-        // 3 삭제 
-        MyLinkedList.delNode(3);
-        MyLinkedList.printAll();
-
-        System.out.println("==============");
-        // 4 삽입 
-        MyLinkedList.addNodeInside(4,4);
-        MyLinkedList.addNodeInside(6,4);
-        MyLinkedList.printAll();
-
+        return true; 
+        */
     }
+
+
+    public static void main(String[] args) {
+        MySingleLinkedListPractice<Integer> ll = new MySingleLinkedListPractice<>();
+        ll.addNode(1);
+        ll.addNode(2);
+        ll.addNode(4);
+        ll.addNode(5);
+
+        ll.printAll();
+        
+        System.out.println("===============================");
+
+        ll.addNodeInside(3, 4);
+        ll.printAll();
+        System.out.println("===============================");
+        ll.delNode(4);
+        ll.printAll();
+        
+    }
+
 }

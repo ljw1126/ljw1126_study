@@ -2,30 +2,42 @@
 import java.util.*;
 
 public class MyQueuePractice<T> {
-    private ArrayList<T> queue = new ArrayList<T>();
-    
-    public void enqueue(T item) {
+    ArrayList<T> queue = new ArrayList<>();
+
+    public void push(T item){
         queue.add(item);
     }
-    
-    public T dequeue() {
-        if(queue.isEmpty())
-            return null;    
-        return queue.remove(0);    
+
+    public T pop(){
+        if(queue.isEmpty()) return null;
+
+        return queue.remove(0);
     }
-    
-    public boolean isEmpty() {
-        return queue.isEmpty(); 
+
+    public boolean isEmpty(){
+        return queue.isEmpty();
     }
+
+    public void printAll(){
     
+        if(queue.isEmpty()){
+            System.out.println("데이터가 없습니다.");
+            return;
+        }
+
+        for(int i=0;i<queue.size();i++){
+            System.out.println(queue.get(i));
+        }
+
+    }
+
     public static void main(String[] args) {
-        MyQueuePractice<Integer> mq = new MyQueuePractice<Integer>();
-        mq.enqueue(1);
-        mq.enqueue(2);
-        mq.enqueue(3);
-        System.out.println(mq.dequeue());
-        System.out.println(mq.dequeue());
-        System.out.println(mq.dequeue());        
+        MyQueuePractice<Integer> myque = new MyQueuePractice<>();
+        myque.push(1);
+        myque.push(2);
+        myque.printAll();
+        System.out.println(myque.pop());
+        System.out.println(myque.pop());
+        myque.printAll();
     }
-    
 }
