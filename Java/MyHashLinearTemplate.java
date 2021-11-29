@@ -18,17 +18,17 @@ public class MyHashLinearTemplate {
         return false;
     }
 
-    public String getDate(String key){
+    public String getData(String key){
         return null;
     }
 
     public static void main(String[] args) {
-        MyHashLinear mainObject = new MyHashLinear(20);
+        MyHashLinearTemplate mainObject = new MyHashLinearTemplate(20);
         mainObject.saveData("DaveLee", "01022223333");
         mainObject.saveData("fun-coding", "01033334444");
         mainObject.saveData("David", "01044445555");
         mainObject.saveData("Dave", "01055556666");
-        System.out.println(mainObject.getDate("Dave")); 
+        System.out.println(mainObject.getData("Dave")); 
     }
 
 }

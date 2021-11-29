@@ -67,6 +67,53 @@
         return null;
     }
 
+    /*
+        211129 좀더 깔끔 
+        public boolean saveData(String key, String value){
+
+        int hash = this.hashFunc(key);
+
+        if(this.hashTable[hash] == null){
+            this.hashTable[hash] = new Slot(key, value);
+            return true;
+        }else{
+
+            while(this.hashTable[hash] != null){
+                if(this.hashTable[hash].key == key){
+                    this.hashTable[hash].value = value;
+                    return true;
+                }
+                hash++;
+                if(this.hashTable.length <= hash) return false;
+            }
+            
+            this.hashTable[hash] = new Slot(key, value);
+            return true;
+                        
+        }
+    }
+
+    public String getData(String key){
+        int hash = this.hashFunc(key);
+
+        if(this.hashTable[hash] != null){
+            
+            while(this.hashTable[hash] != null){
+                if(this.hashTable[hash].key == key){
+                    return this.hashTable[hash].value;
+                }
+                hash++;
+                if(this.hashTable.length <= hash) return null;
+            }
+
+        }
+
+        return null;
+    }
+
+
+    */
+
     public static void main(String[] args) {
         MyHashLinear mainObject = new MyHashLinear(20);
         mainObject.saveData("DaveLee", "01022223333");

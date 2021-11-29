@@ -20,7 +20,7 @@ public class LinkedListEx<E> {
         head = crnt = null;
     }
 
-    //노드 검색 
+    //노드 검색     
     /*
         Comparator<? super E> c 에 대해 
         - 클래스 T(또는 클래스 T의 슈퍼클래스)로 생성한 두 객체의 

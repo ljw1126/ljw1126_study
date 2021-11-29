@@ -67,6 +67,57 @@ public class MyHashChaining {
         return null;
     }
 
+    /*
+    // 211129 
+    public boolean saveData(String key, String value){
+        int hash = this.hashFunc(key);
+
+        if(this.hashTable[hash] == null){
+            this.hashTable[hash] = new Slot(key, value);
+            return true;
+        }else{
+            Slot slot = this.hashTable[hash];
+            if(slot.key == key){
+                slot.value = value;
+                return true;
+            }else{
+                while(slot.next != null){
+                    if(slot.next.key == key){
+                        slot.next.value = value;
+                        return true;
+                    }
+                    slot = slot.next;
+                }
+                
+                slot.next = new Slot(key, value);
+                return true;
+            }     
+        }
+
+    }
+
+    public String getData(String key){
+        
+        int hash = this.hashFunc(key);
+        if(this.hashTable[hash] != null){
+
+            Slot slot = this.hashTable[hash];
+            if(slot.key == key){
+                return slot.value;
+            }
+
+            while(slot.next != null){
+                if(slot.next.key == key){
+                    return slot.next.value;
+                }
+                slot = slot.next;
+            }
+        }
+        return null;
+    }
+
+    */
+
     public static void main(String[] args) {
         MyHashChaining mainObject = new MyHashChaining(20);
         mainObject.saveData("DaveLee", "01022223333");
