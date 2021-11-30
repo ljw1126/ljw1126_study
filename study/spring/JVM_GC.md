@@ -10,6 +10,10 @@
     <img src="/images/spring/jvm.png" alt=""/>
 </center>
 
+<center>
+    <img src="/images/spring/runtime_data_area.png" alt=""/>
+</center>
+
 
 ```
 ## 기록 
@@ -51,13 +55,13 @@
 4. Native method stack (root space)
  - java 외의 언어로 작성된 native code를 위한 stack 
  - low level(C/C++) 코드를 실행하는 영역 
-5. Pc register (root spcae)
+5. Pc register
  - 쓰레드가 현재 실행할 스택 프레임의 주소를 저장하고 있음(가르킴)
 
 
 ```
 
-#### Garbage Collector 란?
+#### Garbage Collection 란?
 - 프로그램이 **동적으로 할당했던 메모리 영역(Heap)** 중 **필요 없게 된 영역**을 알아서 해제 
   - 할당받은 메모리 해제가 수동으로 되면 제대로 되지 않을 경우 memory leak(메모리 누수, 컴퓨터 프로그램이 필요하지 않은 메모리를 계속 점유하고 있는 현상) 발생
 - JVM의 heap 영역에서 사용하지 않는 객체를 **삭제하는 프로세스**를 말함
@@ -98,8 +102,7 @@
   - Sweep 후에 분산된 객체들을 Heap의 시작 주소로 모아 메모리가 할당된 부분과 그렇지 않은 부분으로 나눔
 - 특징
   - 의도적으로 GC를 실행시켜야 함 
-  - 어플리케이션 실행과 GC 실
-  - 행이 병행됨
+  - 어플리케이션 실행과 GC 실행이 병행됨
   - 그래서 최적화가 어려움 
 
 #### Reachability 
@@ -111,6 +114,8 @@
   - JNI(Java Native Interface)에 의해 생선된 객체들
 - GC Roots가 참조하고 있는 Heap 영역의 데이터가 있으면 Reachable, 없으면 Unreachable
 
+
+
 #### Heap의 구조 
 - Young Generation : 새로운 객체들이 할당되는 영역
   - Eden 
@@ -119,8 +124,11 @@
 - Old Generation : Young Generation영역에서 오랫동안 살아남은 객체들이 존재하는 영역(객체의 age-bit값이 기준치 만족할때 young에서 old로 이동(=promotion)함)
 - meta space : 가바지 컬렉션 시에 필요한 클래스와 메소드의 요약 정보가 존재하는 영역 
 
-// 이미지 넣기 
-Eden 에 Minor GC 발생 > survior 0 또는 survior 1 번갈아 가며 객체 저장 > unreachable 객체 지움
+<center>
+    <img src="/images/spring/heap.png" alt=""/>
+</center>
+
+Eden 에 Minor GC 발생 > survior 0 또는 survior 1 번갈아 가며 객체 저장 > unreachable 객체 정리, 살아남은 객체는 age-bit 증가 
 // (규칙)이때 survior 0 또는 survior 1 둘중 하나는 반드시 비워져 있어야함 (둘다 꽉찼으면 문제가 있다는거)
 
 #### Weak Generational Hypothesis 
@@ -173,17 +181,18 @@ Stop the world 시간을 줄이는게 GC의 중요한 부분이라고함
 
 
 
-#### 참고 기술 블로그 
+#### 참고. 기술 블로그 
 [https://d2.naver.com/helloworld/1329](https://d2.naver.com/helloworld/1329 'NAVER D2 - Java Garbage Collection')
 [https://d2.naver.com/helloworld/329631](https://d2.naver.com/helloworld/329631)
-[https://d2.naver.com/helloworld/6043](https://d2.naver.com/helloworld/6043)
-[https://d2.naver.com/helloworld/37111](https://d2.naver.com/helloworld/37111)
+[https://d2.naver.com/helloworld/6043](https://d2.naver.com/helloworld/6043 'Garbage Collection 모니터링 방법')
+[https://d2.naver.com/helloworld/37111](https://d2.naver.com/helloworld/37111 'Garbage Collection 튜닝')
+
 
 [https://developer.mozilla.org/ko/docs/Web/JavaScript/Memory_Management](https://developer.mozilla.org/ko/docs/Web/JavaScript/Memory_Management '자바스크립트의 메모리관리')
 [https://velog.io/@litien/JVM-%EA%B5%AC%EC%A1%B0](https://velog.io/@litien/JVM-%EA%B5%AC%EC%A1%B0 '피누.log - JVM 구조')
 [https://www.holaxprogramming.com/2013/07/16/java-jvm-runtime-data-area/](https://www.holaxprogramming.com/2013/07/16/java-jvm-runtime-data-area/)
 [https://jithub.tistory.com/40](https://jithub.tistory.com/40)
 
-#### 참고 영상
-[https://www.youtube.com/watch?v=FMUpVA0Vvjw](https://www.youtube.com/watch?v=FMUpVA0Vvjw '[10분 테코톡] 🤔 조엘의 GC')
-[https://youtu.be/Fe3TVCEJhzo](https://youtu.be/Fe3TVCEJhzo '[10분 테코톡] 🐥엘리의 GC')
+#### 참고. 영상
+[![10분 테코톡 🤔 조엘의 GC](http://img.youtube.com/vi/FMUpVA0Vvjw/0.jpg)](https://www.youtube.com/watch?v=FMUpVA0Vvjw) 
+[![10분 테코톡 🐥엘리의 GC](http://img.youtube.com/vi/Fe3TVCEJhzo/0.jpg)](https://www.youtube.com/watch?v=Fe3TVCEJhzo) 
