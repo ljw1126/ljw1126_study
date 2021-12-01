@@ -24,7 +24,7 @@ import java.io.*;
     15
 
     // 20억에서 계속 R의 범위가 mid -1 만큼 줄어들고, 27부터 계산 들어감  
-    L R   | mid    determinaton(H)
+    L R   | mid(=H)    determinaton(H)
     0 27  | 13          13 >= 7 (T : true)
     14 27 | 20          0 >= 7 (F: false ) 
     14 19 | 16          5 >= 7 (F)

@@ -22,10 +22,10 @@
 |문제1|부분합|난이도3|[https://www.acmicpc.net/problem/1806](https://www.acmicpc.net/problem/1806)|
 |추천문제||||
 |추천1|수들의 합2|실버3(문제1비슷)|[https://www.acmicpc.net/problem/2003](https://www.acmicpc.net/problem/2003)|
-|추천2|수열|실버3(for범위실수)|[https://www.acmicpc.net/problem/2559](https://www.acmicpc.net/problem/2559)|
+|추천2|수열|실버3(for범위실수,또실수)|[https://www.acmicpc.net/problem/2559](https://www.acmicpc.net/problem/2559)|
 |추천3|귀여운 라이언|실버1(직접품)|[https://www.acmicpc.net/problem/15565](https://www.acmicpc.net/problem/15565)|
-|추천4|배열 합치기|실버5(직적품)|[https://www.acmicpc.net/problem/11728](https://www.acmicpc.net/problem/11728)|
-|추천5|수 고르기|골드5|[https://www.acmicpc.net/problem/2230](https://www.acmicpc.net/problem/2230)|
+|추천4|배열 합치기|실버5(직접품,병합정렬)|[https://www.acmicpc.net/problem/11728](https://www.acmicpc.net/problem/11728)|
+|추천5|수 고르기|골드5(틀려서참고)|[https://www.acmicpc.net/problem/2230](https://www.acmicpc.net/problem/2230)|
 |||||
 |문제2|두 용액||[https://www.acmicpc.net/problem/2470](https://www.acmicpc.net/problem/2470)|
 |추천문제||||
@@ -57,6 +57,7 @@
       - 2. 오른쪽 끝 R을 이전의 단계 R(조건충족하는) 부터 시작해서 이동
       - 3. L,R이 각자 최대 N번 이동하니깐 **O(N)**
 
+    | 5 | 1 | 3 | 5 | 10 | 7 | 4 | 9 | 2 | 8 |
 
 |L\\R| 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 |
 |:--:|:--:|:--:|:--:|:--:|:--:|:--:|:--:|:--:|:--:|:--:|
@@ -114,7 +115,7 @@
 - 개선된 방법 O(N^2)
   - 1. 왼쪽 시작 L 결정 => O(N)
   - 2. 오른쪽 끝을 R을 L부터 시작해서 이동 => O(N)
-  - 3. R을 이동해서 추가된 원소가 [L,R-1]안에 있는지 확인 => O(1)   //? 
+  - 3. R을 이동해서 추가된 원소가 [L,R-1]안에 있는지 확인 => O(1)   //count배열에 값이 1이면 있다는 게 확인되니 
   - 숫자마다 [L,R]안에 몇개나 있는지를 직접 세자! => count sorting  
   - count라는 배열을 L,R이동시 잘 처리 해야함
 - 투 포인터 방법 O(N) // **count 배열과 포인트 이동하면서 카운트를 누적해서 결과 구함**

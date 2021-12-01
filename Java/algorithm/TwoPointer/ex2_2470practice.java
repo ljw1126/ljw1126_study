@@ -1,67 +1,47 @@
-﻿package algorithm.TwoPointer.recommandEx;
+package algorithm.TwoPointer;
 
 import java.util.*;
 import java.io.*;
 
-/*
-    수 고르기 - 골드 5
-    https://www.acmicpc.net/problem/2230
-*/
-public class ex5_2230 {
+public class ex2_2470practice {
+    
     static StringBuilder sb = new StringBuilder();
     static FastReader scan = new FastReader();
 
-    static int N, M;
+    static int N, sum;
     static int[] a;
 
-    static void input() {
+    public static void input(){
         N = scan.nextInt();
-        M = scan.nextInt();
-        a = new int[N + 1];
-        for (int i = 1; i <= N; i++) {
+        a = new int[N+1];
+        for(int i=1; i < N+1; i++){
             a[i] = scan.nextInt();
-        }
+        } 
     }
 
-    static void pro() {
-        // 투 포인터 기법을 쓰기 위해서 정렬 해주기
-        Arrays.sort(a,1,N+1);
-        /*
-        직접풀어서 답은 구했는데 틀림
-        int L=1, R = N, ans = Integer.MAX_VALUE;
-        int sum;
+    public static void pro(){
+        Arrays.sort(a, 1, N+1); // 1번 인덱스 ~ N번 인덱스까지 정렬 
+
+        int best_sum = Integer.MAX_VALUE; // 최대치로 설정
+        int v1 = 0, v2 = 0, L = 1 , R = N;
         
-        while(L<R){
-            sum = Math.abs(a[L] - a[R]);
-            if(sum >= M){
-                ans = Math.min(ans, sum);
+        while(L < R){
+            //L==R인 상황이면 용액이 한개 뿐이므로, L<R일때까지만 반복함 
+            sum = a[L] + a[R];
+            
+            if(Math.abs(sum) < best_sum){
+                v1 = a[L];
+                v2 = a[R];
+                best_sum = Math.abs(sum);
             }
 
-            if(sum >= M) R--;
+            if(sum > 0) R--;
             else L++;
         }
-     
-        System.out.println(ans);
-        */
 
-        /*
-            틀린 내용 
-            - while문의 부등호 a[R] - a[L] <= M 로 하는 바람에 틀렸음
-            - 배열 값이 0이상이기 떄문에 Math.abs()를 사용할 필요 x 
-        */
-        int R = 1, ans = Integer.MAX_VALUE;
-        for (int L = 1; L <= N; L++) {
-            // 필요한 만큼 R을 오른쪽으로 이동 시키기
-            while(R+1 <= N && a[R] - a[L] < M){
-                R++;
-            }
-         
-            if(a[R] - a[L] >= M){
-                 ans = Math.min(ans, a[R] - a[L]);
-            }
-        }
-
-        System.out.println(ans);
+        //결과 출력 
+        sb.append(v1).append(' ').append(v2);
+        System.out.println(sb);
     }
 
     public static void main(String[] args) {
@@ -113,5 +93,5 @@ public class ex5_2230 {
             }
             return str;
         }
-    }
+    } 
 }

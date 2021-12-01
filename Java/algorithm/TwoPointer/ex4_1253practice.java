@@ -1,66 +1,63 @@
-﻿package algorithm.TwoPointer.recommandEx;
+package algorithm.TwoPointer;
 
 import java.util.*;
 import java.io.*;
-
 /*
-    수 고르기 - 골드 5
-    https://www.acmicpc.net/problem/2230
+    좋다(골드4)
+    https://www.acmicpc.net/problem/1253
+    
+    직접푼거는 틀림(211201)
 */
-public class ex5_2230 {
+public class ex4_1253practice {
+    
     static StringBuilder sb = new StringBuilder();
     static FastReader scan = new FastReader();
 
-    static int N, M;
-    static int[] a;
+    static int N;
+    static int[] Ai; 
 
-    static void input() {
+    public static void input(){
         N = scan.nextInt();
-        M = scan.nextInt();
-        a = new int[N + 1];
-        for (int i = 1; i <= N; i++) {
-            a[i] = scan.nextInt();
+        Ai = new int[N+1];
+        for(int i=1 ; i<=N ;i++){
+            Ai[i] = scan.nextInt();
         }
     }
 
-    static void pro() {
-        // 투 포인터 기법을 쓰기 위해서 정렬 해주기
-        Arrays.sort(a,1,N+1);
-        /*
-        직접풀어서 답은 구했는데 틀림
-        int L=1, R = N, ans = Integer.MAX_VALUE;
-        int sum;
-        
-        while(L<R){
-            sum = Math.abs(a[L] - a[R]);
-            if(sum >= M){
-                ans = Math.min(ans, sum);
+    // target_idx 번쨰 원소가 서로 다른 두 수의 합으로 표현이 되는가?
+    static boolean func(int target_idx){
+        int L=1, R = N;
+        int target = Ai[target_idx];
+        while(L < R){
+            // int sum = Ai[L] + Ai[R];
+
+            // if(sum == target) return true;
+            // else if(sum > target) R--;
+            // else L++;
+
+            if(L == target_idx) L++;
+            else if(R == target_idx) R--;
+            else{
+                
+                if(Ai[L]+Ai[R] == target) return true;
+                else if(Ai[L] + Ai[R] > target) R--;
+                else L++;
+
             }
 
-            if(sum >= M) R--;
-            else L++;
         }
-     
-        System.out.println(ans);
-        */
+        return false;
+    }
 
-        /*
-            틀린 내용 
-            - while문의 부등호 a[R] - a[L] <= M 로 하는 바람에 틀렸음
-            - 배열 값이 0이상이기 떄문에 Math.abs()를 사용할 필요 x 
-        */
-        int R = 1, ans = Integer.MAX_VALUE;
-        for (int L = 1; L <= N; L++) {
-            // 필요한 만큼 R을 오른쪽으로 이동 시키기
-            while(R+1 <= N && a[R] - a[L] < M){
-                R++;
-            }
-         
-            if(a[R] - a[L] >= M){
-                 ans = Math.min(ans, a[R] - a[L]);
-            }
+    public static void pro(){
+        //최소, 최대를 빠르게 알기 위한 정렬 
+        Arrays.sort(Ai, 1, N+1); // 1~N번 인덱스까지 정렬 
+
+        int ans = 0;
+        for(int i=1; i<=N;i++){
+            //i번째 원소가 서로 다른 두 수의 합으로 표현되는가?
+            if(func(i)) ans++;
         }
-
         System.out.println(ans);
     }
 

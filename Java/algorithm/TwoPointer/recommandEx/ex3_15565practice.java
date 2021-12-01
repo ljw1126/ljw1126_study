@@ -1,66 +1,45 @@
-﻿package algorithm.TwoPointer.recommandEx;
+package algorithm.TwoPointer.recommandEx;
 
 import java.util.*;
 import java.io.*;
 
-/*
-    수 고르기 - 골드 5
-    https://www.acmicpc.net/problem/2230
-*/
-public class ex5_2230 {
-    static StringBuilder sb = new StringBuilder();
+public class ex3_15565practice {
+    
     static FastReader scan = new FastReader();
+    static StringBuilder sb = new StringBuilder();
 
-    static int N, M;
-    static int[] a;
+    static int N, K;
+    static int[] A;
 
     static void input() {
         N = scan.nextInt();
-        M = scan.nextInt();
-        a = new int[N + 1];
+        K = scan.nextInt();
+        A = new int[N + 1];
         for (int i = 1; i <= N; i++) {
-            a[i] = scan.nextInt();
+            A[i] = scan.nextInt();
         }
     }
-
+    
+    // 라이언 인형 : 1 , 어피치 인형 2
+    // 라이언 인형이 K개 이상이 되는 집합중 가장 작은 집합 크기 
     static void pro() {
-        // 투 포인터 기법을 쓰기 위해서 정렬 해주기
-        Arrays.sort(a,1,N+1);
-        /*
-        직접풀어서 답은 구했는데 틀림
-        int L=1, R = N, ans = Integer.MAX_VALUE;
-        int sum;
-        
-        while(L<R){
-            sum = Math.abs(a[L] - a[R]);
-            if(sum >= M){
-                ans = Math.min(ans, sum);
+        int right = 0, ans = Integer.MAX_VALUE, sum = 0; // ans 가 -1 이었는데.. 
+        for (int left = 1; left <= N; left++) {
+            // [left ... ] 와 같이 left 부터 시작하는 연속 부분 수열 중에서
+            // 라이언 인형이 K 개가 되는 최소 right 위치까지 right를 이동 시키기
+            while(right + 1 <= N && sum < K){
+                if(A[++right] == 1) sum++;
             }
 
-            if(sum >= M) R--;
-            else L++;
-        }
-     
-        System.out.println(ans);
-        */
+            if (sum == K) {
+                ans = Math.min(ans, right-left+1);
+            }
 
-        /*
-            틀린 내용 
-            - while문의 부등호 a[R] - a[L] <= M 로 하는 바람에 틀렸음
-            - 배열 값이 0이상이기 떄문에 Math.abs()를 사용할 필요 x 
-        */
-        int R = 1, ans = Integer.MAX_VALUE;
-        for (int L = 1; L <= N; L++) {
-            // 필요한 만큼 R을 오른쪽으로 이동 시키기
-            while(R+1 <= N && a[R] - a[L] < M){
-                R++;
-            }
-         
-            if(a[R] - a[L] >= M){
-                 ans = Math.min(ans, a[R] - a[L]);
-            }
+            // 이후에 left를 오른쪽으로 한 칸 이동시킬 것이므로 라이언 인형 개수 조정하기
+            if(A[left] == 1) sum--;     
         }
 
+        if(ans == Integer.MAX_VALUE) ans = -1;
         System.out.println(ans);
     }
 
@@ -68,6 +47,7 @@ public class ex5_2230 {
         input();
         pro();
     }
+
 
     static class FastReader {
         BufferedReader br;
@@ -114,4 +94,5 @@ public class ex5_2230 {
             return str;
         }
     }
+
 }

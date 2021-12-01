@@ -1,22 +1,19 @@
-﻿package algorithm.TwoPointer.recommandEx;
+package algorithm.TwoPointer.recommandEx;
 
 import java.util.*;
 import java.io.*;
 
-/*
-    수 고르기 - 골드 5
-    https://www.acmicpc.net/problem/2230
-*/
-public class ex5_2230 {
+public class ex2_2559practice {
+    
     static StringBuilder sb = new StringBuilder();
     static FastReader scan = new FastReader();
 
-    static int N, M;
+    static int N, K;
     static int[] a;
 
     static void input() {
         N = scan.nextInt();
-        M = scan.nextInt();
+        K = scan.nextInt();
         a = new int[N + 1];
         for (int i = 1; i <= N; i++) {
             a[i] = scan.nextInt();
@@ -24,41 +21,20 @@ public class ex5_2230 {
     }
 
     static void pro() {
-        // 투 포인터 기법을 쓰기 위해서 정렬 해주기
-        Arrays.sort(a,1,N+1);
-        /*
-        직접풀어서 답은 구했는데 틀림
-        int L=1, R = N, ans = Integer.MAX_VALUE;
-        int sum;
+        int R = 0, sum = 0, ans = Integer.MIN_VALUE;
         
-        while(L<R){
-            sum = Math.abs(a[L] - a[R]);
-            if(sum >= M){
-                ans = Math.min(ans, sum);
-            }
+        for (int L = 1; L + K -1 <= N; L++) { // L + K - 1 
+            // L - 1 을 구간에서 제외하기
+            sum -= a[L-1];
 
-            if(sum >= M) R--;
-            else L++;
-        }
-     
-        System.out.println(ans);
-        */
-
-        /*
-            틀린 내용 
-            - while문의 부등호 a[R] - a[L] <= M 로 하는 바람에 틀렸음
-            - 배열 값이 0이상이기 떄문에 Math.abs()를 사용할 필요 x 
-        */
-        int R = 1, ans = Integer.MAX_VALUE;
-        for (int L = 1; L <= N; L++) {
-            // 필요한 만큼 R을 오른쪽으로 이동 시키기
-            while(R+1 <= N && a[R] - a[L] < M){
+            // R 을 옮길 수 있을 때 까지 옮기기
+            while( R+1 <= L+K-1){ // 범위 또 틀림 R+1 <= N && R-L+1 < K
                 R++;
+                sum += a[R];
             }
-         
-            if(a[R] - a[L] >= M){
-                 ans = Math.min(ans, a[R] - a[L]);
-            }
+            // [L ... R] 의 합, 즉 sum이 조건을 만족하면 정답 갱신하기
+            System.out.println(L + "," + R + " => sum " + sum);
+            ans = Math.max(ans, sum);
         }
 
         System.out.println(ans);
@@ -114,4 +90,5 @@ public class ex5_2230 {
             return str;
         }
     }
+
 }

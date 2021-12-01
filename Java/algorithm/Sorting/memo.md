@@ -13,7 +13,7 @@
 
 | Primitive 원소정렬(In-place Sort) | Object 원소 정렬(Stable-Sort) | 
 |:------:|:--------:|
-|- Dual-Pivot Quick Sort<br/> - 최선 O(N) <br/> - 최악 O(N^2) <br/> -평균 O(N log N) | - Tim Sort <br/>- 최선 O(N) <br/> - 최악 O(N log N ) <br/> -평균 O(N log N)|
+|- Dual-Pivot Quick Sort<br/> - 최선 O(N) <br/> - 최악 O(N^2) <br/> -평균 O(N log N) | - Tim Sort(select, merge정렬) <br/>- 최선 O(N) <br/> - 최악 O(N log N ) <br/> -평균 O(N log N)|
 
 - In-place / Stable 여부를 알아야 함 
   - 정렬 알고리즘이 **In-place(제자리)** 한가?

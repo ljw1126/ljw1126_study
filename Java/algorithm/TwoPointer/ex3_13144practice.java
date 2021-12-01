@@ -1,64 +1,48 @@
-﻿package algorithm.TwoPointer.recommandEx;
+package algorithm.TwoPointer;
 
 import java.util.*;
 import java.io.*;
-
 /*
-    수 고르기 - 골드 5
-    https://www.acmicpc.net/problem/2230
+    https://www.acmicpc.net/problem/13144
+
+    그러니깐 투포인트 방식으로 카운트 배열 하나 사용해서 
+    L 을 1~ 배열길이만큼 반복문 돌떄 
+    각각 R이 중복값이 안나오는 때까지 돌려서 길이를 구해 축적을 하면됨 
+
+    ex1_1806하고 로직 동일하게 작성해봄 
 */
-public class ex5_2230 {
+public class ex3_13144practice {
+   
     static StringBuilder sb = new StringBuilder();
     static FastReader scan = new FastReader();
 
-    static int N, M;
-    static int[] a;
+    static int N;
+    static int[] a,cnt;
 
-    static void input() {
+    public static void input(){
         N = scan.nextInt();
-        M = scan.nextInt();
-        a = new int[N + 1];
-        for (int i = 1; i <= N; i++) {
-            a[i] = scan.nextInt();
-        }
+        a = new int[N+1];
+        cnt = new int[N+1];
+        for(int i=1 ; i <= N ; i++ ) a[i] = scan.nextInt();
+        
     }
 
-    static void pro() {
-        // 투 포인터 기법을 쓰기 위해서 정렬 해주기
-        Arrays.sort(a,1,N+1);
-        /*
-        직접풀어서 답은 구했는데 틀림
-        int L=1, R = N, ans = Integer.MAX_VALUE;
-        int sum;
-        
-        while(L<R){
-            sum = Math.abs(a[L] - a[R]);
-            if(sum >= M){
-                ans = Math.min(ans, sum);
-            }
+    public static void pro(){
+        long ans = 0;
 
-            if(sum >= M) R--;
-            else L++;
-        }
-     
-        System.out.println(ans);
-        */
-
-        /*
-            틀린 내용 
-            - while문의 부등호 a[R] - a[L] <= M 로 하는 바람에 틀렸음
-            - 배열 값이 0이상이기 떄문에 Math.abs()를 사용할 필요 x 
-        */
-        int R = 1, ans = Integer.MAX_VALUE;
-        for (int L = 1; L <= N; L++) {
-            // 필요한 만큼 R을 오른쪽으로 이동 시키기
-            while(R+1 <= N && a[R] - a[L] < M){
+        for(int L=1, R=0; L<=N; L++){
+            
+            // L을 옮겨주면서 A[L]의 개수를 감소시킨다.
+            if(L > 1) cnt[a[L-1]]--;
+            
+            // R을 옮길 수 있는 만큼 옮긴다.
+            while( R+1 <= N && cnt[a[R+1]] == 0){
                 R++;
+                cnt[a[R]]++;
             }
-         
-            if(a[R] - a[L] >= M){
-                 ans = Math.min(ans, a[R] - a[L]);
-            }
+
+            // 정답을 갱신한다.
+            ans += R - L + 1;
         }
 
         System.out.println(ans);

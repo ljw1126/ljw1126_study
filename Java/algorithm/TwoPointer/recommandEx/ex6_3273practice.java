@@ -1,64 +1,44 @@
-﻿package algorithm.TwoPointer.recommandEx;
+package algorithm.TwoPointer.recommandEx;
 
 import java.util.*;
 import java.io.*;
-
 /*
-    수 고르기 - 골드 5
-    https://www.acmicpc.net/problem/2230
+    두 수의 합 (실버 3) - 투 포인터로 풀이 
+    https://www.acmicpc.net/problem/3273
+
 */
-public class ex5_2230 {
+public class ex6_3273practice {
+    
     static StringBuilder sb = new StringBuilder();
     static FastReader scan = new FastReader();
 
-    static int N, M;
+    static int n, x;
     static int[] a;
 
     static void input() {
-        N = scan.nextInt();
-        M = scan.nextInt();
-        a = new int[N + 1];
-        for (int i = 1; i <= N; i++) {
+        // 입력 받기
+        n = scan.nextInt();
+        a = new int[n+1];
+
+        for(int i=1; i <= n; i++){
             a[i] = scan.nextInt();
         }
+
+        x = scan.nextInt();
+        // 입력 배열 정렬하기
+        
+        Arrays.sort(a, 1, n+1);
     }
 
     static void pro() {
-        // 투 포인터 기법을 쓰기 위해서 정렬 해주기
-        Arrays.sort(a,1,N+1);
-        /*
-        직접풀어서 답은 구했는데 틀림
-        int L=1, R = N, ans = Integer.MAX_VALUE;
-        int sum;
-        
+        int ans = 0, L = 1, R = n;
+        // L과 R을 양쪽 끝에서 이동시키면서 정답 계산하기
         while(L<R){
-            sum = Math.abs(a[L] - a[R]);
-            if(sum >= M){
-                ans = Math.min(ans, sum);
-            }
-
-            if(sum >= M) R--;
+            int sum = a[L] + a[R];
+            if(sum == x) ans++;
+            
+            if(sum > x) R--;
             else L++;
-        }
-     
-        System.out.println(ans);
-        */
-
-        /*
-            틀린 내용 
-            - while문의 부등호 a[R] - a[L] <= M 로 하는 바람에 틀렸음
-            - 배열 값이 0이상이기 떄문에 Math.abs()를 사용할 필요 x 
-        */
-        int R = 1, ans = Integer.MAX_VALUE;
-        for (int L = 1; L <= N; L++) {
-            // 필요한 만큼 R을 오른쪽으로 이동 시키기
-            while(R+1 <= N && a[R] - a[L] < M){
-                R++;
-            }
-         
-            if(a[R] - a[L] >= M){
-                 ans = Math.min(ans, a[R] - a[L]);
-            }
         }
 
         System.out.println(ans);
@@ -66,6 +46,7 @@ public class ex5_2230 {
 
     public static void main(String[] args) {
         input();
+        //System.out.println(Arrays.toString(a));
         pro();
     }
 
@@ -114,4 +95,5 @@ public class ex5_2230 {
             return str;
         }
     }
+
 }

@@ -47,16 +47,16 @@ public class ex1_7795 {
         }
     }
 
-    static int lower_bound(int[] B, int L, int R, int A) {
+    static int lower_bound(int[] A, int L, int R, int X) {
         // B[L...R] 에서 A 미만의 수(A 보다 작은 수) 중 제일 오른쪽 인덱스를 return 하는 함수
         // 그런 게 없다면 L - 1 을 return 한다
         int result = L - 1;
         while(L <= R){ // 만약 B[L...R] 중 A 이하의 수가 없다면 L - 1 을 return 한다.
             int mid = (L+R)/2;
-            if( B[mid] < A){
+            if( A[mid] < X){
                 result = mid; 
                 L = mid + 1;
-            }else if(B[mid] >= A){
+            }else if(A[mid] >= X){
                 R = mid -1;
             }
         }

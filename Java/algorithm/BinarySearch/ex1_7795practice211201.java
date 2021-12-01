@@ -1,35 +1,41 @@
-﻿package algorithm.BinarySearch;
+package algorithm.BinarySearch;
 
 import java.util.*;
 import java.io.*;
 
-public class ex2_2470practice {
+public class ex1_7795practice211201 {
+    
     static FastReader scan = new FastReader();
     static StringBuilder sb = new StringBuilder();
 
-    static int N;
-    static int[] A;
+    static int N, M;
+    static int[] A, B;
 
     static void input() {
         N = scan.nextInt();
+        M = scan.nextInt();
         A = new int[N + 1];
+        B = new int[M + 1];
         for (int i = 1; i <= N; i++) {
             A[i] = scan.nextInt();
         }
+        for (int i = 1; i <= M; i++) {
+            B[i] = scan.nextInt();
+        }
     }
 
-    static int lower_bound(int[] A, int L, int R, int X) {
-        // A[L...R] 에서 X 이상의 수 중 제일 왼쪽 인덱스를 return 하는 함수
-        // 그런 게 없다면 R + 1 을 return 한다
-        int result = R+1;
+    static int lower_bound(int[] B, int L, int R, int A) {
+        // B[L...R] 에서 A 미만의 수(A 보다 작은 수) 중 제일 오른쪽 인덱스를 return 하는 함수
+        // 그런 게 없다면 L - 1 을 return 한다
+        int result = L-1; // 0이네 
 
         while(L <= R){
             int mid = (L+R)/2;
-            if(A[mid] >= X){
+            if(B[mid] < A){ // 찾는 값보다 작은 경우
+                L = mid + 1;
                 result = mid;
-                R = mid -1;
-            }else{
-                L = mid +1;
+            }else{ // 찾는 값보다 큰 경우  
+                R = mid - 1;
             }
         }
 
@@ -37,36 +43,25 @@ public class ex2_2470practice {
     }
 
     static void pro() {
-        // A 에 대해 이분 탐색을 할 예정이니까, 정렬을 미리 해주자.
-        Arrays.sort(A, 1, N + 1);
+        // B 배열에 대해 이분탐색을 할 예정이니까, 정렬을 해주자!
+        Arrays.sort(B, 1, M+1);
 
-        int best_sum = Integer.MAX_VALUE;
-        int v1 = 0, v2 = 0;
-        for (int left = 1; left <= N - 1; left++) {
-            // A[left] 용액을 쓸 것이다. 고로 -A[left] 와 가장 가까운 용액을 자신의 오른쪽 구간에서 찾자.
-            int result = lower_bound(A, left+1, N, -A[left]);
-
-            // left + 1 <= result -1 && result -1 <= N && Math.abs(A[left] + A[result -1]) < best_sum 
-            if(left < result -1 && Math.abs(A[left] + A[result -1]) < best_sum){
-                best_sum = Math.abs(A[left] + A[result -1]);
-                v1 = A[left];
-                v2 = A[result -1];
-            }
-
-            // left + 1 <= result && result <= N && Math.abs(A[left] + A[result]) < best_sum
-            if(result <= N && Math.abs(A[left] + A[result]) < best_sum){
-                best_sum = Math.abs(A[left] + A[result]);
-                v1 = A[left];
-                v2 = A[result];
-            }
+        int ans = 0;
+        for (int i = 1; i <= N; i++) {
+            // A[i] 를 선택했을 때, B 에서는 A[i]보다 작은 게 몇 개나 있는 지 count하기
+            ans += lower_bound(B, 1, M, A[i]); // M대신 N으로 해서 틀림
         }
-        sb.append(v1).append(' ').append(v2);
-        System.out.println(sb);
+        sb.append(ans).append('\n');
     }
 
     public static void main(String[] args) {
-        input();
-        pro();
+        int TT;
+        TT = scan.nextInt();
+        for (int tt = 1; tt <= TT; tt++) {
+            input();
+            pro();
+        }
+        System.out.println(sb);
     }
 
 
@@ -115,4 +110,5 @@ public class ex2_2470practice {
             return str;
         }
     }
+
 }

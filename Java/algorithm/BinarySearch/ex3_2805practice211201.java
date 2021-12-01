@@ -1,7 +1,11 @@
-﻿package algorithm.BinarySearch;
+package algorithm.BinarySearch;
 
-import java.util.*;
-import java.io.*;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.Scanner;
+import java.util.StringTokenizer;
+
 /*
     [나무 자르기 - 난이도 2]
     https://www.acmicpc.net/problem/2805
@@ -31,101 +35,95 @@ import java.io.*;
     14 15 | 14          10 >= 7 (T)
     15 15 | 15          7 >= 7 (T)
     16 15 | 종료 
-    
 */
-public class ex3_2805practice {
-    static FastReader scan = new FastReader();
+public class ex3_2805practice211201 {
     static StringBuilder sb = new StringBuilder();
+    static MyReader scan = new MyReader();
 
-    static int N, M;
+    static int N,M;
     static int[] A;
 
-    static void input() {
-        N = scan.nextInt(); // 나무의 갯수 
-        M = scan.nextInt(); // 원하는 나무 길이 
-        A = new int[N + 1]; // 나무별 길이가 갯수만큼 들어감
-        for (int i = 1; i <= N; i++) {
+    public static void input(){
+        N = scan.nextInt();
+        M = scan.nextInt();
+        A = new int[N+1];
+        for(int i=1; i <= N ; i++){
             A[i] = scan.nextInt();
         }
     }
 
-    static boolean determination(int H) {
-        long sum = 0;
-        for(int i=1; i<=N;i++){
-            if(A[i] - H > 0) sum += A[i] - H;
+    static boolean determination(int H){
+
+        long sum = 0L;
+        for(int i=1; i <= N ; i++){
+           if(A[i] - H > 0) sum += A[i] - H ; 
         }
+
         return sum >= M;
     }
-    /*
-        R 을 내림으로써 H 높이가 줄어들고 
-        L 을 올림으로써 H 높이가 증가함 
-    */
-    static void pro() { // R이 27이 되었을대 mid가 13이 되니깐 계산이 들어감 ,그리고 L이 15 , R 15일때 L+1되서 종료됨
-        
-        long L = 0, R = 2000000000, ans = 0;
-        
-        while(L <= R){
-            long mid = (L+R)/2;
+    
+    public static void pro(){
+        long L = 0 , R = 2000000000, ans=0;
+        long mid;
+        // H를 잘랐을때 M을 만족하는가?
+        // 최대치를 구하므로 조건 만족시 L을 올려야함 
+        // 0 < 7(조건치) 일때 L을 올리면 더욱 자를 수 있는 나무가 없으니 R을 내려야함
+        while(L<=R){
+            mid = (L+R)/2;
             if(determination((int)mid)){
                 ans = mid;
                 L = mid +1;
             }else{
-                R = mid - 1;
+                R = mid -1;
             }
         }
-        
+
         System.out.println(ans);
     }
 
     public static void main(String[] args) {
         input();
-        pro();
+        pro();   
     }
 
+    static class MyReader{
 
-    static class FastReader {
         BufferedReader br;
         StringTokenizer st;
 
-        public FastReader() {
+        public MyReader(){
             br = new BufferedReader(new InputStreamReader(System.in));
         }
 
-        public FastReader(String s) throws FileNotFoundException {
-            br = new BufferedReader(new FileReader(new File(s)));
-        }
-
-        String next() {
-            while (st == null || !st.hasMoreElements()) {
-                try {
+        String next(){
+            while(st == null || !st.hasMoreElements()){
+                try{
                     st = new StringTokenizer(br.readLine());
-                } catch (IOException e) {
-                    e.printStackTrace();
+                }catch(IOException ex){
+                    ex.printStackTrace();
                 }
             }
-            return st.nextToken();
+            return st.nextToken(); 
         }
 
-        int nextInt() {
+        int nextInt(){
             return Integer.parseInt(next());
         }
 
-        long nextLong() {
+        long nextLong(){
             return Long.parseLong(next());
         }
 
-        double nextDouble() {
-            return Double.parseDouble(next());
-        }
-
-        String nextLine() {
+        String nextLine(){
             String str = "";
-            try {
+            try{
                 str = br.readLine();
-            } catch (IOException e) {
-                e.printStackTrace();
+            }catch(Exception ex){
+                ex.printStackTrace();
             }
             return str;
         }
+
+
     }
 }

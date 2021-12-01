@@ -1,67 +1,55 @@
-﻿package algorithm.TwoPointer.recommandEx;
+package algorithm.TwoPointer;
 
 import java.util.*;
 import java.io.*;
 
-/*
-    수 고르기 - 골드 5
-    https://www.acmicpc.net/problem/2230
-*/
-public class ex5_2230 {
-    static StringBuilder sb = new StringBuilder();
+public class ex1_1806practice211130 {
+    
     static FastReader scan = new FastReader();
+    static StringBuilder sb = new StringBuilder();
 
-    static int N, M;
+    static int n,s;
     static int[] a;
 
-    static void input() {
-        N = scan.nextInt();
-        M = scan.nextInt();
-        a = new int[N + 1];
-        for (int i = 1; i <= N; i++) {
+
+    public static void input(){
+        n = scan.nextInt();
+        s = scan.nextInt();
+        a = new int[n+1];
+        for(int i=1 ; i <= n ; i++){
             a[i] = scan.nextInt();
         }
+        /*
+        System.out.println(n);
+        System.out.println(s);
+        System.out.println(Arrays.toString(a));
+        */
+        //System.out.println(a.length);
     }
 
-    static void pro() {
-        // 투 포인터 기법을 쓰기 위해서 정렬 해주기
-        Arrays.sort(a,1,N+1);
-        /*
-        직접풀어서 답은 구했는데 틀림
-        int L=1, R = N, ans = Integer.MAX_VALUE;
-        int sum;
-        
-        while(L<R){
-            sum = Math.abs(a[L] - a[R]);
-            if(sum >= M){
-                ans = Math.min(ans, sum);
-            }
+    public static void pro(){
+        int R = 0, sum = 0, ans = n+1;     // ans뜻은 최대값보다 큰 더미값을 뜻하는듯
 
-            if(sum >= M) R--;
-            else L++;
-        }
-     
-        System.out.println(ans);
-        */
+        for(int L=1; L <= n; L++){
+            
+            // L - 1을 구간에서 제외하기 
+            //if(L > 1) sum -= a[L-1];
+            sum -= a[L-1];     // 어차피 0 번 인덱스는 비워져 있음
 
-        /*
-            틀린 내용 
-            - while문의 부등호 a[R] - a[L] <= M 로 하는 바람에 틀렸음
-            - 배열 값이 0이상이기 떄문에 Math.abs()를 사용할 필요 x 
-        */
-        int R = 1, ans = Integer.MAX_VALUE;
-        for (int L = 1; L <= N; L++) {
-            // 필요한 만큼 R을 오른쪽으로 이동 시키기
-            while(R+1 <= N && a[R] - a[L] < M){
+            // R을 옮길 수 있을때까지 옮기기 
+            while(R+1 <= n && sum < s){
                 R++;
+                // if(R >= a.length) break;
+                sum += a[R];
             }
-         
-            if(a[R] - a[L] >= M){
-                 ans = Math.min(ans, a[R] - a[L]);
-            }
+
+            // [L..R]의 합, 즉 sum이 조건을 만족하면 정답 갱신하기 
+            if(sum >= s) ans = Math.min(ans, R - L +1);
         }
 
+        if(ans == n+1) ans = 0;
         System.out.println(ans);
+
     }
 
     public static void main(String[] args) {

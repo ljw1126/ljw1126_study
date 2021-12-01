@@ -5,7 +5,7 @@ import java.util.*;
     https://www.acmicpc.net/problem/15651
     - N 개중 1) 중복을 허용해서 , M개를 A) 순서있게 나열하는 방법
      - 시간복잡도 O(N^M)      // 중복허용하니 
-    - 공간복잡도 O(M) 
+    - 공간복잡도 O(M)         // 3자리 
 */
 public class ex1_15651 {
     

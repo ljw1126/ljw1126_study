@@ -4,7 +4,7 @@
 [https://github.com/rhs0266/FastCampus/tree/main/](https://github.com/rhs0266/FastCampus/tree/main/)
 
 ## 이분/이진 탐색(Binary Search)    -- up/down 게임
-- **정렬이 보장되는 배열**에서 기준 x를 가지고 **범위를 '이분'**하면서 탐색하는 방법
+- **정렬이 보장되는 배열**에서 기준 x를 가지고 **범위를 이분**하면서 탐색하는 방법
   - **시간복잡도 O(log N)**
   - 이분 탐색은 정렬의 특성을 극대화함
 - 이분 탐색 변수 셋팅 
@@ -38,10 +38,10 @@
 |:------:|:--------:|:--------:|:--------------:|
 |문제1||먹을 것인가 먹힐 것인가|[https://www.acmicpc.net/problem/7795](https://www.acmicpc.net/problem/7795)|
 |추천문제||||
-|추천1|수찾기|직접 품(뭔가꼬임)|[https://www.acmicpc.net/problem/1920](https://www.acmicpc.net/problem/1920)|
+|추천1|수찾기|직접 품(2)|[https://www.acmicpc.net/problem/1920](https://www.acmicpc.net/problem/1920)|
 |추천2|듣보잡|직접 품|[https://www.acmicpc.net/problem/1764](https://www.acmicpc.net/problem/1764)|
-|추천3|두 수의 합|직접 품|[https://www.acmicpc.net/problem/3273](https://www.acmicpc.net/problem/3273)|
-|추천4|숫자카드2|실버4(양방향검색후 차로구하는데 부등호 어려움)*|[https://www.acmicpc.net/problem/10816](https://www.acmicpc.net/problem/10816)|
+|추천3|두 수의 합|직접 품(투포인터됨)|[https://www.acmicpc.net/problem/3273](https://www.acmicpc.net/problem/3273)|
+|추천4|숫자카드2|실버4(상하검색후 차로구하는데 부등호 어려움)*|[https://www.acmicpc.net/problem/10816](https://www.acmicpc.net/problem/10816)|
 |문제2|두 용액|난이도3(이해안됨)|[https://www.acmicpc.net/problem/2470](https://www.acmicpc.net/problem/2470)|
 |||||
 |매개변수탐색문제||||
@@ -84,7 +84,7 @@
     - 1. 이분 탐색 사용가능!
     - 2. 가장 가까운 원소를 탐색 가능
   - [-99 , -2, -1, 4, 98] 이 배열에 정렬되어 있을때      // 요 아래가 이해 안됨
-    - result = A[left+1 ... N] 에서 X = -A[left]이상의 원소 중 가장 왼쪽 위치(만약 없다면 N+1)
+    - result = A[left+1 ... N](오른쪽구간) 에서 X = -A[left]이상의 원소 중 가장 왼쪽 위치(만약 없다면 N+1)
       - A[result -1] 와 A[result] 중에 X랑 가장 가까운 원소가 있다!
       - 대신 result -1 과 result 중에 left+1 이상 N 이하인 것만 가능한 원소이다.
   - 시간복잡도 
@@ -110,12 +110,13 @@
   - 모든 값에 대해서 yes/no를 채웠다고 생각(가정)했을때, 정렬된 상태인가?
   - Yes/No 결정하는 문제를 풀기!
 
-H | 0 | 1 | 2 | 3 | 4 | ... |16|...| 20 | 
-----------------------------------
+H | 0 | 1 | 2 | 3 | 4 | ... |15|16|....| 20 | 
+------------------------------------------------
    Yes                       Yes| No        
   
 - 원래 문제 : 뒤집은 문제를 모든 H마다(0~20억)해보면 마지막 yes가 정답 
-  - 시간복잡도 : O(뒤집은 문제 * log 20억) = O(N * log X) = X*31
+  - 시간복잡도 : O(뒤집은 문제 * log 20억) = O(N * log X) = N*31
+  -                나무마다 log 20억번 연산만 해주면 됨 
 - [정리]
   - 1. H를 정해서 결정 문제 한 번 풀기 => O(N)
   - 2. 정답의 범위를 이분 탐색하면서 풀기 => O(logX)번 반복할 것 
