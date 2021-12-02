@@ -32,6 +32,7 @@ public class ex1_1260 {
         //x에서 갈 수 있는 곳들을 작은 번호부터 모두 방문함
         for(int y : adj[start]){
             //y를 이미 갈 수 있다는걸 알면 굳이 갈 필요없다.
+            //if(adj[x][y] == 0) continue; //인접행렬사용시
             if(visit[y]) continue;
             //y에서 갈 수 있는 곳을 확인한다 
             dfs(y);

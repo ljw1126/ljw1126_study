@@ -4,7 +4,7 @@
 [https://github.com/rhs0266/FastCampus/tree/main/](https://github.com/rhs0266/FastCampus/tree/main/)
 
 
-## Tree 란 
+## Tree 란 ( 외우기 )
 - Tree = V + E + 아래 특성 중 2개이상 만족할때 
   - **모두가 연결**되어 있는 그래프 
     - 어떤 두 점을 골라도 간선을 타고 사이를 이동 가능 

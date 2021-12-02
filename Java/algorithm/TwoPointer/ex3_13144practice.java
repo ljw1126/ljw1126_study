@@ -3,6 +3,7 @@ package algorithm.TwoPointer;
 import java.util.*;
 import java.io.*;
 /*
+    List of Unique Numbers - 골드 3
     https://www.acmicpc.net/problem/13144
 
     그러니깐 투포인트 방식으로 카운트 배열 하나 사용해서 

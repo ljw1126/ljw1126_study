@@ -2,6 +2,21 @@
 /*
     트리 
     https://www.acmicpc.net/problem/1068
+
+
+    큰 문제의 정답을 작은 문제 풀이 통해 구한다. 
+    leaf[x] := x를 root로 하는 subtree에 있는 단말 노드의 개수 
+    - x가 단말 노드인 경우 => leaf[x] = 1
+    - 아닌 경우 -> x의 자식들에 대해 leaf 를 먼저 계산한다면?
+                -> leaf[x] = Σleaf[x의 자식 노드들]
+
+    * 단말 노드의 개수를 세는 법 ( leaf[x] 를 계산하는 방법 )
+        - root에서 dfs를 한다면?
+            어떤 노드 x에서 자식 노드 y에 대한 탐색을 끝내고 돌아오면 leaf[y]값이 계산되어
+            있으니, leaf[x] 에 leaf[y]를 누적해주면 됨 
+        - DFS(x) : x의 subtree에 대해 leaf[x]를 계산해주는 함수
+            26분 강의 그림 참고 
+        - 인접리스트 쓴다면 O(V+E) , DFS 사용하는게 좋다함 
 */
 import java.util.*;
 import java.io.*;
@@ -14,7 +29,22 @@ public class ex2_1068 {
     static int n, root, erased;
     static ArrayList<Integer>[] child;
     static int[] leaf;
-    
+    // 입력값에서 바로 부모 정보를 알려줌 
+    /*
+        # 입력 예시 
+        5
+        -1 0 0 1 1
+        2
+        # 출력 예시 
+        2
+
+        # 입력 예시 
+        5
+        -1 0 0 1 1
+        1
+        # 출력 예시 
+        1
+    */
     static void input() {
         n = scan.nextInt();
         /* TODO */
@@ -36,7 +66,7 @@ public class ex2_1068 {
     static void dfs(int x, int par) {
         /* TODO */
         if(child[x].isEmpty()){ // ArrayList가 비어 있다 = 자식이 없으니 단말노드
-            leaf[x]++;
+            leaf[x]++; // leaf[x] = 1;
         }
 
         for(int y : child[x]){

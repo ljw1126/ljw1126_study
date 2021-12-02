@@ -1,8 +1,8 @@
 ﻿/*
     미로탐색
     https://www.acmicpc.net/problem/2178
-
-    정답의 최대치 : O(N^2)
+    0 <= 지도의 크기, N,M <= 100
+    정답의 최대치 : O(N^2)   // 밟게 되는 최대 개수 , 100^2 이기때문에 Integer로 충분 
 */
 import java.util.*;
 import java.io.*;
@@ -32,21 +32,21 @@ public class ex5_2178 {
     
 
     static void bfs(int x , int y ){
-        //dist 배열 초기화 
+        //1. dist 배열 초기화 
         for(int i=0; i<N ; i++){
             for(int j=0; j < M ; j++){
                 dist[i][j] = -1;
             }
         }
 
-        //(x,y)를 Q에 넣어주고, visit 표시와 dist 값 초기화 
+        //2. (x,y)를 Q에 넣어주고, visit 표시와 dist 값 초기화 
         Queue<Integer> q = new LinkedList<>();
         q.add(x);
         q.add(y);
-        dist[x][y] = 1;       // 이걸로 visit 배열 대신 할 수 있으니 이것만 가지고도 가능
-        visit[x][y] = true;
+        dist[x][y] = 1;       // 이걸로 visit 배열 대신 할 수 있으니 이것만 가지고도 가능(테크닉)
+        visit[x][y] = true;   // 헷갈리지 않게 visit 배열 사용 
 
-        // BFS 과정 시작 
+        //3. BFS 과정 시작 (multisource BFS)
         while(!q.isEmpty()){
             x = q.poll();
             y = q.poll();

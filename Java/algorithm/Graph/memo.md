@@ -44,7 +44,7 @@
 - 모든 시작점을 전부 Queue에 넣은 상태로 BFS를 시작하면 됨
 - **시간 복잡도는 O(V+E)가 유지됨**
 
-## 그래프(Graph)란?
+## 그래프(Graph)란? (외우기)
 - 자료구조로써 Graph = 정점(vertex) + 간선(edge)
   - 간선(Edge) → 무방향(양방향)/방향 + **가중치**
   - deg(x) = 정점 x의 차수(degree), 정점 x에 연결된 간선의 수 
@@ -90,6 +90,25 @@
 - 인접 행렬 사용시 → O(V^2)
 - 인접 리스트 → O( deg(1) + deg(2) + .. + deg(V) ) = O(E)     // V가 많으면 인접 리스트 사용하는게 좋음 
 
+```java
+    //x를 갈 수 있다는 걸 알고 방문한 상태
+    static void dfs(int start){
+        
+        //x를 방문했다고 표시 
+        visit[start] = true; 
+        sb.append(start).append(' ');
+
+        //x에서 갈 수 있는 곳들을 작은 번호부터 모두 방문함
+        for(int y : adj[start]){
+            //y를 이미 갈 수 있다는걸 알면 굳이 갈 필요없다.
+            if(visit[y]) continue;
+            //y에서 갈 수 있는 곳을 확인한다 
+            dfs(y);
+        }
+    }
+
+```
+
 #### 너비 우선탐색(BFS, Breadth First Search)
 - Queue가 들고 있는 자료의 의미 
   - 방문이 가능한 정점들은 찾을때, Queue에 해당 점정을 넣는다.
@@ -97,6 +116,29 @@
     - Queue가 비어있다. → 시작점에서 갈 수 있는 모든 점을 찾아냈다! or 탐색이 끝났다!
   - 인접 행렬 사용시 → O(V^2)
   - 인접 리스트 → O( deg(1) + deg(2) + .. + deg(V) ) = O(E)     
+
+```java
+    //start에서 시작해서 갈 수 있는 정점들을 모두 탐색하기 
+    static void bfs(int start){
+        Queue<Integer> que = new LinkedList<>();
+        // start는 방문가능한 점이므로que에 넣어줌
+        que.add(start); // 초기값 셋팅
+        visit[start] = true;
+        
+        while(!que.isEmpty()){
+            int x = que.poll(); // 모든 정점이 한번씩만 등장한다.O(V)
+            sb.append(x).append(' ');
+
+            for(int y : adj[x]){ // -----인접행렬O(V) / 인접리스트 O(deg(x))
+                if(visit[y]) continue;
+
+                que.add(y);
+                visit[y] = true;  // --- visit 체크를 여기서 하지 않고, que.poll() 아래에 할 경우 동일한 Vertex(노드)가 들어가게 됨!
+            }
+        }
+    }
+
+```
 
 
 #### '최소이동횟수','최단시간' 키워드

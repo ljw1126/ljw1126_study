@@ -4,7 +4,10 @@ import java.util.*;
 import java.io.*;
 /**
  * 트리문제는 DFS로 푸는게 좋다함 ( BFS 랑 동일한 시간 복잡도는 가지지만 O(V+E) )
+ * 트리의 부모 찾기
  * https://www.acmicpc.net/problem/11725
+ * 
+ * 
  * 
  * 이전꺼는 dfs로 풀었는데.. 이 방법이 훨씬 간단한듯
  */

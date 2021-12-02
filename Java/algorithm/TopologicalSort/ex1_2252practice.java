@@ -3,7 +3,7 @@
 import java.util.*;
 import java.io.*;
 /*
-    줄 세우기 - 골드 2
+    줄 세우기 - 골드 2       // 그래프를 유추해야함
     https://www.acmicpc.net/problem/2252 
 
     # 예제 입력 1
@@ -21,6 +21,13 @@ import java.io.*;
 
     # 예제 출력 2
     4 2 3 1
+
+    학생들 간에 위상 관계가 주어지고, 이에 맞게 줄을 세운다.
+    Graph를 정의해보고 위상 정렬을 통해 문제를 해결해보자!
+
+    정점(V) := i번 학생이 곧 i번 정점
+    간선(E) := x번 학생이 y번 학생보다 먼저 서야 한다. 
+
 */
 public class ex1_2252practice {
     

@@ -7,6 +7,7 @@
 ## 위상 정렬(Topological Sort)
 - Directed Acyclic Graph(DAG)
 - 단방향, 사이클 이루지 않은, 그래프 
+- 아이디어 : Q: "제일 먼저 올 수 있는 정점은?" / A:"들어오는 간선"이 없는 정점(Indegree == 0)
 - [정리] 
   - 1. 정점들의 Indegree, Indeg[1..N] 계산하기
   - 2. 들어오는 간선이 0개인(Indeg[i] == 0) 정점들을 찾아서 자료구조 D에 넣기 

@@ -13,10 +13,20 @@ import java.io.*;
 
     고슴도치는 물이 찰 예정인 칸으로 이동할 수 없다. 
     즉, 다음 시간에 물이 찰 예정인 칸으로 고슴도치는 이동할 수 없다. 
-    이동할 수 있으면 고슴도치가 물에 빠지기 때문이다. 
+    이동할 수 있으면 고슴도치가 물에 빠지기 때문이다. (벽도 이동 x)
     
     https://www.acmicpc.net/problem/3055
 
+
+    - 접근 : 각 칸이 물에 잠기는 시간 계산 // Dist_water[i][j]
+        - 문제점 ! 시작점이 여러 개다!
+        - 모든 물마다 BFS를 각자하면 => O(N^2 * N^2)
+        - multisource bfs를 적용하면 
+            - 모든 물을 동시에 Queue에 넣고 시작하면 단 한번의 BFS, O(N^2)
+    - 접근 : 고슴도치가 물을 피해서 (i,j)에 도달하는 최소시간 // Dist_hedgehog[i][j]
+        - Dist_water 를 이용해서 계산 
+
+    - 시간복잡도 총 두번의 BFS이면 O(N^2)이다.
 */
 public class ex7_3055 {
     
@@ -56,7 +66,7 @@ public class ex7_3055 {
                 if (a[i].charAt(j) == '*') { // 물이 차있는 지역 
                     Q.add(i);
                     Q.add(j);
-                    dist_water[i][j] = 0;
+                    dist_water[i][j] = 0; // 시작점이니 0초만에 잠김
                     visit[i][j] = true;
                 }
             }
@@ -121,11 +131,11 @@ public class ex7_3055 {
     static void pro() {
         // 각 칸마다 물에 닿는 시간 계산하기
         bfs_water();
-        for(int[] i : dist_water) System.out.println(Arrays.toString(i));
+        //for(int[] i : dist_water) System.out.println(Arrays.toString(i));
         System.out.println();
         // 고슴도치가 물을 피해 탐색할 수 있는 공간 찾기
         bfs_hedgehog();
-        for(int[] i : dist_hedgehog) System.out.println(Arrays.toString(i));
+        //for(int[] i : dist_hedgehog) System.out.println(Arrays.toString(i));
         // 탈출구 'D' 에 대한 결과를 통해 정답 출력하기
         for (int i=0;i<N;i++){
             for (int j=0;j<M;j++){
