@@ -2,7 +2,77 @@
 
 import java.util.*;
 import java.io.*;
+/*
+    연구소
+    https://www.acmicpc.net/problem/14502
 
+    # 입력예시 
+    7 7
+    2 0 0 0 1 1 0
+    0 0 1 0 1 2 0
+    0 1 1 0 1 0 0
+    0 1 0 0 0 0 0
+    0 0 0 0 0 1 1
+    0 1 0 0 0 0 0
+    0 1 0 0 0 0 0
+
+    # 출력예시 
+    27
+
+    ## int[][] blank; // 0인 지대 
+    [0, 0]
+    [1, 2]     // 1행 2열
+    [1, 3]     // 1행 3열 
+    [1, 4]
+    [1, 7]
+    [2, 1]
+    [2, 2]
+    [2, 4]
+    [2, 7]
+    [3, 1]
+    [3, 4]
+    [3, 6]
+    [3, 7]
+    [4, 1]
+    [4, 3]
+    [4, 4]
+    [4, 5]
+    [4, 6]
+    [4, 7]
+    [5, 1]
+    [5, 2]
+    [5, 3]
+    [5, 4]
+    [5, 5]
+    [6, 1]
+    [6, 3]
+    [6, 4]
+    [6, 5]
+    [6, 6]
+    [6, 7]
+    [7, 1]
+    [7, 3]
+    [7, 4]
+    [7, 5]
+    [7, 6]
+    [7, 7]
+    [0, 0]
+    [0, 0]
+    [0, 0]
+    [0, 0]
+    [0, 0]
+    [0, 0]
+    [0, 0]
+    [0, 0]
+    [0, 0]
+    [0, 0]
+    [0, 0]
+    [0, 0]
+    [0, 0]
+    [0, 0]
+
+    완전탐색과 그래프 탐색이 둘다 사용되어 , 탐색에 대해 좀더 고민할 수 있는 좋은 문제 
+*/
 public class ex4_14502practice {
     
     static FastReader scan = new FastReader();
@@ -61,12 +131,12 @@ public class ex4_14502practice {
             bfs();
             return;
         }
-        if(idx > B) return; // 더이상 세울 수 있는 벽이 없는 상태
+        if(idx > B) return; // 더이상 세울 수 있는 빈칸이 없는 상태
     
-        graph[blank[idx][0]][blank[idx][1]] = 1;
+        graph[blank[idx][0]][blank[idx][1]] = 1; // 빈칸에 벽을 세운다
         dfs(idx+1, selected_cnt+1);
 
-        graph[blank[idx][0]][blank[idx][1]] = 0;
+        graph[blank[idx][0]][blank[idx][1]] = 0; // 세운 벽을 지운다
         dfs(idx+1, selected_cnt);
     }
 
@@ -89,6 +159,7 @@ public class ex4_14502practice {
     static void pro(){
         // 0인 지점을 blank[][] 배열에 정리함 
         // 이때 0의 갯수를 전역변수에 카운트 올림 
+        // 벽을 세울수 있는 빈공간 위치를 모으자 
         for(int i=1; i <= N ; i++){
             for(int j=1; j<=M ; j++){
                 if(graph[i][j] != 0) continue;

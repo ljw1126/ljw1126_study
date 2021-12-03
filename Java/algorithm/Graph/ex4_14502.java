@@ -3,6 +3,9 @@ import java.io.*;
 
 //Multisource BFS 활용!
 /*
+    연구소 - 골드5 
+    https://www.acmicpc.net/problem/14502
+
     1. 벽을 세우고 (Combination 조합 , 중복 x , 순서 x )     -- 완전 탐색
     2. 바이러스를 퍼뜨리고                -- bfs 그래프 탐색
     3. 안전한 영역 계산 

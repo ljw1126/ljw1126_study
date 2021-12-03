@@ -14,8 +14,8 @@
 ||섬의개수|*|[https://www.acmicpc.net/problem/4963](https://www.acmicpc.net/problem/4963)|
 ||양|*|[https://www.acmicpc.net/problem/3184](https://www.acmicpc.net/problem/3184)|
 |일반그래프|바이러스|*|[https://www.acmicpc.net/problem/2606](https://www.acmicpc.net/problem/2606)|
-||경로찾기|추가이론필요|[https://www.acmicpc.net/problem/11403](https://www.acmicpc.net/problem/11403)|
-||트리의부모찾기|*힌트|[https://www.acmicpc.net/problem/11725](https://www.acmicpc.net/problem/11725)|
+||경로찾기|bfs솔루션확인(다시풀기추천)|[https://www.acmicpc.net/problem/11403](https://www.acmicpc.net/problem/11403)|
+||트리의부모찾기|*힌트(bfs,직접dfs품)|[https://www.acmicpc.net/problem/11725](https://www.acmicpc.net/problem/11725)|
 | 응용2 | 물통 | 난이도(4),실버1 |[https://www.acmicpc.net/problem/2251](https://www.acmicpc.net/problem/2251)|
 | 응용3 | 연구소 | 난이도(4.5), 삼성코테 |[https://www.acmicpc.net/problem/14502](https://www.acmicpc.net/problem/14502)|
 | 응용4 | 미로 탐색 | 난이도2 | [https://www.acmicpc.net/problem/2178](https://www.acmicpc.net/problem/2178)|
