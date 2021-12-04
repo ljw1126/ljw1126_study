@@ -94,7 +94,7 @@ public class ex1_1916practice {
         // 문제의 정답으로 가능한 거리의 최댓값보다 큰 값임을 보장해야 한다.
         for(int i=1;i<N+1;i++) dist[i] = Integer.MAX_VALUE;
 
-        // 최소 힙 생성
+        // 최소 힙 생성(dist 값이 작은 순으로)
         PriorityQueue<Info> pq = new PriorityQueue<>(Comparator.comparingInt( o -> o.dist));
 
         // 시작점에 대한 정보(Information)을 기록에 추가하고, 거리 배열(dist)에 갱신해준다.

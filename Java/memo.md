@@ -117,7 +117,22 @@ Arrays.sort(nums, 1, N+1); // 1부터 N 인덱스까지 지정해서 정렬
 
 System.out.println(Arrays.toString(nums));
 
-//
+// 11. 문자열로 n * n 배열 주어질때 int[][] 형으로 변경하기 
+     static void input(){
+        N = scan.nextInt();
+        map = new int[N][N];
+        // 아스키 코드에서 -'0'(48)을 뺌 
+        for(int i=0;i<N;i++){
+            String str = scan.nextLine();
+            for(int j=0;j<str.length();j++){
+                map[i][j] = str.charAt(j) - '0';
+            }
+        }
+
+        visit = new boolean[N][N];
+        dist = new int[N][N];
+        ans = Integer.MAX_VALUE;
+    }
 
 
 ```

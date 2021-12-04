@@ -17,27 +17,27 @@
 ||경로찾기|bfs솔루션확인(다시풀기추천)|[https://www.acmicpc.net/problem/11403](https://www.acmicpc.net/problem/11403)|
 ||트리의부모찾기|*힌트(bfs,직접dfs품)|[https://www.acmicpc.net/problem/11725](https://www.acmicpc.net/problem/11725)|
 | 응용2 | 물통 | 난이도(4),실버1 |[https://www.acmicpc.net/problem/2251](https://www.acmicpc.net/problem/2251)|
-| 응용3 | 연구소 | 난이도(4.5), 삼성코테 |[https://www.acmicpc.net/problem/14502](https://www.acmicpc.net/problem/14502)|
+| 응용3 | 연구소 | 난이도(4.5), 삼성(dfs완전탐색후bfs) |[https://www.acmicpc.net/problem/14502](https://www.acmicpc.net/problem/14502)|
 | 응용4 | 미로 탐색 | 난이도2 | [https://www.acmicpc.net/problem/2178](https://www.acmicpc.net/problem/2178)|
 |추천문제||||
-||나이트의 이동||[https://www.acmicpc.net/problem/7562](https://www.acmicpc.net/problem/7562)|
-||촌수 계산||[https://www.acmicpc.net/problem/2644](https://www.acmicpc.net/problem/2644)|
-||현명한||[https://www.acmicpc.net/problem/18404](https://www.acmicpc.net/problem/18404)|
+||나이트의 이동|*|[https://www.acmicpc.net/problem/7562](https://www.acmicpc.net/problem/7562)|
+||촌수 계산|*|[https://www.acmicpc.net/problem/2644](https://www.acmicpc.net/problem/2644)|
+||현명한 나이트|*(dist 최소거리문제)|[https://www.acmicpc.net/problem/18404](https://www.acmicpc.net/problem/18404)|
 | 응용5 | 숨바꼭질 | 난이도3 | [https://www.acmicpc.net/problem/1697](https://www.acmicpc.net/problem/1697) | 
 |추천문제||||
-||케빈 베이컨의 6단계 법칙| 플로이드 공부필요 |[https://www.acmicpc.net/problem/1389](https://www.acmicpc.net/problem/1389)|
+||케빈 베이컨의 6단계 법칙| 솔루션참고(bfs) |[https://www.acmicpc.net/problem/1389](https://www.acmicpc.net/problem/1389)|
 ||||[https://www.acmicpc.net/problem/5567](https://www.acmicpc.net/problem/5567)|
 | 응용6 | 탈출(고슴도치) | 난이도4~5(삼성, 쉬운)| [https://www.acmicpc.net/problem/3055](https://www.acmicpc.net/problem/3055)|
 |추천문제||||
 ||토마토||[https://www.acmicpc.net/problem/7569](https://www.acmicpc.net/problem/7569)|
-||촌수계산||[https://www.acmicpc.net/problem/2644](https://www.acmicpc.net/problem/2644)|
+
 
  
 // 물통 문제의 경우 그래프라는 언급이 없으므로 판단이 필요하여 어려움 
 // 추천문제에서 직접 푼 경우 * 표시함
-// 경로 찾기 - '플로이드 와샬' 알고리즘 필요 
+// 경로 찾기 - '플로이드 와샬' 알고리즘 필요 (211203 아니었음 .. bfs로 푸는데 행당 x~y번 노드로 가능한지 구해서 출력하는 방법을 이해 해야 했음)
 [https://m.blog.naver.com/PostView.nhn?blogId=ndb796&logNo=221234427842&proxyReferer=https:%2F%2Fwww.google.com%2F](https://m.blog.naver.com/PostView.nhn?blogId=ndb796&logNo=221234427842&proxyReferer=https:%2F%2Fwww.google.com%2F)
-// 케빈 베이컨의 6단계 법칙 - '플로이드 와샬' 알고리즘 필요 .. 정답은 구했는데 틀린걸로 표시됨
+// 케빈 베이컨의 6단계 법칙 - '플로이드 와샬' 알고리즘 필요 .. 정답은 구했는데 틀린걸로 표시됨 (211204 확인시 해당 알고리즘 말고 BFS로 로직 정렬하는게 필요했음!)
 
 ###### 응용3	- 연구소
 - **'Multisource BFS'** 활용해서 문제 풀이함
