@@ -134,6 +134,14 @@ System.out.println(Arrays.toString(nums));
         ans = Integer.MAX_VALUE;
     }
 
+// 12. 인접 리스트로 트리 구성시 트리 노드 삭헤라 경우
+        // erased와 그의 부모 사이의 연결을 끊어주기
+        for(int i=0 ; i < n ; i++){
+            if(child[i].contains(erased)){
+                child[i].remove(child[i].indexOf(erased));
+            }
+        }
+
 
 ```
 

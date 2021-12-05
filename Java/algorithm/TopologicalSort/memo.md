@@ -23,16 +23,34 @@
 |:------:|:--------:|:--------:|:--------------:|
 |문제1| 줄 세우기 |난이도 3|[https://www.acmicpc.net/problem/2252](https://www.acmicpc.net/problem/2252)|
 |추천문제||||
-|추천1|음악 프로그램||[https://www.acmicpc.net/problem/2623](https://www.acmicpc.net/problem/2623)|
-|추천2|Strahler 순서||[https://www.acmicpc.net/problem/9470](https://www.acmicpc.net/problem/9470)|
-|추천3|영우는 사기꾼?||[https://www.acmicpc.net/problem/14676](https://www.acmicpc.net/problem/14676)|
+|추천1|음악 프로그램|블로그참고(거의 기본)|[https://www.acmicpc.net/problem/2623](https://www.acmicpc.net/problem/2623)|
+|추천2|Strahler 순서|솔루션확인|[https://www.acmicpc.net/problem/9470](https://www.acmicpc.net/problem/9470)|
+|추천3|영우는 사기꾼?|솔루션확인|[https://www.acmicpc.net/problem/14676](https://www.acmicpc.net/problem/14676)|
 |||||
-|문제2|ACM Craft|난이도3|[https://www.acmicpc.net/problem/1005](https://www.acmicpc.net/problem/1005)|
+|문제2|ACM Craft|난이도3(계산용배열 초기화.. 혼자 못품)|[https://www.acmicpc.net/problem/1005](https://www.acmicpc.net/problem/1005)|
 |추천문제||||
 |추천4|게임 개발||[https://www.acmicpc.net/problem/1516](https://www.acmicpc.net/problem/1516)|
 |추천5|작업||[https://www.acmicpc.net/problem/2056](https://www.acmicpc.net/problem/2056)|
 |추천6|장난감 조립||[https://www.acmicpc.net/problem/2637](https://www.acmicpc.net/problem/2637)|
 
+#### 추천 문제 
+- 추천1. 음악 프로그램
+  - 동일한 위상정렬 문제인데, **사이클이 발생하는 경우를 파악해서 처리하는걸 이해 못함** 
+  - 아래 이미지에서 사이클 발생시 1,6 을 pop해서 indegree[자식]--; 하더라도 0이 되는게 없으니 종료되버림..
+
+![Alt text](/images/fastcampus/ex2623_음악프로그램_위상정렬.png) 
+
+- 추천2. Strahler 순서 (골드3)
+  - **문제 조건 말이 이상함**
+  - 뒤늦게 이해함 .. 
+    - "강의 근원인 노드의 순서는 1이다." == 들어오는 노드가 없는 노드의 경우 순서가 1
+    - "나머지 노드는 그 노드로 들어오는 강의 순서 중 가장 큰 값을 i라고 했을 때, 들어오는 모든 강 중에서 Strahler 순서가 i인 강이 1개이면 순서는 i, 2개 이상이면 순서는 i+1이다." == 해당 노드에 들어오는 값 중에 가장 순서가 큰 i가 1개 이면 i 이고 , 2개 이상이면 i+1 로 순서 지정 
+
+![Alt text](/images/fastcampus/ex9470_위상정렬_강의순서.png) 
+
+- 추천3. 영우는 사기꾼?
+  - 솔루션 풀이 확인함 
+  - satification , cnt, indegree 배열이 필요.. 위상정렬은 필요없는듯..
 
 #### 문제1. 줄 세우기 
 [https://www.acmicpc.net/problem/2252](https://www.acmicpc.net/problem/2252)

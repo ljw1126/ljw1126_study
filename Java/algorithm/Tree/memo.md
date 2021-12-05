@@ -40,7 +40,7 @@
 ## 문제 링크 
 |번호|명칭|난이도|주소|
 |:------:|:--------:|:--------:|:--------------:|
-|문제11725|트리의 부모 찾기|2|[https://www.acmicpc.net/problem/11725](https://www.acmicpc.net/problem/11725)|
+|문제11725|트리의 부모 찾기|2(그래프에서품)|[https://www.acmicpc.net/problem/11725](https://www.acmicpc.net/problem/11725)|
 |추천문제||||
 |1991|트리순회||[https://www.acmicpc.net/problem/1991](https://www.acmicpc.net/problem/1991)|
 |5639|이진검색트리||[https://www.acmicpc.net/problem/5639](https://www.acmicpc.net/problem/5639)|

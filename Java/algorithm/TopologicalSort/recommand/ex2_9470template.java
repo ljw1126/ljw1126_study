@@ -1,63 +1,51 @@
-﻿package algorithm.Tree;
+package algorithm.TopologicalSort.recommand;
 
 import java.util.*;
 import java.io.*;
 
-public class ex1_11725practice {
+public class ex2_9470template {
     static FastReader scan = new FastReader();
     static StringBuilder sb = new StringBuilder();
 
-    static int n;
+    static int K, N, M;
+    static int[] indeg, order, maxCnt;
     static ArrayList<Integer>[] adj;
-    static int[] parent;
-    
 
     static void input() {
-        n = scan.nextInt();
-        parent = new int[n+1];
-        // 인접 리스트 구성하기
-        adj = new ArrayList[n+1];
-        for(int i=1;i<=n;i++)
-            adj[i] = new ArrayList();
+        K = scan.nextInt();
+        N = scan.nextInt();
+        M = scan.nextInt();
+        adj = new ArrayList[N + 1];
+        indeg = new int[N + 1];
+        order = new int[N + 1];
+        maxCnt = new int[N + 1];
+        for (int i = 1; i <= N; i++)
+            adj[i] = new ArrayList<>();
 
-        for(int i=1;i<n;i++){
-            int a = scan.nextInt(), b = scan.nextInt();
-            adj[a].add(b);
-            adj[b].add(a);
-        }    
-    }
-
-    // dfs(x, par) := 정점 x 의 부모가 par 였고, x의 children들을 찾아주는 함수
-    static void dfs(int x, int par) {
-        
-        parent[x] = par;
-
-        for(int y : adj[x]){
-            if(parent[y] != -1) continue;
-            dfs(y, x);
+        for (int i = 0; i < M; i++) {
+            int x = scan.nextInt(), y = scan.nextInt();
+            adj[x].add(y);
+            indeg[y]++;
         }
-
     }
 
     static void pro() {
-        // 1 번 정점이 ROOT 이므로, 여기서 시작해서 Tree의 구조를 파악하자.
-        for(int i=1;i<=n;i++) parent[i] = -1;
-        dfs(1,0);
+        Deque<Integer> queue = new LinkedList<>();
+        // 제일 앞에 "정렬될 수 있는" 정점 찾기
+        /* TODO */
 
-        // 정답 출력하기
-        for(int i=2;i<=n;i++)
-            sb.append(parent[i]).append('\n');
-
-        System.out.println(sb);
+        // Strahler 순서를 고려해서 위상정렬을 수행하자.
+        int ans = 0;
+        /* TODO */
+        System.out.println(K + " " + ans);
     }
 
     public static void main(String[] args) {
-        input();
-        pro();
-
-        // for(int i=1;i<=n;i++){
-        //     System.out.println(adj[i]);
-        // }
+        int T = scan.nextInt();
+        while (T-- > 0) {
+            input();
+            pro();
+        }
     }
 
 

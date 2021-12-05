@@ -143,8 +143,8 @@ public class ex1_1238 {
         int ans = Integer.MIN_VALUE;
 
         for(int i=1; i <=N ; i++){
-            int sum = dist[i] + dist_reverse[i];
-            ans = Math.max(ans, sum);
+            if(i == X) continue;
+            ans = Math.max(ans, dist[i] + dist_reverse[i]);
         }
 
         System.out.println(ans);

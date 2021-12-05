@@ -125,6 +125,11 @@ public class ex3_2665 {
     public static void main(String[] args) {
         input();
         pro();
+        for(boolean[][] a : visit){
+            for(boolean[] b : a){
+                System.out.println(Arrays.toString(b));
+            }
+        }
     }
 
     static class MyReader{
