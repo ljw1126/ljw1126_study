@@ -35,17 +35,24 @@ public class ex1_practice {
     }
 
     static void rec_func(int k, int value){
-        if( k == N){ // 모든 연산자를 나열하는 방법 찾았을때 
+        if( k == N){ // 모든 연산자를 나열하는 방법 찾았을때 (연산자 개수는 N-1개)
             min = Math.min(min, value);
             max = Math.max(max, value);
+            return;
         }else{
-            for(int cand=1; cand <= 4 ; cand++){ // cand 값이 operator 연산자 인덱스 번호니깐
-                if(operators[cand] >= 1){
+            // 4가지 연산자 중 뭘 쓸지 선택하고 재귀 호출하기 
+            // k번째 연산자는 무엇을 선택할 것인가?
+            for(int cand = 1 ; cand <= 4 ; cand++){
+                if(operators[cand] >=1){
+                    // 선택 했을 경우 
                     operators[cand]--;
+                    // 재귀 호출
                     rec_func(k+1, cal(value, cand, nums[k+1]));
+                    // 선택 취소 
                     operators[cand]++;
-                }
+                }    
             }
+
         }
     }
 

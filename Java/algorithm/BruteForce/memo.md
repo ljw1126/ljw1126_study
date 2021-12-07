@@ -19,6 +19,8 @@
   - A) 순서 있게 나열하기 
   - B) 고르기 
 
+![Alt text](/images/fastcampus/brute_force시간복잡도.png) 
+
 ## 완전 탐색은 함수 정의가 50% 
 - 아래와 같은 형태로 문제 풀이 wlsdsa
 ```java

@@ -173,6 +173,12 @@ public class ex1_1916practice211204 {
 
         String nextLine(){
             String str = "";
+            try {
+                str = br.readLine();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            return str;
         }
 
     }

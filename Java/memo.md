@@ -142,6 +142,9 @@ System.out.println(Arrays.toString(nums));
             }
         }
 
+// 13. 알파벳 ↔ 숫자 변환 
+F:\gitRepository\ljw1126_study\Java\algorithm\Tree\recommandEx\ex1_1991practice.java
+
 
 ```
 

@@ -42,7 +42,7 @@
 |:------:|:--------:|:--------:|:--------------:|
 |문제11725|트리의 부모 찾기|2(그래프에서품)|[https://www.acmicpc.net/problem/11725](https://www.acmicpc.net/problem/11725)|
 |추천문제||||
-|1991|트리순회||[https://www.acmicpc.net/problem/1991](https://www.acmicpc.net/problem/1991)|
+|1991|트리순회|솔루션확인|[https://www.acmicpc.net/problem/1991](https://www.acmicpc.net/problem/1991)|
 |5639|이진검색트리||[https://www.acmicpc.net/problem/5639](https://www.acmicpc.net/problem/5639)|
 |15900|나무탈출||[https://www.acmicpc.net/problem/15900](https://www.acmicpc.net/problem/15900)|
 |20364|부동산다툼||[https://www.acmicpc.net/problem/20364](https://www.acmicpc.net/problem/20364)|
@@ -55,6 +55,19 @@
 |14267|회사 문화1|*해설보고수정|[https://www.acmicpc.net/problem/14267](https://www.acmicpc.net/problem/14267)|
 
 // 추천 문제 어려움 .. 트리 순회 .. 
+#### 추천문제 
+- 추천문제1 트리 순회 ( DFS 문제 , 데이터 표현이 어려움 )
+  - 이거는 입력 값이 문자열로 주어지니 .. (char)아스키 코드 -> int index 값 , int index 값 -> 아스키 코드(char) 변환하는게 처음이었음
+  - (int)(A - 'A') => 0 
+  - (char)(0 + 'A') => 'A'
+  - int[] child = new int[30][2] 에 트리 입력값을 표현, ('.'은 -1)
+- 추천문제2 5639. 이진검색트리 ( DFS 문제 )
+  - 솔루션 방법은 추후에 공부예정 
+  - 블로그 참고) BST 검색 트리용 클래스 만들어서 , 이진 트리 구성 후 전위 순회, 중위 순회, 후위 순위 다 해봄 (간단)
+- 추천문제3 15900. 나무탈출 ( DFS 문제 )
+  - 리프노드 합이 홀이냐 짝이냐 구하는거 
+  - 1이 루트라고 했기때문에 DFS를 돌때 1이 아니고, 인접리스트 사이즈가 1인 경우 리프노드
+
 
 #### 문제1. 트리의 부모찾기(11725)      --- 10/21 bfs로 문제를 풀었었음
 - 1. 인접리스트로 저장하기

@@ -1,87 +1,61 @@
-﻿import java.util.*;
-import java.io.*;
 /*
-    실버3 .
-    https://www.acmicpc.net/problem/15649
-    - 1부터 N까지 자연수 중에서 중복 없이 M개를 고른 수열 ( 순열 )
-    - 시간복잡도 O(nPr) = O(N!) //인데 N!보다는 적음 
-    - 공간복잡도 O(M) 
+    https://www.acmicpc.net/problem/15650
+    -  N개 중 2) 중복없이, M개를 B)고르기
+    -  N=4, M=3 
+    - 수학의 조합(Combination)으로 표현가능 
+    - 시간복잡도 : O(nCm) => 최대값이 8이니 계산시 O(8!/4!(8-4)!) => 70이라는데.. 4뭐지? 4자리?
+    - 공간복잡도 : O(M)
 
     # 입력 예시 1
-        4 2
+        4 2  
     # 출력 예시 1
         1 2
         1 3
         1 4
-        2 1
         2 3
         2 4
-        3 1
-        3 2
         3 4
-        4 1
-        4 2
-        4 3
-    # 입력 예시 2 
+
+    # 입력 예시 2
         4 4
     # 출력 예시 2
         1 2 3 4
-        1 2 4 3
-        1 3 2 4
-        1 3 4 2
-        1 4 2 3
-        1 4 3 2
-        2 1 3 4
-        2 1 4 3
-        2 3 1 4
-        2 3 4 1
-        2 4 1 3
-        2 4 3 1
-        3 1 2 4
-        3 1 4 2
-        3 2 1 4
-        3 2 4 1
-        3 4 1 2
-        3 4 2 1
-        4 1 2 3
-        4 1 3 2
-        4 2 1 3
-        4 2 3 1
-        4 3 1 2
-        4 3 2 1
-
 
 */
-public class ex2_advanced {
+
+import java.util.*;
+import java.io.*;
+
+public class ex4_15650practice {
+    
     static int N, M;
-    static int[] selected,used;
+    static int[] selected;
     static StringBuilder sb = new StringBuilder();
 
     static void input(){
         FastReader scan = new FastReader();
         N = scan.nextInt();
         M = scan.nextInt();
-        selected = new int[M+1];  // selected에서 0번 인덱스는 의미 x, 1번부터 첫짜리 생각함
-        used = new int[N+1]; // 1~N까지 정수에 대한 사용여부
+        selected = new int[M+1];
     }
 
-    // 문제 해결 함수 , 재귀 O(nPm)
-    static void rec_func(int k){ // k = 자릿수 뜻함 k번째 
-        if(k == M + 1){
-            for(int idx = 1; idx <= M ; idx++) sb.append(selected[idx]).append(' ');
-            sb.append('\n'); // 줄바꿈
+    // 문제 해결 함수 , 재귀 
+    // ex3_15652.java 풀고 직접 품 , 해설이랑 일치 ! 
+    static void rec_func(int k){
+        if(k == M+1){
+            
+            for(int i=1;i<=M;i++) sb.append(selected[i]).append(' ');
+            sb.append('\n');
+            return;
+
         }else{
-            for(int cand = 1; cand <= N; cand++){
-               
-                if(used[cand] == 1) continue;
-               
-                selected[k] = cand; used[cand] = 1;
-                
-                rec_func(k+1);  
-                
-                selected[k] = 0; used[cand] = 0;
-               
+            
+            for(int cand = selected[k-1] + 1 ; cand <= N ; cand++){
+                selected[k] = cand;
+                rec_func(k+1);
+                selected[k] = 0;
             }
+            
         }
     }
 
@@ -141,4 +115,5 @@ public class ex2_advanced {
 
 
     }
+
 }
