@@ -49,7 +49,7 @@ public class ex6_3584 {
         }
     }
 
-    static void lca(int a, int b){
+    static void func(int a, int b){
         int depthA = depths[a];
         int depthB = depths[b];
 
@@ -76,8 +76,7 @@ public class ex6_3584 {
         bfs(root_node, -1);
         //System.out.println(Arrays.toString(parents));
         //System.out.println(Arrays.toString(depths));
-        lca(start_a, start_b);
-        
+        func(start_a, start_b);
     }
 
     static void input(){
