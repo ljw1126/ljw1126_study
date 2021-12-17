@@ -5,7 +5,7 @@
 import java.util.*;
 
 public class BubbleSort {
-      
+   
     // 변경 없는 경우 종료
     public ArrayList<Integer> sort(ArrayList<Integer> dataList){
         for(int i = 0 ; i < dataList.size() - 1; i++){
