@@ -146,6 +146,16 @@ System.out.println(Arrays.toString(nums));
 F:\gitRepository\ljw1126_study\Java\algorithm\Tree\recommandEx\ex1_1991practice.java
 
 
+// 14. char 로 array 받기 (ex14_10026)
+static void input(){
+        N = scan.nextInt();
+        visit = new boolean[2][N][N];
+        arr = new char[N][N];
+
+        for(int i=0;i<N;i++){
+          arr[i] = scan.next().toCharArray();
+        }
+}
 ```
 
 
