@@ -1,0 +1,33 @@
+#11-1
+- 한가지에 종속적이지 않도록 xml, csv 기능 이용하도록 변경 
+- 공식 문서 참고 
+	7.1. Introduction
+	7.2. Marshaller and Unmarshaller
+	https://docs.spring.io/spring-framework/docs/5.3.8/reference/html/data-access.html#oxm-introduction
+
+#11-2 스프링 OXM 서비스 추상화로 XML읽기 로직 개선하기 ( 이해가 안됨.. Jaxb2Marshaller )
+- build.gradle 에 oxm 의존성 추가 
+  implementation 'org.springframework:spring-oxm:5.3.9'
+- Jaxb 대신 oxm으로 로직 수정
+
+  public class MovieBuddyFactory {
+    // 해당 빈 추가
+    @Bean
+    public Jaxb2Marshaller jaxb2Marshaller(){
+        Jaxb2Marshaller marshaller = new Jaxb2Marshaller(); // 마샬러, 언마셜러 둘다 구현하고 있음 
+        marshaller.setPackagesToScan("moviebuddy");
+
+        return marshaller;
+    }
+
+    .. 
+  }
+
+#11-3 이식 가능한 서비스 추상화  ( 개념인데 다시 보기..)
+- POJO(??)
+1. 환경과 구현 기술의 변경과 무관하게 일관된 방식으로 기술을 다룰 수 있게 지원한다.
+2. 엔터프라이즈 애플리케이션에 사용되는 다양한 기술의 서비스 추상화가 제공된다.
+3. 제어의 역전 원리를 통해 POJO에게 제공된다. 
+----------------------------
+여기까지가 첫번째 요구사항 완료 .. 
+(?xml , csv 결국 종속된 형태 아닌가? run configuration에 vm option에 -Dspring.profiles.active=xml_mode 없으면 실행안됨;; )

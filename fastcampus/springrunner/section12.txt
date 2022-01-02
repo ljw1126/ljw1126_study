@@ -1,0 +1,116 @@
+#12-1
+문) 메타데이터 위치를 클래스 패스가 아닌 다른 경로로 바꾸려면 무엇이 변경되나요?
+    CsvMovieReader, XmlMovieReader 둘다 변경되야 하니 .. 외부에서 위치를 주입할 수 있도록 하는게 코드 로직 덜 건드릴 수 있음
+
+// 수정 1
+@Profile(MovieBuddyProfile.CSV_MODE)
+@Repository
+public class CsvMovieReader implements MovieReader {
+
+    private String metadata;
+
+    public String getMetadata() {
+        return metadata;
+    }
+
+    public void setMetadata(String metadata) {
+        this.metadata = Objects.requireNonNull(metadata,"metadata is required value");
+    }
+
+ ..
+}
+
+// 수정 2 MovieBuddyFactory 내용 수정해서 Bean 등록되도록함 
+
+    @Configuration
+    static class DataSourceModuleConfig{
+
+        @Profile(MovieBuddyProfile.CSV_MODE)
+        @Bean
+        public CsvMovieReader csvMovieReader(){
+            CsvMovieReader movieReader = new CsvMovieReader();
+            movieReader.setMetadata("movie_metadata.csv");
+
+            return movieReader;
+        }
+
+    }
+
+// 테스트 . @ActiveProfiles(MovieBuddyProfile.CSV_MODE) 되어 있는 MovieFinderTest 실행하면 정상동작확인됨
+
+이때. setter에 값이 잘못 설정되면 어떻게 될것인가? 런타임 에러가 뜨지 않을까?
+--------------------------------------
+#12-2
+- loadMovies() 호출전까지 정상적으로 메타데이터가 설정되어 있는지 확인 불가.. 
+  > 설정자(setter)로 입력받은 값을 즉시 검증하면 빠르게 수정가능함
+  // 수정1. 검증 로직 추가 
+  public void setMetadata(String metadata) throws FileNotFoundException, URISyntaxException {
+
+        URL metadataUrl = ClassLoader.getSystemResource(metadata);
+        if(Objects.isNull(metadataUrl)){
+            throw new FileNotFoundException(metadata);
+        }
+
+        if(Files.isReadable(Path.of(metadataUrl.toURI())) == false){
+            throw new ApplicationException(String.format("cannot read to metadata. [%s]", metadata));
+        }
+
+        this.metadata = Objects.requireNonNull(metadata,"metadata is required value");
+    }
+  // 수정2. setMetadata()호출하는 MovieBuddyFactory 클래스에 Exception 똑같이 추가 
+
+- 공식 문서 참고 1.6.1. Lifecycle Callbacks 
+  > InitializingBean 콜백 인터페이스 사용해서 메타데이터 오류 문제 해결해보기로 함 
+  https://docs.spring.io/spring-framework/docs/5.3.8/reference/html/core.html#spring-core
+
+// 수정
+public class CsvMovieReader implements MovieReader, InitializingBean{ // InitializingBean 인터페이스에 특정 메서드 구현 
+
+    private String metadata;
+
+    public String getMetadata() {
+        return metadata;
+    }
+
+    public void setMetadata(String metadata){
+        this.metadata = metadata;
+    }
+   
+    ...
+
+    @Override
+    public void afterPropertiesSet() throws Exception {
+        URL metadataUrl = ClassLoader.getSystemResource(metadata);
+        if(Objects.isNull(metadataUrl)){
+            throw new FileNotFoundException(metadata);
+        }
+
+        if(Files.isReadable(Path.of(metadataUrl.toURI())) == false){
+            throw new ApplicationException(String.format("cannot read to metadata. [%s]", metadata));
+        }
+    }
+
+}
+
+- JSR250으로 정의되어 있는 자바 표준 애노테이션 사용해서 빈 생명주기에 관여할 수 있음(위키 참고)
+  https://en.wikipedia.org/wiki/JSR_250
+  https://docs.spring.io/spring-framework/docs/5.3.8/reference/html/core.html#beans-factory-nature
+
+  ※ 공식 문서 내용 
+  The JSR-250 @PostConstruct and @PreDestroy annotations are generally considered best practice for receiving lifecycle callbacks in a modern Spring application. Using these annotations means that your beans are not coupled to Spring-specific interfaces. For details, see Using @PostConstruct and @PreDestroy.
+  If you do not want to use the JSR-250 annotations but you still want to remove coupling, consider init-method and destroy-method bean definition metadata.
+- build.gradle에 의존성 추가
+  implementation 'javax.annotation:javax.annotation-api:1.3.2'
+※ ppt에 빈 생명주기 관여하기 읽어보기(section12)
+
+- 스프링 컨테이너에서 제공하는 @PostConstruct, @PreDestroy 사용해서 빈 생명주기 관여하도록 소스 수정함(CsvMovieReader.java)
+  > 상세한 내용은 18장 프록시에서 다룰 예정이라 함
+===========================
+#12-3
+- 마우스 오른쪽 클릭 Refactor > Extract Superclass.. 통해서 해당 클래스내에 속성, 메소드 뽑아 부모 추상클래스로 리팩토링 가능
+- xml또한 csv처럼 리소스 검증하고 외부에서 setter로 리소스 위치 정보 넣을 수 있도록함
+
+
+@Profile(MovieBuddyProfile.XML_MODE)
+@Repository //레파지토리 ("movieReader") 때문에 빈등록이 안됨.. 이거때문에 beanFactory 충돌난건지 의문..?
+public class XmlMovieReader 

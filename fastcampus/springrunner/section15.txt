@@ -1,0 +1,46 @@
+TODO 3. 영화 메타데이터 읽기 속도를 빠르게 하라.
+======================
+#15-1 원격 리소스 취득의 문제점
+- MovieBuddyApplication실행시 VM argument 에 설정 변경 
+  >> -Dspring.profiles.active=csv_mode
+- 실행 속도 딜레이가 발생함 .. 
+  - CsvMovieReader에서 InputStream 동작시 http로 호출하고 처리하기때문에 딜레이가 생김
+    문) 매번 받지 않고 한번만 받도록 하면? 새로 갱신된 데이터를 못받음
+    문) 일정시간마다 새로받도록 하면? 일정시간 이후에 갱신됨
+    효율적인방법) 로컬에 데이터가 없다면 내려받고, 내려받을때는 원격지 데이터 변경되었을때만 받도록 함(=캐시 활용)
+
+#15-2
+※ 캐시(Cache) 
+   1. 캐시는 임시 저장소를 뜻하며, 애플리케이션 성능을 향상시키는 기법 중 하나이다. 
+   2. 객체 캐싱(object caching)은 기존에 사용된 객체를 캐시에 저장해두었다가 다시 참조될 떄 사용하는 방법 
+   // 자바 8을 지원하는 '카페인'(고성능 캐시)을 사용해 보려함. ( https://github.com/ben-manes/caffeine )
+※ JCache 는 자바 6부터 호환되고 JEE8부터 포함되서 출시됨 ( https://github.com/ben-manes/caffeine/wiki/JCache ) 
+
+- 카페인 라이브러리 의존성 추가 // 깃허브 참고 
+  implementation 'com.github.ben-manes.caffeine:caffeine:2.8.0'     // 3.0.5 
+- CaffeineTests.java 추가 
+  - (제한사항) 캐시 사용시 메모리 크기를 고려해야 함 ( 캐쉬에서 사용하는 메모리 크기로 인해, 애플리케이션에 영향을 주어선 안됨 .. ) 
+  - 캐쉬관리 : 최대 개수, 만료기간 같은 것들을 활용해서 효율적으로 캐시 사용할 수 있도록 하는 것 
+
+! 카페인 캐쉬를 적용해서 3초마다 csv list를 갱신하도록 함 
+  > 하지만 여기에도 문제가 있음 (POJO관련)
+    > POJO : 객체지향적 원리에 충실하고, '특정 규약과 환경에 종속되지 않게' 재활용될 수 있는 방식으로 설계된 객체다.
+    >> 카페인 라이브러리 사용시 특정규약과 환경에 종속되게 됨 ! , 현재는 카페인만으로 충분하지만 향후에 캐싱 기능 확장이 필요한 경우 어렵게 됨
+    >> 그래서 지금 캐시 서비스 추상화가 필요함 ( 스프링에서 제공하는 걸 활용하도록 함 ) 
+    >>> Cache Abstraction은 3.1버전 부터 지원 , 애플리케이션의 코드에 영향을 주지 않고 다양한 캐싱 솔루션을 일관된 방식으로 사용할 수 있게 지원해줌
+    >>> 그리고 4.1버전 부터는 자바의 표준 캐싱 API인 JCache, 즉 JSR-107을 지원함    
+    >>> 스프링 캐쉬 추상화에는 두가지가 중심을 잡고 있다. 
+          "This abstraction is materialized by the 'org.springframework.cache.Cache' and 'org.springframework.cache.CacheManager' interfaces."
+    >>> 이제 스프링 추상화로 로직을 변경함 
+※ 공식문서 참고 ( 8. Cache Abstraction ) 
+    https://docs.spring.io/spring-framework/docs/5.3.8/reference/html/integration.html#cache-strategies
+
+- MovieBuddyFactory.java 
+    //스프링 컨테이너에 의존성 주입해서 활용하는 방식
+    @Bean
+    public CacheManager caffeineCacheManager(){ // 이렇게 redis로도 변경할 수 있고, 애플리케이션 영향 주지 않고 변경가능해짐
+        CaffeineCacheManager cacheManager = new CaffeineCacheManager(); // CaffeineCacheManager 내용보면 CacheManager 구현하고 있음
+        cacheManager.setCaffeine(Caffeine.newBuilder().expireAfterAccess(3, TimeUnit.SECONDS));
+
+        return cacheManager;
+    }

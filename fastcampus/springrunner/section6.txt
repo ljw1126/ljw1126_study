@@ -1,0 +1,87 @@
+# 6-1 자바 기반의 컨테이너 구성 
+- 애노테이션은 자바 5버전 등장
+  - 자바 코드의 메타데이터로 컴파일, 런타임에 활용됨 
+  - 빌트인 애노테이션, 커스터 애노테이션으로 분류됨 
+    - 빌트인 애노테이션 예시 ) @Override, @Deprecated 등등
+    - 커스텀 애노테이션 예시 ) @Configuration, @Bean 등등
+
+https://docs.spring.io/spring-framework/docs/5.3.8/reference/html/
+https://docs.spring.io/spring-framework/docs/5.3.8/reference/html/core.html#spring-core
+
+# 6-2 자바코드로 Bean별 의존관계 주입하기
+- 1. 메소드 콜 방식
+   @Bean
+    public MovieReader movieReader(){
+        return new CsvMovieReader();
+    }
+
+    @Bean
+    public MovieFinder movieFinder(){
+        return new MovieFinder(movieReader());
+    } 
+- 2. 메소드 파라미터 방식 
+   @Bean
+    public MovieReader movieReader(){
+        return new CsvMovieReader();
+    }
+
+    @Bean
+    public MovieFinder movieFinder(MovieReader movieReader){ // 위에 MovieReader 타입의 객체가 반환된다함
+        return new MovieFinder(movieReader);
+    }
+
+※ Spring의 빈 스코프 
+   - 스프링 컨테이너는 빈을 생성시, 한개만 만들지 , 호출시마다 만들지 결정하는 매커니즘을 가짐 (= 빈 스코프)
+   - 단 하나만 만들면 싱글톤 스코프, 요청시마다 만들면 프로토타입 스코프(default 싱글톤 스코프) 
+     [싱글톤 스코프(default)]
+     - 스프링 애플리케이션 시작시 생성과 종료될때 소멸됨 
+     - 싱글톤 스코프는 단 하나만 생성되고 그 빈을 의존하는 모든 빈에 유일한 객체를 공유함.
+
+       @Bean
+       public MovieReader movieReader(){
+          return new CsvMovieReader();
+       }
+
+       @Bean
+       public MovieFinder movieFinder(MovieReader movieReader){
+          return new MovieFinder(movieReader);
+       }
+
+     [프로토타입 스코프]
+     - 스프링 컨테이너가 빈을 요청받을 때마다 항상 새로운 빈을 생성해서 반환하도록 동작함
+
+     @Bean
+      public MovieReader movieReader(){
+        return new CsvMovieReader();
+     }
+
+     @Bean
+     @Scope(ConfigurableBeanFactory.SCOPE_PROTOTYPE) // 요거 추가해 줌으로써 프로토타입 스코프가 됨 
+     public MovieFinder movieFinder(MovieReader movieReader){
+         return new MovieFinder(movieReader);
+      } 
+
+# 6-3. 자바 기반 빈 구성정보 조합하기 
+- @Import 다른 클래스에 있는 빈 구성정보를 불러오기 위해 사용하는 것
+- @ImportResource("xml file location")    xml 파일에 있는 설정정보를 가져와 사용하겠다.
+
+@Configuration
+@Import({MovieBuddyFactory.DomainModuleConfig.class, MovieBuddyFactory.DataSourceModuleConfig.class})
+public class MovieBuddyFactory {
+
+    @Configuration
+    static class DomainModuleConfig{
+        @Bean
+        public MovieFinder movieFinder(MovieReader movieReader){ // movieReader를 못 찾는 문제가 발생하는데.. 문법을 IDE가 처리 못한거 같음/결론은 정상동작함
+            return new MovieFinder(movieReader);
+        }
+    }
+
+    @Configuration
+    static class DataSourceModuleConfig{
+        @Bean
+        public MovieReader movieReader(){
+            return new CsvMovieReader();
+        }
+    }
+}

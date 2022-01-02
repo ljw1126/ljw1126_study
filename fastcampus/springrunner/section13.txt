@@ -1,0 +1,95 @@
+※ 지금까지 'TODO 2. 영화 메타데이터 위치를 변경할 수 있도록 하라' 요구사항 처리 위해 
+- 외부에서 메타 데이터 위치를 주입할 수 있도록, 설정자 추가하고 초기화과정에서 읽을 수 있는 메타데이터인지 검증하는 과정 추가함
+- 하지만 메타데이터 위치 변경시 MovieBuddyfactory를 건드려야 하기때문에 아직 수정할 부분 남음
+- 코드 변경하지 않고 메타데이터 위치 설정하려면 어떻게 하면 좋을까?
+  - 설정 정보를 따로 뽑아서 읽을 수 있다면 내부 코드 변경 안해도 되지 않을까?
+
+#13-1
+- VM argument 에 설정정보 넣어서 읽을 수 있도록 수정
+// 수정 
+    @Configuration
+    public static class DataSourceModuleConfig{
+
+        @Profile(MovieBuddyProfile.CSV_MODE)
+        @Bean
+        public CsvMovieReader csvMovieReader(){
+            CsvMovieReader movieReader = new CsvMovieReader();
+            movieReader.setMetadata(System.getProperty("movie.metadata")); // System.getProperty() 통해서 파라미터 읽어옴 
+
+            return movieReader;
+        }
+
+        @Profile(MovieBuddyProfile.XML_MODE)
+        @Bean
+        public XmlMovieReader xmlMovieReader(Unmarshaller unmarshaller){
+            XmlMovieReader movieReader = new XmlMovieReader(unmarshaller);
+            movieReader.setMetadata(System.getProperty("movie.metadata"));
+
+            return movieReader;
+        }
+    }
+
+// MovieFinderTest 실행시 Edit Configuration에서 VM option 에 
+   -Dmovie.metadata=movie_metadata.csv 추가해도 동작 안함......
+
+※ System.getProperty() 동작 안하는 문제에 대해 junit아닌 gradle로 실행되고 있어서 였음..********************************
+   - setting > Build, Execution,Deployment > Build Tools > Gradle 에서 Build and run using 과 Run tests using을 Intellij IDEA로 수정 
+   - 다시 run configuration 보면 [Build and run] 아래에 
+     - java버전 설정(11) , -cp moviebuddy.test 
+     - 입력칸 >>  -ea -Dmovie.metadata=movie_metadata.csv 기재하기 
+     - Class >> moviebuddy.domain.MovieFinderTest
+
+※ 스프링은 외부 설정파일, 시스템 환경변수 등을 일관된 방식으로 환경정보 읽을 수 있는 런타임 환경 서비스 추상화인 
+   Environment 인터페이스 지원하고 있음 !! 
+   > MovieBuddyFactory에 추가
+=============================================================================================
+#13-2
+- 공식문서 확인 "1.9.8. Using @Value"
+	https://docs.spring.io/spring-framework/docs/5.3.8/reference/html/core.html#beans-value-annotations
+- Value는 일반적으로 외부 설정정보를 주입하는데 사용, 이때 필요한 외부 설정정보는 앞서한 스프링 런타임 추상화를 통해 취득가능
+    // 수정 1. AbstractFileSystemMovieReader 
+    @Value("${movie.metadata}")
+    public void setMetadata(String metadata) {
+        this.metadata = metadata;
+    }
+
+    // 수정 2. MovieBuddyFactory에 있는 DataSourceModuleConfig{} 안에 내용 다 지움 . @Value통해 메타데이터 취득해서 동작하므로
+    // 수정 3. 마찬가지로 XmlMovieReaderTest 동작시 ${movie.metadata} 파일 값이 없으므로 junit run configuration 수정후 실행하면 정상동작함
+                -ea -Dmovie.metadata=movie_metadata.xml     // 위에랑 동일  
+
+=============================================================================================
+#13-3
+- resource폴더에 application.properteis 파일 생성 
+- MovieBuddyFactory 수정 
+  @PropertySource("/application.properties") // 추가됨
+  public class MovieBuddyFactory { .. }
+- MovieFinderTest 실행전 vm argument 추가했떤 내용 삭제 >> -Dmovie.metadata=movie_metadata.csv
+- 마찬가지로 XmlMovieReaderTest 에 추가했던 vm argument 삭제 >>  -Dmovie.metadata=movie_metadata.xml
+  그런데 Xml 파일 설정은 따로 안해서 에러가 나므로 해당 테스트를 위한 메타 설정을 해줌 
+  @TestPropertySource(properties = "movie.metadata=movie_metadata.xml") // 물리적이지 않은 해당 설정을 통해 동작됨 
+  public class XmlMovieReaderTest {..}
+
+=============================================================================================
+#13-4 스프링 환경 추상화 
+※ 환경 추상화(Environment Abstraction)란?
+   - 실행 환경에 따른 빈 구성을 할 수 있고, 일관된 방식으로 외부 설정정보를 관리하고, 접근한다. 
+   - 프로파일(profile)과 프로퍼티 소스(property-source)로 구성되며, 컨테이너와 통합된 서비스 추상화이다. 
+※ 빈 정의 프로파일(profiles)로 환경에 따라 컨테이너 구성하기 // 개발환경, 운영환경 Profile 개념 설명 
+   - 빈 정의 프로파일(profile)은 실행 환경에 따라 컨테이너에 빈을 등록할 수 있는 매커니즘이다. 
+   - @Profile 애노테이션으로 프로파일 별로 빈 등록을 할 수 있다. 
+   - 프로파일은 OS 환경변수, JVM 시스템 파라메터, Environment API 등을 통해 활성화할 수 있다. 
+   - 보편적으로 환경은 개발, 운영 또는 성능 측정 등 애플리케이션이 실행되는 환경을 뜻한다. 
+※ 애플리케이션 설정정보를 다루는 PropertySource 추상화 
+   - 프로퍼티 소스는 key=value 형태로 잓어된 설정정보로 보편적으로 애플리케이션 외부에서 불러 구성한다. 
+   - 환경변수, 서블릿 매개변수, 프로퍼티 파일 등 다양한 소스를 일관된 방식으로 사용할 수 있게 지원한다. 
+
+※ 애노테이션 
+@PropertySource("/application.properties")      // 클래스에서 해당 properties를 인식가능, MovieBuddyFactory (공통선언인듯)
+@Value("${movie.metadata}")                      // MovieBuddyFactory 에서 선언한 PropertySource에 있는 movie.metadata를 주입해줌 , AbstractFileSystemMovieReader
+
+※ 프로퍼티 치환자를 이용한 빈 프로퍼티 값 설정하기 (강의 참고, 규칙설명함)    ${}
+   스프링 표현 언어를 이용한 빈 프로퍼티 값 설정하기 #{}
+
+-------------------
+다음부터 저수준 resource 참조를 추상화하는 내용 다룬다함 
+ 

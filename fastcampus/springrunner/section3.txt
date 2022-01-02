@@ -1,0 +1,46 @@
+※ 상속은 코드 재사용 하기 위해 널리 사용되나 2가지 관점에서 설계에 안 좋은 영향을 끼침 
+    1. 캡슐화를 위반함 
+    2. 설계를 유연하게 하지 못한다. 
+
+그래서 
+# Effective JAVA 책에서
+	## 상속보다는 '합성'을 사용하라 
+	## 추상클래스보다는 인터페이스를 우선하라
+	## 객체는 인터페이스를 사용해 참조하라
+
+- 인터페이스는 자바가 추상화를 통해 제공하는 가장 유용한 도구입니다. 
+- 인터페이스는 정의된 메시지를 통해서만 재사용이 가능하기 때문에 구현을 효과적으로 캡슐화할 수 있으며 
+  참조되는 인스턴스를 교체하는 것이 비교적 쉽기 때문에 설계를 유연하게 만들어 줌 
+- 즉, 합성은 메시지를 통해 느슨하게 결합되며, 따라서 코드를 재사용하기 위해서는 상속보다는 합성을 선호하는게 좋음 
+
+	- 그래서 MovieFinder는 추상 클래스에서 일반 클래스로 다시 변경하고 MovieReader 인터페이스를 만듦 
+	- git reset --hard 로 변경 코드 되돌림 
+
+===============================================================================
+
+ - 여태까지 영화 데이터 읽기 관심사를 추상화해 MovieReader 인터페이스 만듦으로써 앞으로 확장가능성을 높임 
+ # JAXB
+    - 자바클래스를 XML로 표현하는 자바 표준 API 이다 . 
+    - JAXB (작스비)의 두 가지 주요 기능     
+	 1. 마샬링(Marshalling) : 자바 객체 => XML문서 
+ 	 2. 언마샬링(Unmarshalling) : XML문서 => 자바 객체     -- 이 기능 사용하려함 
+ - jaxb 의존성 추가 필요 > build.gradle 에 추가 
+	dependencies {
+		implementation 'org.glassfish.jaxb:jaxb-runtime:2.3.1'
+	}
+    // 정상적이라면 전이의존성 라이브러리까지 다 추가됨 
+
+!에러발생 : General error during semantic analysis: Unsupported class file major version 60
+               > gradle이 java 16 버전을 지원하지 않는다는 뜻 , JAVA_HOME 설정은 openjdk11 로 되어있는데 console 확인시 16이 출력되어서 삭제처리 후 재부팅 
+
+===============================================================================
+- Junit 테스트 프레임워크 사용 
+- 프로젝트에 junit 의존성 추가 
+  > gradle.build 파일에 dependencies에 아래 내용 추가 
+  	testImplementation 'org.junit.jupiter:junit-jupiter-engine:5.5.2'
+	testRuntimeOnly 'org.junit.platform:junit-platform-launcher:1.5.1'
+  > 그리고 gradle에서 테스트시 junit 사용하도록 아래 속성 설정도 추가 
+	test{
+		useJUnitPlatform()
+	}
+

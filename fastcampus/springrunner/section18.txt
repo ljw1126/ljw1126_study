@@ -1,0 +1,134 @@
+- 부가 기능의 코드를 깔끔하고 효과적으로 분리해 내는 동시에 핵심 기능이 동작하는 과정에 동적으로 참여해서 부가 기능을 제공해주도록 만듦 
+  > 부가 기능이 분리되어 있기때문에 언제든 추가 가능하고, 핵심코드를 건드리지 않음 
+
+#18-1 프락시 팩토리 빈의 한계  
+  - ProxyFactoryBean(proxy)와 CachingAdvice(advice)를 생성해서 MovieReader에 비지니스 로직으르 건드리지 않고 이용가능했음 
+  - 문) 부가 기능이 늘어날 수록 프락시 빈 등록을 위해 ProxyFactoryBean에 필요한 코드를 작성해야 함 (실수하기 쉽고 반복작업 증가)
+    문) 어드바이스(CachingAdvice)가 대상 객체나 메소드를 가리지 않고 부가 기능을 적용한다는 점 
+         => MovieReader는 Java Object 클래스를 상속하기 때문에 불필요한 메소드에 대해서도 적용됨 
+              캐시를 통해 성능 끌어올리는 것이 필요한 메소드도 있지만, 정확도가 더 중요해서 매번 실시간으로 처리된 결과값을 반환해야 하는 메소드도 있음
+              고로 이 두가지가 공존하는 객체에 경우 문제가 될 것이다. 또한 상황에 따라서 MovieReader외에 다른 빈 객체에도 영화 줄 수 있음 
+  - 다행히 스프링은 두가지 문제에 대한 해결법이 있음 
+
+#18-2 빈 후처리기를 이용한 자동 프락시 생성기 적용하기 
+ - BeanPostProcessor 
+   생성된 스프링 빈 객체를 후처리 할 수 있게 해줍니다. 후처리한다는 것은 강제로 빈의 의존관계 변경 또는 프로퍼티를 통한 
+   새로운 값 설정. 더 나아가 만들어진 빈을 대체할 수도 있음 
+ - 스프링이 제공하는 빈 후처리기 중에 하나인 DefaultAdvisorAutoProxyCreator 가 바로 Advisor를 이용한 자동으로 프락시를 생성하는 기능 제공함 
+   이 Advisor는 부가 기능과 함께 부가 기능을 제공할 대상 객체나 메소드를 선정하는 알고리즘을 담고 있는 객체이다. 
+   이 빈 후처리기를 이용하면 스프링이 생성하는 빈 객체의 일부를 프락시로 포장하고, 프락시로 빈을 대신 등록할 수 있다.
+ - 이제 프로젝트에 적용해봄 
+   > MovieBuddyFactory에
+      // 자동 프락시 생성 위한 bean 등록
+      @Bean
+      public DefaultAdvisorAutoProxyCreator defaultAdvisorAutoProxyCreator(){
+        return new DefaultAdvisorAutoProxyCreator();
+      }
+     
+     // 캐싱에 대한 부가기능 제공위한 Advisor 추가 
+     @Bean
+     public Advisor cachingAdvisor(CacheManager cacheManager){
+        Advice advice = new CachingAdvice(cacheManager);
+
+        // Advisor = PointCut(대상 선정 알고리즘) + Advice(부가기능)
+        return new DefaultPointcutAdvisor(advice);
+     } 
+   > ProxyFactoryBean 타입 빈은 주석 또는 삭제 
+   > MovieFinderTest 정상동작 확인 
+
+
+#18-3 PointCut을 이용해 원하는 곳에만 부가기능 부여하기 
+ ※ 부수 효과 ( Side Effect ) 
+    컴퓨터 과학에서 함수가 결과값 이외에 다른 상태를 변경시킬 때 부수효과가 있다고 말한다. 
+    예를 들어, 함수가 전역변수나 정적변수를 수정하거나, 인자로 넘어온 것들 중 하나를 변경하거나 화면이나 파일에 데이터를  쓰거나,
+    다른 부수효과가 있는 함수에서 데이터를 읽어 오는 경우가 있다. 
+    // CachingAdvice 클래스가 사이드 이펙트 발생시키고 있는 상태
+
+- CachingAdvice에 log 출력을 남기고 
+  MovieFinderTest 실행시 loadMovies()에만 캐싱을 원했는데 directedBy()와 같이 원치않는 메소드에도 적용되고 있는 것을 확인가능 
+  > CachingAdvice가 조건없이 스프링컨테이너에 모든 빈(내부 메소드)에 적용되었기 때문임 
+  > CachingAdvice 에 부가 기능을 적용할 대상 객체나 메서드를 판별할 수 있도록 함  
+  > CachingAdvice 에서 추가 (부적절한 방법)
+    
+    @Override
+    public Object invoke(MethodInvocation invocation) throws Throwable {
+        // 부가 기능을 적용할 대상 객체나 메서드를 판별하기
+        // 대상 객체가 MovieReader 타입이 아니면 즉시 반환하기 
+        if(!ClassUtils.isAssignableValue(MovieReader.class, invocation.getThis())){
+            return invocation.proceed();
+        }
+
+        // 메서드가 loadMovier가 아니면 즉시 반환하기
+        if(!"loadMovies".equals(invocation.getMethod().getName())){
+            return invocation.proceed();
+        }
+    .. } 
+    >> 타입이나 메소드 필터링 로직을 넣기 전에 CachingAdvice는 대상 객체 정보를 가지고 있지 않은 순수한 부가 기능만 담고 있음 
+         그렇기 때문에 재사용 가능했음, 위와 같은 코드는 대상 객체(ovieReader.class,loadMovies) 를 지정함으로써 재사용성을 떨어뜨려 버림 
+    >> 함께 두기 곤란한 성격, 변경의 이유, 시기가 다르고, 생성방식과 의존관계가 다른 코드가 이렇게 함께 있다면 즉 관심사가 다르면 분리하면 됨 
+         *스프링 AOP는 어드바이스를 통해 부가 기능을 담을 수 있도록 제공하고, 
+          대상 객체나 메소드에 선정 알고리즘을 담을 수 있는 "포인트컷 인터페이스"를 제공하고 있음 
+   >> MovieBuddyFactory에서 내용 수정 후 MovieFinderTest실행 // 이제 Caching이 loadMovies()에만 적용된 것을 로그 통해 확인가능
+      // 수정전 
+      @Bean
+      public Advisor cachingAdvisor(CacheManager cacheManager){
+        Advice advice = new CachingAdvice(cacheManager);
+
+        // Advisor = PointCut(대상 선정 알고리즘) + Advice(부가기능)
+        return new DefaultPointcutAdvisor(advice); // this(Pointcut.TRUE, advice); 내용이 되어 있음 
+      }
+     
+     // 수정후 + CachingAdvice 에 조건문 추가한거 위에 내용 지우기 
+    @Bean
+    public Advisor cachingAdvisor(CacheManager cacheManager){
+        NameMatchMethodPointcut pointcut = new NameMatchMethodPointcut();
+        pointcut.setMappedName("load*");
+
+        Advice advice = new CachingAdvice(cacheManager);
+
+        // Advisor = PointCut(대상 선정 알고리즘) + Advice(부가기능)
+        return new DefaultPointcutAdvisor(pointcut,advice);
+    }
+
+  > 스프링은 다양한 포인트컷 구현체를 제공함 
+    >> build.gradle에 JCache(자바의 표준 캐싱API) 의존성 추가 
+         implementation 'javax.cache:cache-api:1.1.1'
+    >> CsvMovieReader 클래새ㅡ에 loadMovies()에 @CacheResult(cacheName ="movies") 추가 
+    >> MovieBuddyFactory에 cachingAdvisor()에서 내용 수정 후 MovieFinder 테스트 실행(정상동작)
+         //AnnotationMatchingPointcut pointcut = new AnnotationMatchingPointcut(클래스레벨, 메소드레벨);
+         AnnotationMatchingPointcut pointcut = new AnnotationMatchingPointcut(null, CacheResult.class);
+    >> XmlMovieReaderTest 실행시 실패뜸 
+        // movieReader가 Aop 프락시 객체인지 확인
+        Assertions.assertTrue(AopUtils.isAopProxy(movieReader)); // false임, 
+        >>> 현재 @CacheResult가 있으면 AOP를 적용하겠다, 프락시로 구성하겠다고 변경했는데 
+               CsvMovieReader에는 해당 애노테이션이 있지만 XmlMovieReader에는 없으니 프락시로 구성하지 않은것 
+               // XmlMovieReader에 @CacheResult(cacheName ="movies") 추가해주면됨 
+    >> 이거를 그냥 인터페이스 MovieReader에 loadMovies()메소드 적용해도 정상동작함 // Csv/XmlMovieReader에 지우고 
+     
+      
+#18-4 스프링 AOP APIs   (개념정리하는 영상, ppt참고)    
+- "AOP"는 모듈화된 부가 기능과 적용 대상의 조합을 통해 여러 객체에 산재해서 나타나는 횡단 관심사를 손쉽게 개발하고 관리할 수 있는 기술이다.
+- 스프링은 자바 JDK에서 지원하는 동적 프락시 기술을 이용해 복잡한 빌드 과정이나 바이트 코드 조작 기술 없이도 AOP를 적용할 수 있는 프락시 기반 AOP기술을 지원함
+
+※ 스프링과 관점지향 프로그래밍( AOP : Aspect Oriented Programming, ppt 참고)
+ - 관점 지향 프로그래밍은 애플리케이션의 부가기능을 모듈화하고, 핵심기능과 상호작용 할 수 있게 한다. 
+ - 관점 지향 프로그래밍은 객체 지향 프로그래밍의 가치를 지킬 수 있도록 돕는 보조적인 기술이다. 
+ - 스프링은 IoC/DI를 이용해 프락시(proxy) 기반 관점지향 프로그래밍을 지원한다. 
+ - Pointcut 이라는 적용 대상 선택 기법과 자동 프락시 생성이라는 적용 기법까지 접목하면 비로소 AOP라고 부를 수 있는 효과적인 부가 기능 모듈화가 가능해짐 
+
+※ 스프링 AOP API란
+※ Advisor API
+   - 어드바이스(부가기능)와 포인트컷(메소드 선정 알고리즘)을 묶은 객체 
+   - org.springframework.aop.Advisor 인터페이스를 바탕으로 다양한 구현체가 제공됨
+
+※ ProxyFactoryBean으로 프락시 생성하기 
+   - 스프링 AOP 프락시 생성하는 기본적인 방법으로 포인트컷과 적용되는 어드바이스 순서 등을 제어할 수 있다. 
+   - 프락시 기술을 추상화해 일관된 방법으로 프락시를 만들 수 있게 도와주는 서비스 추상화이다. 
+   - JDK 다이내믹 프락시와 CGLIB 프락시를 지원함 
+
+※ 스프링 AOP 프락시의 종류 
+   - JDK 다이내믹 프락시는 인터페이스 기반으로 프락시를 만든다. 스프링의 기본 프락시 생성 전략이다. 
+   - CGLIB는 바이트 코드 생성 기술을 이용 상속 기반으로 프락시를 만듦 
+     > 스프링은 클래스 프락시를 지원하지만 여전히 인터페이스를 통한 객체 지향적인 합성 기법과 이를 바탕에 둔 제어의 역전과 의존 관계 주입을 사용하도록 권장한 
+
+※ 빈 후처리기를 이용한 자동 프락시 생성기

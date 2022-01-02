@@ -1,0 +1,38 @@
+#19-1 @AspectJ 애노테이션 스타일로 캐싱 로직 개선하기 
+- 공식문서 참고 ( 5. Aspect Oriented Programming with Spring )
+   https://docs.spring.io/spring-framework/docs/5.3.8/reference/html/core.html#aop
+- 스프링은 AspectJ라는 뛰어난 AOP기술을 차용해 AspectJ 애노테이션과 XML기반으로 보단 간단하고 강력하게 관점 지향 프로그래밍을 할 수 있는 방법을 지원함 
+  > 스프링 AOP의 어드바이저와 유사한 역할을 수행함 
+  > 즉, 부가 기능과 적용 대상 선정 알고리즘을 포함한 객체를 뜻함 (이 방법을 AspectJ 애노테이션 스타일이라고 부름)
+- 앞서 작성했던 스프링 AOP 기반의 저수준 API를 사용한 캐시 기능을 AspectJ 애노테이션 스타일로 바꿔서 작성해 보도록 함 
+  1) build.gradle 의존성 추가 
+     implementation 'org.aspectj:aspectjweaver:1.9.6'
+  2) moviebuddy.cache.CachingAspect 작성 
+     > 앞서 메소드 명(load*)이나, @CacheResult(cacheName ="movies") 로 포인트 컷했음 
+     > @Around("target(moviebuddy.domain.MovieReader)") 부분이 포인트컷 // MovieReader 타입이라면 해당 어드바이스 적용함 
+  3) AspectJ 활성화 위해 MovieBuddyFactory 수정 
+     3-1) @EnableAspectJAutoProxy 추가함  
+     3-2) 스프링 컨테이너에 신규 빈 등록 
+           @Bean
+           public CachingAspect cachingAspect(CacheManager cacheManager){
+                  return new CachingAspect(cacheManager);
+           }
+  4) XmlMovieReaderTest 실행 
+     22:40:33.887 [main] INFO moviebuddy.cache.CachingAspect - caching return value. [execution(List moviebuddy.domain.MovieReader.loadMovies())]
+
+#19-2 스프링 AOP의 @AspectJ지원 (강의자료 참고)
+- AspectJ  애노테이션 스타일을 사용하면 자바 코드와 애노테이션만으로 쉽고 간단하게 AOP 개발을 할 수 있음  
+※ @AspectJ 애노테이션 스타일 
+  - @AspectJ의 문법과 애스퍽트 정의 방법을 활용해 스프링 AOP를 적용하는 방법임 
+  - POJO 클래스에 포인트컷과 다양한 어드바이드 애노테이션을 이용해 애스펙트를 작성함 
+  - AspectJ 런타임 라이브러리인 aspectjweaver.jar 가 필요함 
+※ @AspectJ 지원 활성화 
+  - @AspectJ 지원 활성화는 자바 코드나 XML기반으로 활성화 할 수 있다. 
+  - 원하는 클래스에 @EnableAspectJAutoProxy 추가 
+     >> @Aspect가 표시된 모든 빈(bean)을 찾아 애스펙트로 등록하고 스프링 AOP를 구성한다. 
+※ 포인트컷과 포인트컷 표현식 언어 (강의자료 참고)
+
+※ 스프링과 관점지향 프로그래밍 (Aspect Oriented Programming:AOP)
+   - 관점지향 프로그래밍은 애플리케이션의 부가기능을 모듈화하고, 핵심기능과 상호작용 할 수 있게 함 
+   - 관점지향 프로그래밍은 객체 지향 프로그래밍의 가치를 지킬 수 있도록 돕는 보조적인 기술이다. 
+   - 스프링은 IoC/DI를 이용해 프락시(proxy) 기반 관점지향 프로그램이을 지원함

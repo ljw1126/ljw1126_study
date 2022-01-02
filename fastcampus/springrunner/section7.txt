@@ -1,0 +1,74 @@
+# 7-1 자동 클래스 탐지로 빈 등록하기 
+- @ComponentScan 애노테이션으로 기능 활용가능 
+  ※ 스테레오 타입 애노테이션   
+     - org.springframework.sterotype 패키지 보면 스테레오타입 애노테이션 확인가능
+     - @Component, @Controller, @Repository, @Service 등이 있음 
+
+- @ComponentScan(basePackages = {"moviebuddy"}) 처럼 패키지 지정가능
+
+@Configuration
+@ComponentScan //해당 패키지 기준으로 하위 패키지까지 검색하게 됨
+@Import({MovieBuddyFactory.DomainModuleConfig.class,
+        MovieBuddyFactory.DataSourceModuleConfig.class})
+public class MovieBuddyFactory {
+    
+    // CsvMovieReader 클래스에 @Component 애노테이션 추가해서 해당 매개변수에 등록되어 실행됨 
+    @Configuration
+    static class DomainModuleConfig{
+        @Bean
+        public MovieFinder movieFinder(MovieReader movieReader){
+            return new MovieFinder(movieReader);
+        }
+    }
+
+    @Configuration
+    static class DataSourceModuleConfig{
+	
+    }
+}
+
+# 7-2 객체 타입으로 자동 의존관계 주입하기 
+- 스프링은 빈이 생성된 후 자동으로 의존 관계를 주입해 주는 '자동 와이어링 기법' 지원함 
+@Configuration
+@ComponentScan
+@Import({MovieBuddyFactory.DomainModuleConfig.class,
+        MovieBuddyFactory.DataSourceModuleConfig.class})
+public class MovieBuddyFactory {
+
+    @Configuration
+    static class DomainModuleConfig{
+	// 다 지원버림..
+    }
+
+    @Configuration
+    static class DataSourceModuleConfig{
+
+    }
+}
+
+@Service // 스프링 컨테이너가 해당 애노테이션 보고 빈 등록함
+public class MovieFinder {
+
+    private final MovieReader movieReader;
+
+    @Autowired     // 스프링 컨테이너에서 해당 애노테이션 보고 필요한 의존관계를 주입해 줌 , *클래스에 생성자 한 개인 경우 생략 가능 
+    public MovieFinder(MovieReader movieReader){
+        this.movieReader = Objects.requireNonNull(movieReader);
+    }
+...
+}
+
+# 7-3 
+1. 선언된 타입 기반으로 자동 와이어링 해줌
+- JaxbMovieReader 에 @Repository 추가 후 테스트 해보면 MovieFinder 생성자에서 movieReader 의존관계 주입시 2개가 되버리니 에러출력됨 
+  expected single matching bean but found 2: csvMovieReader,jaxbMovieReader
+2. 빈 이름으로 와이어링 해줄 수 있음 
+   2-1.
+   @Repository("movieReader")
+   public class JaxbMovieReader implements MovieReader{ .. }
+ 
+   2-2. @ComponentScan 시 빈의 이름이 적절한 이름으로 등록 되게 됨 // 기본적으로 클래스 첫번째 문자가 소문자가 되고 나머진 동일명으로 등록됨
+    public MovieFinder(@Qualifier("csvMovieReader") MovieReader movieReader){
+        this.movieReader = Objects.requireNonNull(movieReader);
+    }
+이외에도 다른 방식이 있다함.

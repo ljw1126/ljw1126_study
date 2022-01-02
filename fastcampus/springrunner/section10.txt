@@ -1,0 +1,51 @@
+#10-1 애플리케이션이 XML 일기 컴포넌트를 사용하도록 변경하기 
+- xml말고 다른 것도 추가되면 어떻게?
+- 스프링은 환경에 따른 빈 구성 기능을 제공하고 있음 
+
+※ 문서에서 '1.13.1. Bean Definition Profiles' 찾아보기
+https://docs.spring.io/spring-framework/docs/5.3.8/reference/html/core.html#beans-definition-profiles
+
+//moviebuddy패키지에 신규 생성 
+public class MovieBuddyProfile {
+
+    public static final String CSV_MODE = "csv_mode";
+    public static final String XML_MODE = "xml_mode";
+
+    //생성을 차단
+    private MovieBuddyProfile(){}
+}
+
+
+@Profile(MovieBuddyProfile.XML_MODE)    // 추가 
+@Repository("movieReader")
+public class JaxbMovieReader implements MovieReader {..}
+
+@Profile(MovieBuddyProfile.CSV_MODE)    // 추가 
+@Repository
+public class CsvMovieReader implements MovieReader {..}
+
+// 테스트 환경의 경우
+@ActiveProfiles(MovieBuddyProfile.CSV_MODE)    // MovieFinder 생성자에서 이제 지정하지 않으니 의존 주입 안되서 에러 뜨므로, 테스트시 해당 Profile로 동작하도록 지정함 ! 정상동작됨
+@SpringJUnitConfig(MovieBuddyFactory.class)
+//@ExtendWith(SpringExtension.class)
+//@ContextConfiguration(classes = MovieBuddyFactory.class)
+public class MovieFinderTest { .. }
+
+=============
+- 프로덕션 레벨에서 profile을 설정하는 방법에 대해 Activating a Profile 찾아보기 
+https://docs.spring.io/spring-framework/docs/5.3.8/reference/html/core.html#beans-definition-profiles
+
+1. 환경변수(profile) 선언해서 의존 주입하도록 하기 
+ - [MovieBuddyApplication > Edit Configurations 클릭 > 우측 Modify options > Add VM options(alt + v) ] 후 -Dspring.profiles.active=csv_mode 삽입 후 실행
+ - 참고 기술 블로그 https://jojoldu.tistory.com/547
+ // 번거롭네.. 
+
+=======================
+#10-3
+- slf4j.org 사이트 확인
+- build.gradle에 의존성 추가하기
+  implementation 'ch.qos.logback:logback-classic:1.2.3'
+
+
+
+

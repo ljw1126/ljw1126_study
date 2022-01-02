@@ -1,0 +1,33 @@
+#14-1
+- 문)classpath에 메타데이터 파일이 있어야 읽을 수 있음 
+     ClassLoader.getSystemResource(metadata);   // 외부 , 네트워크상 파일을 읽기 껄끄러움(프로토콜별로 다르니)
+- 스프링에서 리소스 추상화를 제공한다함.. // AbstractFileSystemMovieReader 일부 수정하고 다음강의로
+====================================================================================================
+#14-2 /////////// 쪼금 헷갈리네 ResourceLoader 사용하는 내용으로 변경하는데 .. 
+- 파일, 원격지 소스에 접근 가능하도록 resource 추상화 인터페이스가 지원함
+- 공식문서 참고 ( 2.2. The Resource Interface , 2.4. The ResourceLoader Interface 읽기 )
+  https://docs.spring.io/spring-framework/docs/5.3.8/reference/html/core.html#resources
+
+실습) XmlMovieReader 또한 ClassLoader.getSystemResourceAsStream으로 묶어 있기 때문에 resourceLoader로 동작하도록 변경하기
+       => XmlMovieReader를 Resource 인터페이스 기반으로 동작하도록 변경하기! 힌트가 csv에 있어서 그대로함 
+
+- 원격지(http)에 있는 resource 취득하도록 application.properties 수정들어감 
+  1. application.properties 내용 수정
+  movie.metadata=https://www.dropbox.com/s/bpazz8g4th21co7/movie_metadata.csv?dl=1
+  2. MovieFinderTest 실행 확인 
+  14:25:38.074 [main] INFO moviebuddy.data.CsvMovieReader - URL [https://www.dropbox.com/s/bpazz8g4th21co7/movie_metadata.csv?dl=1] is ready.
+
+
+====================================================================================================
+#14-3
+※ 저수준 리소스 접근을 위한 Resource 인터페이스  ( ppt 참고, 강의 참고 )
+   1. Resource 인터페이스는 저수준 리소스 접근을 추상화하고, 더 많은 기능을 제공한다. 
+   2. 스프링 내부에서 광범위하고 사용되고 있으며, 유틸리티 클래스로도 유용하게 사용할 수 있다. 
+   3. 클래스패스(classpath:, ClassPathResource), 파일(file:, FileSystemResource), http(http:, UrlResource)등 내장된 구현체를 제공한다. 
+       
+※ 자원(Resource)을 불러오는 ResourceLoader 인터페이스 
+  - ResourceLoader 인터페이스 구현체는 주어진 위치에서 Resource 객체를 반환(즉, 로딩)한다. 
+  - 스프링이 제공하는 애플리케이션 컨텍스트(ApplicationContext)는 ResourceLoader 인터페이스를 확장하고 있다. 
+
+
+12~14장까지 2번째 요구사항을 처리함..

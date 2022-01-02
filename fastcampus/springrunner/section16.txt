@@ -1,0 +1,40 @@
+- MovieReader의 코드를 천천히 다시 한번 읽어보면 다른 관심사가 섞여 있음
+  1. 메타 데이터 읽는 관심사 
+  2. 읽기 위한 관심사 
+  3. 일정시간 데이터 유지위한 관심사(캐싱) -- 핵심로직과 무관한 관심사인데 추가로 인해 복잡해짐 
+- 기술적 요구사항으로 인해 복잡해지고 있음 .. XmlMovieReader에도 추가되야 한다는 점에서 중복이 발생가능 
+
+====================================================================================
+#16-1
+※ 횡단 관심사와 객체지향 프로그래밍의 한계 
+   - 애플리케이션 전반에 걸쳐 필요로 하는 부가적인 기능을 횡단 관심사(Crosscutting-Concerns)라고 한다. (트랜잭션,로깅,보안 등)
+   - 횡단 관심사가 핵심기능 모듈에 침투하면 내부 복잡도가 올라가고 객체지향의 장점을 잃어버린다. 
+      > 스프링에서는 AOP* 로 해당 문제를 해결하도록 지원함 
+   - 프락시와 데코레이터 패턴(영상 1분15초 이미지 참고) 
+   
+※ 프락시(proxy)
+   - 클라이언트와 핵심 기능 사이에서 마치 자신이 클라이언트가 사용하려는 실제 대상인 것처럼 위장해서 
+    그 클라이언트의 요청을 받아 주는 객체를 프락시*라 함
+   - 프락시를 통해 요청을 위임받아 처리하는 실제 객체를 대상 객체(target object) 또는 실체(real subject)라고 부름 // CsvMovieReader
+   - 호출자가 사용하려고 하는 실제 대상인 것처럼 위장해서 호출자의 요청을 받아주는 것을 대리자, 또는 프락시(Proxy)라고 부름 
+     // CachingMovieReader, LoggingMovieReader, OtherMovieReader
+   - (특징) 대상 객체와 같은 인터페이스를 구현함 , 프락시가 대상 객체를 제어할 수 있는 위치에 있다 
+   - (목적에 대한 구분) 
+     1. 대상 객체에 부가 기능을 부여해주기 위함으로써 디자인 패턴에서 '데코레이터 패턴'이라 부름 //CachingMovieReader
+     2. 클라이언트가 대상 객체에 접근하는 방법을 제어하기 위해 사용되며, 디자인 패턴에서는 프락시 패턴이라고 부름 
+     >> 두가지 모두 대리객체라는 프락시를 두고 사용한다는 점은 동일하지만, 목적에 따라 디자인패턴에서는 구분됨
+
+
+- CachingMovieReader.java 작성 
+- [에러발생]
+Caused by: org.springframework.beans.factory.NoUniqueBeanDefinitionException: No qualifying bean of type 'moviebuddy.domain.MovieReader' available: expected single matching bean but found 2: csvMovieReader,cachingMovieReader
+1. MovieFinder 생성자의 매개변수에 @Qualifier("CachingMovieReader") 지정가능하지만 사용안함 
+2. MovieBuddyFactory에서
+   @Configuration
+    public static class DataSourceModuleConfig{
+        @Primary      // 두개 이상 빈 발견시 해당 빈을 선호하도록 함
+        @Bean
+        public MovieReader cachingMovieReader(CacheManager cacheManager, MovieReader target){
+            return new CachingMovieReader(cacheManager, target);
+        }
+    }

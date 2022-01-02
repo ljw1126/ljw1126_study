@@ -1,0 +1,60 @@
+Gradle 
+- 그루비를 기반으로 하는 빌드 툴 
+- 의존 라이브러리 관리가능 
+
+Spring Tools 
+- https://spring.io/tools
+- 스프링 기반 
+  이클립스의 스피링과 AspectJ 개발 도구, 메이븐과 그레이들을 포함해서 
+  기타 유용한 이클립스의 플러그인을 하나의 패키지로 통합해 스프링에서 제공하는 개발자 도구 
+- 21.10.04 기준 4.12.0 최신 버전  
+- 설정확인
+  - 자바버전 
+    1. [windows] - [preference] - installed 필터 검색하면 installed JREs에서 설치된 자바 버전 확인가능 
+    2. compiler 필터 검색 - Java > Compiler 메뉴에서 'Complier compliance level' 을 11버전으로 수정 
+  - 인코딩 
+    1. [windows] - [preference] 에서 encoding 필터 검색 - Content Types 에 Text 선택 후 하단에 Default로 UTF-8 설정하면 Text 리스트 항목 모두 적용됨
+    2. 이때 Text 하위 항목 중 Spring Properties File과  Java Properties File은 변경 안되었을 경우 UTF-8로 직접 변경함
+    3. workspace 필터 입력 - 하단에 UTF-8 설정으로 변경
+ - 그레이들 
+    1. gradle 필터 입력 - 'Automatic Project Synchronization' 체크 
+
+※ 설치방법 
+    - 위의 경로로 다운 받을 시 *.jar 파일이라 뭘 어찌할지 모르겠음
+    - 이클립스 다운 후 market 에서 STS 다운 받는 방법으로 함 
+      https://www.eclipse.org/downloads/download.php?file=/oomph/epp/2021-09/R/eclipse-inst-jre-win64.exe&mirror_id=1142
+    - 강의는 openjdk11 을 사용하므로 그에 맞추려함 
+      https://zetawiki.com/wiki/%EC%9C%88%EB%8F%84%EC%9A%B0_OpenJDK_11_%EC%84%A4%EC%B9%98
+  
+※ new > project > gradle project 생성 
+※ 그레이들 6.6.x의 버전 이상 사용시 프로젝트 구성 기본설정이 멀티 프로젝트가 되기 때문에 처음 사용자 혼란 야기 가능.
+
+* '전이 의존성' 통해 A 가 B,C 라이브러리 필요시 다 내려 받도록 함 
+  - build.gradle 파일에 spring context에 관련된 모듈 의존성 추가함
+   implementation 'org.springframework:spring-context:5.3.9' 
+  - 하단 콘솔있는 탭에 Gradle Task창에서 [help] > [dependency] 선택시 console에 의존성 확인가능 
+
+
+* workspace에 있는 프로젝트로 콘솔로 이동함 
+$ ./gradlew clean build 실행      // gradle.bat 으로 window에서 실행가능
+$ unzip build/distributions/moviebuddy.zip -d build/
+  Archive:  moviebuddy.zip
+   creating: build/moviebuddy/
+   creating: build/moviebuddy/lib/
+  inflating: build/moviebuddy/lib/moviebuddy.jar
+   creating: build/moviebuddy/bin/
+  inflating: build/moviebuddy/bin/moviebuddy
+  inflating: build/moviebuddy/bin/moviebuddy.bat
+
+$ build/moviebuddy/bin/moviebuddy.bat       //실행 
+
+application is ready.
+?                                  // 출력되면 명령어 입력해서 검색함 
+directedBy Michael Bay     // 입력해보기 
+
+※ 프로젝트 소스 https://github.com/springrunner/learn-essences-of-spring
+ 
+
+* 이클립스에서 실행 >> MovieBuddyApplication.java를 Java Application으로 Run 실행
+
+   

@@ -1,0 +1,33 @@
+# 5-1 스프링 컨테이너 
+- IoC컨테이너인 BeanFactory, ApplicationContext 간략 설명
+  - spring은 객체의 생성, DI를 지원하는 IoC컨테이너 지원함  
+  - 빈 구성 정보를 읽어 애플리케이션을 구성함.
+- Bean?
+  스프링 컨테이너가 생성과 관계설정, 사용 등을 제어해주는 제어의 역전 원리가 적용된 객체를 빈(Bean)이라 부름
+
+# 5-2 ApplicationContext로 애플리케이션 구성하기 
+- build.gradle 의존성 추가하기.
+  implementation 'org.springframework:spring-context:5.3.9'
+  implementation 'org.springframework:spring-context-support:5.3.9'
+- MovieBuddyFactory에 @Configuration과 @Bean을 추가했는데 .. 이해안됨*******************************************************
+  final ApplicationContext applicationContext = new AnnotationConfigApplicationContext(MovieBuddyFactory.class);
+  final MovieFinder movieFinder = applicationContext.getBean(MovieFinder.class);
+
+  * 해당 메소드에 커서 놓고 ctrl + q 하면 설명 볼 수 있는데 해당 MovieBuddyFactory 에서 MovieFinder 타입으로 매치되는 유니크한 인스턴스를 반환한다는거 같음
+
+
+# 5-3 스프링 IoC 컨테이너와 Bean
+- Spring IoC 컨테이너 특징 
+  1. 컨테이너는 제어의 역전(IoC) 원리가 적용된 스프링 핵심 컴포넌트다.
+  2. 컨테이너에 의해 생성 및 조립된 후 관리(초기화, 소멸 등)되는 객체를 빈(bean) 이라 부름 
+  3. 빈 생성시 의존관계 주입(DI)이 일어남 
+  4. 빈 구성정보를 바탕으로 비즈니스 오프젝트를 이용해 애플리케이션 구성하고 생애를 관리함 
+
+- 빈 구성정보(Configuration Metadata)란? ( 영상 참고 ) 
+  1. 스프링 컨테이너가 '빈 객체 생성 및 구성, 조립시 사용하는 설정정보'이다.
+  2. 컨테이너 기능을 설정하거나 조정이 필요할 때도 사용됨
+  3. 자바, 코틀린, 그루비, XML 등 다양한 방식으로 작성할 수 있음.
+     - 주요 빈 구성정보 작성 방식 
+       ① *Java-based configuration : 자바 코드를 빈 설정용 DSL로 사용해 작성함 (스프링3.0이상 지원)
+       ② *Annotation-based configuration : @Autowired, @Qualifier 와 같은 자바 애노테이션을 사용해 작성( 스프링 2.5이상 지원)
+       ③ XML-based configuration : 가장 오래된 방식으로 XML 문서 형식으로 작성함.

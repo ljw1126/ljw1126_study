@@ -1,0 +1,41 @@
+# 8-1
+https://docs.spring.io/spring-framework/docs/5.3.8/reference/html/testing.html#testing
+- 스프링 테스트 컨텍스트 프레임워크 (이미지 영상 참고)
+  - 테스트에 사용되는 '스프링 컨테이너를 생성 및 관리하고 테스트에 적용'해주는 기능을 가진 테스트 프레임워크다.
+  - JUnit 또는 TestNG와 같은 자바용 테스트 프레임워크와 잘 통합되어 동작함
+  - 실 운영환경과 유사한 구성으로 동작하는 통합 테스트를 손쉽게 만들 수 있음 
+    >> 강좌에서는 간단한 스프링 테스트 컨텍스트 프레임워크를 활용한 통합테스트만 다룸
+
+# 8-2
+[방법1]
+@ExtendWith(SpringExtension.class) // Junit이 테스트 실행 전략 확장시 사용함
+@ContextConfiguration(classes = MovieBuddyFactory.class) // 스프링의 테스트 컨텍스트 프레임워크에서 제공하는 Junit 지원 클래스로, Junit 테스트 실행시 필요로 하는 스프링 컨테이너를 구성하고 관리해줌, 해당 애노테이션이 지정한 bean정보로 스프링 컨테이너 만듦
+public class MovieFinderTest {  
+
+     //DI 주입 방식 
+     //1. 생성자 주입 방식 
+     final MovieFinder movieFinder;
+
+     @Autowired
+     public MovieFinderTest(MovieFinder movieFinder){
+	this.movieFinder = movieFinder;
+     }
+
+     // 2. Setter로 주입 
+     MovieFinder movieFinder;
+
+     @Autowired
+     void setMovieFinder(MovieFinder movieFinder){
+	this.movieFinder = movieFinder;
+     }
+
+     //3. 필드 레벨 주입(추천하지 않음, 운영소스에서 절대 사용하지 않길) 
+     @Autowired MovieFinder movieFinder;
+
+}
+
+[방법2]
+@SpringJUnitConfig(MovieBuddyFactory.class)     // 해당 애노테이션 보면 ExtendWith와 ContextConfiguration 포함하고 있음
+public class MovieFinderTest {..}
+
+

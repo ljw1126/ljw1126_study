@@ -1,0 +1,70 @@
+
+#17-1 프락시 구성과 프락시 작성의 문제점(간략설명)
+- 프락시(proxy)는 기존 코드에 영향을 주지 않으면서, 대상 객체의 기능을 확장하거나 접근방법을 제어할 수 있는 유용한 방법임
+- 그럼에도 불구하고 프락시는 적극적으로 활용하지 못함 
+- 자바에는 동적 프락시 기술이 있으므로 이걸 활용하기로 함 
+
+#17-2 JDK 동적 프락시
+- 리플랙션(Reflection) API 활용
+  > ReflactionTests.java
+  > 리플랙션은 매우 강력하고 동시에 다루기 까다로운 도구 중 하나이다.
+  > 검증된 프레임워크나 라이브러리 통해 다루는게 좋다
+  >> 크롬 검색창에 java reflection api doc 검색
+       https://docs.oracle.com/javase/8/docs/technotes/guides/reflection/index.html
+       https://docs.oracle.com/javase/8/docs/api/java/lang/reflect/package-summary.html
+       //동적 프락시 
+       https://docs.oracle.com/javase/8/docs/technotes/guides/reflection/proxy.html
+- 동적 프락시 기술 사용 
+  > JdkDynamicProxyTests.java
+  [장점]
+  > 프락시를 위한 별도 프락시 클래스 사용x, 부가기능의 코드 중복 방지 
+  [단점]
+  > 대상 객체에 부가 기능을 부여하고 프락시를 생성하는 건 꽤나 복잡함 
+  > 매번 부가 기능 객체 만들고 대상 객체에 의존관계 주입해줘야 함 
+     또한 자바에는 프락시 다루기 위한 API 지원하는데, 강의 내용처럼 특정 프락시 기술 사용시 
+     추후 기술의 한계나 다른 필요에 의해 프락시 기술에 대한 변경이 매우 어려워짐 
+
+// 스프링이 제공하는 프락시 기술 사용해보기로 함 
+
+#17-3 스프링 AOP 모듈을 사용해 프락시 다루기 
+- cglib , javassis, byte buddy라는 기술이 있음 
+- 스프링의 AOP 모듈은 이런 다양한 프락시 기술을 일관된 방식으로 사용할 수 있도록 
+  "프락시 팩토리 빈"이라는 서비스 추상화를 제공하고 있음 
+- "프락시 팩토리 빈"
+  > 프락시를 생성해서 빈 객체를 등록해 주는 팩토리 빈이다.
+  > 앞서 했던 JDK 동적 프락시 빈과 달리 순수하게 프락시를 생성하는 작업만 담당하고 
+     프락시를 통해 제공할 부가 기능은 별도 객체로 생성해, 스프링 컨테이너에 빈으로 등록해 줄 수 있다.
+  > 프락시 팩토리 빈은 JDK가 제공하는 동적 프락시를 통해서 프락시를 만들어냄 
+     >> 또 경우에 따라서는 CGLIB라고 하는 오픈 소스 바이트 코드 생성 프레임워크를 이용해 프락시를 만들 수도 있음 
+     >> CGLIB 같은 경우에는 인터페이스가 없는 클래스도 프락시를 생성해 낼 수 있다는 기능이 있음.
+
+※ MovieBuddyFactory 수정 , moviebuddy.cache.CachingAdvie 생성, MovieFinderTest 실행함(정상동작)
+
+※ 지금 XmlMovieReaderTest.java 테스트 실행시 무슨 일이 발생하는가?
+org.springframework.beans.factory.UnsatisfiedDependencyException: 
+ Error creating bean with name 'moviebuddy.data.XmlMovieReaderTest': 
+ Unsatisfied dependency expressed through field 'movieReader'; 
+ nested exception is org.springframework.beans.factory.BeanNotOfRequiredTypeException: 
+ Bean named 'cachingMovieReaderFactory' is expected to be of type 'moviebuddy.data.XmlMovieReader' 
+ but was actually of type 'com.sun.proxy.$Proxy37'
+ >> XmlMovieReader가 프락시 타입이기 때문에 의존관계 중입을 받을 수 없다는 뜻
+     프락시 팩토리 빈에 의해 생성된 cachingMovieReaderFactory는 프락시 객체가 JDK동적 프락시로 생성이 되어 있기 때문이다.
+     그렇기 때문에 프락시 타입의 빈이 등록되어 있는거다. 앞서 JDK 동적 프락시는 인터페이스 기반으로 프락시를 생성함 
+     즉 지금 생성된 프락시는 MovieReader 인터페이스 기반으로 프락시 객체가 생성되었다는 뜻 
+     하지만 XmlMovieReaderTest는 XmlMovieReader만 의존 관계 주입을 받겠다고 작성 되어 있기 때문에 타입 불일치에 의해서 실패함 
+     (= 현재 스프링 컨테이너에는 MovieReader 인터페이스 기반으로 프락시 객체가 등록되어 있지만, XmlMovieReaderTest는 XmlMovieReader을 원하기때문에 타입 불일치로 실패)
+ >> 해결 방법1. 프락시 생성을 JDK 동적 프락시가 아니라 , CGLIB 써서 클래스 프락시로 만드는 것 
+                    => 프락시 팩토리 빈의 프락시 타켓 클래스를 활성화 시키면 해당 기능 이용가능
+                         proxyFactoryBean.setProxyTargetClass(true); // 해당 설정 추가 MovieBuddyFactory 
+                    => 클래스 프락시는 CGLIB라고 하는 바이트 코드 생성 라이브러리를 이용해서 
+		 대상 객체 타입을 상속해서 서브 클래스로 만들어 이를 프락시로 사용함 
+		 즉, 서브 클래스도 자신이 상속한 대상 객체와 같은 타입이니까 클라이언트에게 의존 관계 주입이 가능하다는 원리를 이용함
+                         - 클래스 프락시 제약1.  
+                           final 클래스/메소드에는 적용 안됨 (final은 상속 불가, 오버라이딩 불가능하기 때문) , 
+                           대상 클래스의 생성자가 두번 호출됨 (인터페이스 기반 프락시 생성에 비해 부자연스러움, 프락시 생성 위해 동적으로 클래스를 상속할뿐더러 이 상속받은 객체의 public 메소드를 모두 오버라이드 해서 프락시 기능으로 바꿔치는 방식으로 동작하기 때문 )
+                           * 스프링은 인터페이스가 없이 개발된 레거시 코드나 외부에서 개발된 인터페이스 없는 라이브러리 같은 것들에 대해 이 프락시 기법을 적용가능하도록 지원해 주기 위해 클래스 프락시를 지원하고 있음
+                           * 결코 인터페이스를 사용하지 않고 클래스만 사용해서 프로그래밍을 하다가 프락시가 필요한 경우에 이를 이용하라는 의미가 아님
+                           * 스프링은 여전히 인터페이스를 통한 객체 지향적인 합성 기법과 이를 바탕에 둔 제어의 역전과 의존 관계 주입을 사용하는 것을 권하고 있음 
+		   ** 그런 의미에서 클래스 프락시 보다는 스프링이 권장하는 방식인 인터페이스를 통한 의존 관계 주입으로 테스트 코드를 변경해 주는 게 좋다.
+                              //proxyFactoryBean.setProxyTargetClass(true);  클래스 프락시 비활성화 
+>> XmlMovieReaderTest 테스트 내용 수정 XmlMovieReader대신 MovieReader 의존 받도록 수정 , 테스트 내용 추가 

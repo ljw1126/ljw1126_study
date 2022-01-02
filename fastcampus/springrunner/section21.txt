@@ -1,0 +1,130 @@
+- 유저 인터페이스와 관련된 내용을 수정해보기로 함 
+
+#21-1
+- MovieBuddyApplication에서 출력메시지 변경시 프로퍼티 파일을 작성하고 환경추상화를 통해 애플리케이션 외부에 작성해두고 
+  변경하도록 함 
+- 1. Environment 사용해서 외부 설정 파일 읽는 방법 
+  // 수정 1 . 리소스에 파일 추가 후 처리
+  @Configuration
+  @PropertySource("/messages.properties")       // classpath prefix가 생략되어 있음 
+  public class MovieBuddyApplication { ..}
+
+  // 수정 2. 
+  public void run(String[] args) throws Exception {
+        final ApplicationContext applicationContext = new AnnotationConfigApplicationContext(MovieBuddyFactory.class,
+                MovieBuddyApplication.class); // @Configuration이 추가되었으니 MovieBuddyApplication.class 도 추가해줌 
+        final Environment environment = applicationContext.getEnvironment(); // 추가 
+  ..
+        output.println();
+        output.println(environment.getProperty("application.ready")); // 실행시 해당 messages.properties 설정한 파라미터 값을 출력함
+  ..
+  }
+- 하지만 이게 적절한 방식이 아님.. 
+- Environment 의 용도는 애플리케이션이 동작시 필요한 설정 정보를 외부에서 일관된 방식으로 읽고 사용하기 위해서 작성된 컴포넌트이다.
+  이렇게 외부에 메시지를 작성해두고 사용할 필요가 있을때는 Environment 보다 스프링이 제공하는 '메시지 소스 인터페이스(MessageSource)'를 사용하는 것이 더 적합함
+  ※ MessageSource 인터페이스 클래스 내용 읽어보기 (ApplicationContext보면 MessageSource 를 확장하고 있음 ) 
+
+- 2. MessageSource 인터페이스 사용해서 수정 
+  //수정 1. MovieBuddyApplication 아래 내용 추가 
+  final MessageSource messageSource = applicationContext.getBean(MessageSource.class);
+  //수정 2. 
+  output.println();
+  output.println(messageSource.getMessage("application.ready", new Object[0], Locale.getDefault()));
+  >> 에러 출력 org.springframework.context.NoSuchMessageException: No message found under code 'application.ready' for locale 'ko_KR'.
+  >> (해결방안)스프링 컨네이터에 메시지 소스 빈 등록하고 messages.properties 파일을 리소스 번들로 사용하도록 설정
+  //수정 3. MovieBuddyApplication에 @Bean등록 후 실행(정상동작)
+    @Bean
+    public MessageSource messageSource(){
+        ResourceBundleMessageSource messageSource = new ResourceBundleMessageSource();
+        messageSource.setBasename("messages");
+        messageSource.setDefaultEncoding("utf-8");
+        return messageSource;
+    }
+  //수정 4. application.commands.quit 설정값 등록 후 출력 확인 
+
+- 이제 messageSource.getMessage() 인자 중 new Object[0] 부분을 활용해 본다함 
+  // 1. String API와 format API 를 활용해서 출력
+	// MovieBuddyApplication 실행 로직 중   	
+	output.println(String.format(messageSource.getMessage("application.commands.directedBy", new Object[0],Locale.getDefault()), director));
+            moviesDirectedBy.forEach(it -> {
+                String data = String.format(messageSource.getMessage("application.commands.directedBy.format", new Object[0],Locale.getDefault()), counter.getAndIncrement(), it.getTitle(), it.getReleaseYear(), it.getDirector(), it.getWatchedDate().format(Movie.DEFAULT_WATCHED_DATE_FORMATTER));
+                output.println(data);
+            });
+            output.println(String.format(messageSource.getMessage("application.commands.directedBy.count", new Object[0],Locale.getDefault()), moviesDirectedBy.size()));
+
+           // messages.propertise 내용 추가 
+           application.commands.directedBy=find for movies  by %s.
+           application.commands.directedBy.format="%d. title: %-50s\treleaseYear: %d\tdirector: %-25s\twatchedDate: %s"
+           application.commands.directedBy.count=%d movies found.
+  // 2. new Object[0] 의 인덱스 값이 마치 format api 처럼 동작 가능 하다함 
+  
+
+#21-2 애플리케이션 오류 메시지 출력 개선하기 
+- 예시 . 개발자 입장의 오류 메시지 출력됨(사용자 입장에서는 불친절)
+	Movie Buddy is ready.
+	❯ releasedYearBy
+	IndexOutOfBoundsException: Index 1 out of bounds for length 1
+	❯ releasedYearBy wrong
+	NumberFormatException: For input string: "wrong"
+- MovieBuddyApplication에서 
+  // 방법 1. 분기문으로 에러 처리 - 매번 추가 해야 되니 좋지 않음     
+    try{
+    ..
+    }catch(ApplicationException error){
+
+               if(error instanceof  ApplicationException.CommandNotFoundException){
+                    
+                }else if(error instanceof ApplicationException.UndefinedCommandActionException){
+                    
+                }else if(error instanceof ApplicationException.InvalidCommandArgumentsException){
+                    
+                }else{
+                    
+                }	
+    }
+   // 방법2. 규칙을 만들고 해당 코드에 따라 출력되도록 
+   try{
+   ..
+   }catch(ApplicationException error){
+        String code = String.format("application.errors.%s", error.getClass().getSimpleName());
+        output.println(messageSource.getMessage(code, new Object[0], error.getMessage(), Locale.getDefault()));
+   }
+   ※ messages.properties 추가  
+    application.errors.CommandNotFoundException=command not found.
+    application.errors.UndefinedCommandActionException=command action is undefined.
+    application.errors.InvalidCommandArgumentsException=input error, please try again!. 
+   ※ 테스트 결과 
+   Movie Buddy is ready.
+   ❯ releasedYearBy
+   input error, please try again!.
+   ❯ releasedYearBy wrong
+   input error, please try again!.
+   ❯ dsa
+
+#21-3
+※ 국제화(Internationalization, i18n)와 지역화(localization, L10n)
+   국제화는 소프트웨어가 언어 및 문화권 등이 다른 여러 환경을 지원할 수 있도록 소프트웨어를 설계하는 것을 의미하고, 
+   지역화는 소프트웨어를 각 환경에 대해 지원하는 것을 의마하며 언어외에도 문자열 출력 형식,화폐,날짜,측정단위 등 다양한 요소를 고려해야 함 
+- JdkLocaleTests 생성 
+    //1. JVM arguments 속성 변경
+    -ea -Dspring.profiles.active=csv_mode -Duse.country=KR -Duser.language=ko
+   @Bean
+    public MessageSource messageSource(){
+        ResourceBundleMessageSource messageSource = new ResourceBundleMessageSource(); // 국제화/지역화 설계된 인터페이스
+        messageSource.setBasename("messages");
+        messageSource.setDefaultEncoding("utf-8");
+        return messageSource;
+    }
+    //2. messages_ko.properties 파일 작성함
+    //3. ko를 알아보고 되야 하는데..
+
+- ReloadableResourceBundleMessageSource 사용할 경우 
+    // MovieBuddyApplication 수정 
+   @Bean
+    public MessageSource messageSource(){
+        ReloadableResourceBundleMessageSource messageSource = new ReloadableResourceBundleMessageSource();
+        messageSource.setBasename("messages");
+        messageSource.setDefaultEncoding("utf-8");
+        messageSource.setCacheSeconds(5); // 5초 단위로 리로드함 
+        return messageSource;
+    }
