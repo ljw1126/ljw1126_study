@@ -1,0 +1,28 @@
+[Dream Coding 에서 하는 채널] 
+https://academy.dream-coding.com/collections
+
+2020.12.19 
+git 강의 32,000원 구매완료 / 평생 볼 수 있다 함
+
+
+
+# git 강의자료 
+1. notion 연동되는 사이트 인듯//내가 직접 복사해서 수정도 가능하다함
+    https://www.notion.so/Git-Cheat-Sheet-5e6d3c66f4ac426c826f5ff5f14fcc63
+
+2. pdf 파일 
+    Git_Cheat_Sheet-201107-190317
+
+3. 실습파일 
+    projects-201107-190208
+
+4. git 터미널 
+    Mac용 추천 터미널: https://www.iterm2.com/
+    Windows용 추천 터미널: https://cmder.net/
+    
+    ※ 화려한 UI > Sourcetree, GitKraken 사용가능
+    
+    ㅁ 제가 iTerm2을 쓰는 이유: https://youtu.be/RB1mfY1_5FU
+    ㅁ 저의 iTerm 셋팅을 똑같이 하고 싶다면: https://gist.github.com/kevin-smets/8568070
+
+

@@ -1,0 +1,283 @@
+#깃 명령어 정리
+
+* Git 버전 확인
+  > git version
+
+* Git 업데이트 
+  >  git update-git-for-windows
+
+----------------------------------------------------------------------------
+* Git Hub Repository Connect
+
+  1. 적당한 폴더 만듦
+  2. Git Bash로 해당 폴더 내로 이동
+  3. > git init            // .git 폴더 추가됨
+  4. 원격 저장소 주소 추가
+     예)git remote add origin 주소
+     > git remote add origin https://github.com/ljw-zral1004/study.git
+     > git remote  또는 git remote -v
+  5. > git push origin master
+  ※ 팀프로젝트인 경우 branch를 만들어서 작업하는 것을 권장함
+
+  [추가* 43번 파일서버에 공유할 프로젝트.git 폴더 생성]
+  6. 원격저장소에 프로젝트 폴더 생성 후 초기화
+      > cd /usr/git_repo
+      > mkdir 명칭.git
+      > cd 명칭.git
+      > git init --bare   // remote는 --bare 옵션 주고 , 로컬은 옵션 안줘도 됨 
+  7. 이후 로컬저장소에서 commit후 push 때리면 공유완료 !
+
+  에러1) error: src refspec master does not match any
+         >> git init 후 최초 commit을 하지 않고 push 하면 발생함
+  에러2) 로컬에서 push 할때 fatal: '/usr/git_repo/u2-cms-leesunshin.git' does not appear to be a git repository
+         >> 원격지에 u2-cms-leesunshin.git 저장소가 없어서 에러발생함
+         >> 원격저장소에 폴더 생성하면됨
+  에러3) error: remote unpack failed: index-pack abnormal exit
+         >> 원격 저장소에 신규 생성한 프로젝트 폴더 권한 문제로 파악
+         >> 해결방법 - 리모트 서버에 있는 해당 git 프로젝트 권한 변경
+            > chmod -R 770 u2-cms-leesunshin.git/
+            > chown -R root:developer u2-cms-leesunshin.git/
+
+----------------------------------------------------------------------------
+
+* git bash 한글깨짐 현상 (로컬 repository 이동 후 설정 확인)
+  git config --global --list
+
+  1. git status OR git commit -m 할때 한글 파일명 깨짐 현상
+    git config --global core.quotepath false
+
+  2. git log 한글깨짐
+    git config --global i18n.commitEncoding utf-8;
+    git config --global i18n.logOutputEncoding utf-8;
+
+    [참고] https://365ok.co.kr/tj/okdown/3352
+
+----------------------------------------------------------------------------
+
+* git global 계정정보 변경  // 이클립스에서 이력확인시 표시되는 작업자 아이디 설정
+
+  git config --global --list
+  git config --global user.name "jinwoolee"
+  git config --global user.email "leejinwoo@ubitec.co.kr"
+
+  /* 안먹힘.. 그리고 store 방식은 그대로 암호가 노출되므로 키를 사용하는게 좋다함
+  git config --global credential.helper store
+  git config --global --unset credential.helper
+  */
+
+  ※ git global config 파일 위치
+    c 드라이브 > User > user > .gitconfig 파일 편집하면 됨
+    >> git config --global --edit 때리면 바로 편집가능 !!
+
+* git alias //예약어 설정하여 간결하게 사용하기 (200814)
+  설정) git config --global alias.예약어 해당명령어
+      git config --global alias.oneline 'log --pretty=oneline'
+      git config --global alias.graph 'log --branches --graph --decorate --oneline'
+
+      git config --global --list //확인
+      git config --global --edit //바로 수정페이지로~ 굳이 .gitconfig 파일 안 찾아가도 됨
+
+      > git oneline      //출력확인됨1
+      > git graph        //출력확인됨2
+  [참고] https://git-scm.com/book/ko/v2/Git%EC%9D%98-%EA%B8%B0%EC%B4%88-Git-Alias
+
+※ git global config 파일 위치
+  c 드라이브 > User > user > .gitconfig 파일 편집하면 됨
+  >> git config --global --edit 때리면 바로 편집가능 !!
+
+* git alias //예약어 설정하여 간결하게 사용하기 (200814)
+  설정) git config --global alias.예약어 해당명령어
+      git config --global alias.oneline 'log --pretty=oneline'
+      git config --global alias.graph 'log --branches --graph --decorate --oneline'
+
+      git config --global --list //확인
+      git config --global --edit //바로 수정페이지로~ 굳이 .gitconfig 파일 안 찾아가도 됨
+
+      > git oneline      //출력확인됨1
+      > git graph        //출력확인됨2
+  [참고] https://git-scm.com/book/ko/v2/Git%EC%9D%98-%EA%B8%B0%EC%B4%88-Git-Alias
+
+----------------------------------------------------------------------------
+
+* ssh 통해 git 프로젝트 내려받기
+
+  git clone ssh://아이디@211.57.203.43:10022/usr/git_repo/u2cms_archive.git
+  git clone ssh://아이디@211.57.203.43:10022/usr/git_repo/u2cms_archive.git 브랜치명
+
+  ※명령어 해석 : ssh 프로토콜로 사용자 계정으로 해당 ip/port에 접속하여 해당 경로에 있는 u2cms_archive.git 프로젝트를 clone(복제)하/받겠다는 뜻
+  ※유비텍 43번 서버에 /usr/git_repo 안에 git 프로젝트를 관리함
+
+----------------------------------------------------------------------------
+
+* git log, diff 빠져나가기
+:q
+:z
+ctrl + z
+
+----------------------------------------------------------------------------
+[.gitignore 설정 관련]
+# 모든 것을 제외한다
+/*
+
+# 포함할 파일을 추가한다.
+!/.gitignore
+!/some_other_files
+
+# 포함할 폴더들을 추가한다.
+!/puppet/
+
+[참고] https://springboot.cloud/2 [갓.바.조.아]
+----------------------------------------------------------------------------
+
+# log  ( *옵션 마지막에 -숫자 넣어주면 지정된 갯수만큼만 출력해 줌 )
+  git log --pretty=oneline                           //한 줄형태로 로그확인
+  git log -숫자                                      // 숫자 갯수만큼 로그 출력
+  git log --branches --graph --decorate --oneline   //그래프 형식으로 색깔칠해서 이쁘게 출력
+  git log > 파일명.txt                              //log 내용을 파일로 생성
+  git log --all --oneline -5 > 파일명.txt              //한줄로 해서 5개만 출력하도록 옵션을 줄 경우
+  git log --branches --graph --decorate --oneline > 파일명.txt   //그래프 이쁘게 그려서 올리도록
+  git log --graph           //로그와 그래프
+  git log --graph --abbrev-commit  // commit 아이디를 7자만 보여주도록 옵션줌
+  git log --graph --abbrev-commit --pretty=oneline --all  //아무튼 이쁘게 로그 출력함
+  git log master..jinwlee     //브랜치간의 변경사항을 보고 싶을때
+  git log --branches --graph --decorate --oneline master..jinwlee   //브랜치간의 변경사항 출력 응용함
+  git log --grep "<pattern>"       //특정 코멘트가 포함된 커밋을 검색
+  [참고] https://jeonghwan-kim.github.io/dev/2020/02/10/git-usage.html#%ED%95%84%EC%9A%94%ED%95%9C-%EB%9D%BC%EC%9D%B8%EB%A7%8C-%EC%BB%A4%EB%B0%8B%ED%95%98%EA%B3%A0-%EC%8B%B6%EC%96%B4%EC%9A%94
+
+
+# branch
+  git branch      //로컬에 있는 branch 목록 출력
+  git branch -r   //원격지(remote, 서버)에 있는 branch 목록 출력
+  git branch -a   //**로컬 + 원격지에 있는 모든 branch 출력
+  git branch -d 브랜치명     //해당 branch 삭제 ( checkout 후에 해야함)
+  git branch -v            //브랜치 상세 출력
+  git branch -a -v         //전체 브랜치 목록 + 상세 출력
+  git branch 브랜치명   // 해당시점의 branch를 생성함 ( branch 만드는 이유 ? 특정 기능을 만들어 master 브랜치에 합치거나, 급한 버그를 해결하기 위해 브랜치를 만들기도 함 )
+  git checkout -b 브랜치명 // **브랜치 생성하고 checkout 함
+  git checkout -t origin/leejinwoo   //원격지(remote)에 있는 브랜치를 내려받고 체크아웃**
+  git push origin 브랜치명 // remote에 브랜치 생성함
+  git branch --set-upstream-to origin/브랜치명  //해당 로컬브랜치를 리모트 브랜치와 연동 ..
+  git push origin :브랜치명 //로컬의 브랜치를 삭제후 원격지에 있는 브랜치를 삭제하고 싶을떄
+  [참고] https://git-scm.com/book/ko/v2/Git-%EB%B8%8C%EB%9E%9C%EC%B9%98-%EB%B8%8C%EB%9E%9C%EC%B9%98-%EA%B4%80%EB%A6%AC
+
+
+# tag 'commit이력에 tag달기'
+  git tag                        //태그 조회하기(태그명 목록 출력해줌)
+  git tag -l                     //태그 리스트
+  git tag 내용 원하는버전id       // 원하는 commit ID에 태그달기
+  예) git tag 나는태그이다 183bdeb
+      git tag 이전버전에태그달기 ff2d722
+
+  git tag -d 나는태그이다    //태그명으로 태그삭제
+  [참고] https://git-scm.com/book/ko/v2/Git%EC%9D%98-%EA%B8%B0%EC%B4%88-%ED%83%9C%EA%B7%B8
+
+
+# add
+  git add .   //전체 파일 staging area로
+  git add -p  //이전 파일(*신규파일은 대상아님)과 비교하여 무엇이 수정되었는지 확인후 staging 처리함
+              //y : yes , n : no , q: quit
+              //git commit -v 도 비슷한 역할
+              //git commit -am "스테이징과 커밋을 한번에!!"
+
+
+# show '커밋 변경내용 상세확인!'
+  git show          //커밋의 변경내용을 자세히 확인할 수 있음 ('+':추가, '-':삭제된 내용)
+  git show commit아이디전체 or 앞7자리
+  git show --stat   //변경내용 간략하게 표시
+  git show commit아이디전체 or 앞7자리 --stat   //해당 commit 변경내역에 대한 간략 표시
+  git show commit아이디전체 or 앞7자리 파일명    //해당 commit의 파일에 대한 변경내역 출력
+
+
+# rebase로 commit 이력 합치기 ( = Squash Commit )
+  > 하나의 작업을 여러번 걸쳐서 커밋할때 history가 지저분해짐
+  > 비슷한 commit 내역을 하나로 묶어 간소화 하고 싶을때 사용
+    ※ merge의 경우 이력이 그대로 남은체 merge 되지만, rebase 되는 최근 시점에 작업한 branch가 붙어져 merge되게 됨
+    (rebase시 작업한 내역은 garbege collector 대상이 된다함)
+
+  1. git log --pretty=oneline
+  2. git rebase -i HEAD~3      //현재 헤드로부터 원하는 commit 내역(예시는 3개)을 interactive rebase 때림
+  3. 합칠 내역을 정하고, 메시지 신규작성함
+
+    ※ 수정하기 전
+    pick 7c65355 Task 1/3
+    pick 2639543 Task 2/3
+    pick d442427 Task 3/3
+
+    ※ 수정 후
+    pick 7c65355 Task 1/3
+    squash 2639543 Task 2/3
+    squash d442427 Task 3/3
+
+    그리고 :wq!로 저장하면 커밋메시지를 rewrite할 수 있는 새창이 뜸 ( 여기까지 작업해야 함 )
+
+  4. 확인해보면 하나의 작업으로 합쳐져 있는 것을 확인가능
+  [참고]
+  https://meetup.toast.com/posts/39
+  https://www.lesstif.com/gitbook/squashing-commit-30703652.html
+  https://backlog.com/git-tutorial/kr/stepup/stepup7_5.html
+
+
+# rebase 로 이전 commit 메시지 수정 하기
+    > git rebase -i commit아이디 or HEAD~n or --root
+    > 편집기 열리면 원하는 commit 시점 앞에 pick > edit(or e) 로 수정
+    //이전 commit 시점 이동 후
+    > git commit --amend      //커밋메시지 수정
+    > git rebase --continue   //현시점으로 복귀 후 종료
+    ※ git rebase --abort      //rebase 취소하기
+
+
+# cherry-pick '특정 commit 가져오기!'
+  > 원하는 commit 만 가져오고 싶을때 사용
+  > git cherry-pick commit아이디
+    충돌나는 내용 수정하고 commit하면 이력 변경됨 ! 그리고 새로운 commit은 제일 앞으로~
+
+
+
+/************************************************************************************************************/
+  [참고]
+  > https://git-scm.com/book/ko/v2/Git-%EB%B8%8C%EB%9E%9C%EC%B9%98-%EB%B8%8C%EB%9E%9C%EC%B9%98%EC%99%80-Merge-%EC%9D%98-%EA%B8%B0%EC%B4%88
+
+※ merge
+1. fast-forward merge
+   - 단순하게 branch 만들어서 작업후 master에 merge하면 branch에 최종 commit 시점으로
+   HEAD가 향하게 됨
+
+2. 3-way-merge
+   - branch와 master의 변경이력이 일정하지 않을때 branch, master의 최종 commit 시점과
+   공통 조상 commit 시점을 비교해서 병합을 시행함.
+   - 이로인해 conflict이 발생하고 수작업으로 수정후 commit 까지 해줘야 merge 끝
+
+3. rebase ( merge 보다 history가 깔끔해진다. )
+  //마스터에 신규 push가 되어 commit이 올라갔는데, 나는 pull 을 받지않고 작업을 이어간다랄까..
+
+/************************************************************************************************************/
+
+4. git reset
+  ※ reset option. ( 기본적으로 --mixed가 default 옵션으로 잡혀있음 )
+    -–soft : index 보존(add한 상태, staged 상태), 워킹 디렉터리의 파일 보존. 즉 모두 보존.
+    –-mixed : index 취소(add하기 전 상태, unstaged 상태), 워킹 디렉터리의 파일 보존 (기본 옵션)
+    –-hard : index 취소(add하기 전 상태, unstaged 상태), 워킹 디렉터리의 파일 삭제. 즉 모두 취소.
+
+  4-1 commit 취소
+  > git reset --hard HEAD^    //최종 작업한거 다 날라가고 commit 취소
+  > git reset --soft HEAD^    //최종 작업한거 보존하고 commit 취소
+  > git reset --hard @^       // 1.8.4부터 도입 @ == HEAD 동의어 ( @^, @~1, @~ )
+
+  4-2 pull, merge 취소 ( ※ ORIG_HEAD 이전 헤드 상태 뜻함 )
+  > git reset --hard ORIG_HEAD
+  > git reset --merge ORIG_HEAD
+
+  4-3 add 취소
+  > git reset HEAD   또는 git reset @^ 또는 git reset @~1  또는 git reset
+
+ ----------------------------------------------------------------------------
+5. remote branch 내려받기 
+  > git branch -a        //로컬 , 리모트에 있는 모든 branch 조회 
+
+  ※ branch 없을 경우 
+  > git pull             //동기화 
+  > git branch -r        //원격저장소 branch 확인 
+  > git branch -a        //로컬, 원격 저장소 branch 확인
+  > git checkout -t origin/브랜치명       // 지정 브랜치로 checkout됨 
+   
+
