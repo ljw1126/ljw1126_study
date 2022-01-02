@@ -76,11 +76,7 @@
 - shift 2번 -> keymap 검색  
 
 ## live template 설정 (psvm , sout 과 같은) 
-- preference == setting 메뉴 
-- **내가원하는 템플리 추가 하기** : ctrl + alt + s > Editor > Live Template  
-- java 부분에 항목 추가 후 Abbreviation 입력창에 명칭넣고 
-- Template text에 코드 구문 넣고 
-- 하단에 언어로 JAVA 선택 해주면 됨
+-  메뉴 
 - 단축키 확인은 setting(ctrl + alt + s) > 좌측 keymap 메뉴 > 검색 
   - auto formatting > **alt + ctrl + L**
   - import 정리 > **alt + ctrl + O**
@@ -96,3 +92,90 @@
 - 리 컴파일 : ctrl + shift + f9     // view 파일 수정 후 
 - 생성자/getter/setter 등 생성 : **alt + insert** 
 - 자동정렬 : ctrl + alt + l 
+
+
+###### 한글 설정 
+[https://goddaehee.tistory.com/248](https://goddaehee.tistory.com/248)
+
+```
+
+※ preference == setting 동일 메뉴
+
+1. 프로젝트 JDK 설정
+
+Project Settings > Project > Project SDK > 원하는 JDK 선택 (없다면 New 로 추가)
+
+ 
+
+2. 테마 설정
+
+Preferences > Appearance & Behavior > Appearance > Theme : Darcula 로 설정
+
+ 
+
+3. 폰트 변경
+
+Preferences > Editor > Font > Font : MesloLGS NF 선택
+
+ 
+
+4. 라인넘버 표시
+
+Preferences > Editor > General > Appearance > Show line numbers
+
+ 
+
+5. 공백문자 표시
+
+Preferences > Editor > General > Appearance > Show whitespace 체크 ( 아래3개항목 모두 체크 )
+
+ 
+
+6. 대소문자 자동완성 해제
+
+Preferences > Editor > General > Code Completion > Match case 체크 해제
+
+ 
+
+7. 스펠링 체크 해제
+
+Preferences > Editor > Inspections > Spelling 체크 해제
+
+ 
+
+8. 파일 인코딩 설정
+
+Preferences > Editor > File Encodings > Global Encoding : UTF-8
+
+Preferences > Editor > File Encodings > Project Encoding : 기본 system UTF-8 (프로젝트에 맞는 인코딩 설정)
+
+Preferences > Editor > File Encodings > Properties Files : 기본 system UTF-8 (프로젝트에 맞는 인코딩 설정)
+
+Preferences > Editor > File Encodings > Properties Files : Transparent native-to-ascii conversion 체크 (한글표시)
+
+ 
+
+9. 코드 폴딩 해제
+
+Preferences > Editor > General > Imports 체크 해제, One-line methos 체크 해제, "Closures" 체크 해제, Generic constructor and method parameters 체크 해제
+
+ 
+
+10. Tomcat 서버 설정
+
+Preferences > Build, Execution, Deployment > Application Servers > + 클릭 > Tomcat Server > Tomcat 설치 디렉토리 지정
+
+
+11. 원하는 Template 추가
+- file메뉴 > setting(ctrl + alt + s) > Editor > Live Template  
+- java 부분에 항목 추가(+) 후 Abbreviation 입력창에 내용 기재 
+- Template text에 코드 구문 기재
+- 하단에 언어로 JAVA 선택 후 저장
+
+12. 함수가 한줄로 표시되는 문제 
+- [Settings > Editor > General > Code Folding] 에서 "One-line methods" 체크해제
+
+13. 롬북 플러그인 설치하기 !
+- [file > Settings > Plugins]에서 lombok 검색 후 설치하기 
+- [file > Settings > Build, Execution, deployment > Compiler > Annotation Processors]에서 Enable annotation processing을 체크해줌
+```
