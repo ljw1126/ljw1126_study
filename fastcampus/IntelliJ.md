@@ -178,4 +178,11 @@ Preferences > Build, Execution, Deployment > Application Servers > + 클릭 > To
 13. 롬북 플러그인 설치하기 !
 - [file > Settings > Plugins]에서 lombok 검색 후 설치하기 
 - [file > Settings > Build, Execution, deployment > Compiler > Annotation Processors]에서 Enable annotation processing을 체크해줌
+
+14. Gradle refresh 명령어 
+> ./gradlew build --refresh-dependencies // refresh 아이콘이 있음
+
+15. Request Mapping 주소 찾기 
+> 인텔리제이 plugin 인 request mapper 설치 
+> ctrl + shift + \(백스페이스) 누르고 검색 
 ```
