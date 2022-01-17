@@ -186,3 +186,19 @@ Preferences > Build, Execution, Deployment > Application Servers > + 클릭 > To
 > 인텔리제이 plugin 인 request mapper 설치 
 > ctrl + shift + \(백스페이스) 누르고 검색 
 ```
+
+## git bash 연동 
+- Setting(ctrl + alt + s) > Tools > Terminal 메뉴 이동
+- Shell path 가 default 로 cmd.exe 되어 있는데 아래와 같이 변경
+```
+"C:\Program Files\Git\bin\sh.exe" -login -i
+```
+
+![Alt text](/images/intellij/gitbash연동1.png)
+
+- 저장 후 인텔리제이 재시작 하면 Terminal 탭이 git bash 로 변경되어 있음 
+
+![Alt text](/images/intellij/gitbash연동2.png)
+
+###### 참고
+[https://goddaehee.tistory.com/250](https://goddaehee.tistory.com/250 '갓대희의 작은공간')
