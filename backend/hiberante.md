@@ -84,9 +84,341 @@ It is used to create and remove persistent entity instances,
 to find entities by their primary key identity, and to query over all entities. 
 This interface is similar to the Session in Hibernate. **    // hiberante의 session 인터페이스는 jpa 의 EntityManager와 유사하다 **
 
+[에러] HHH000206: hibernate.properties not found
+> 참고 : https://www.inflearn.com/questions/13985
+>> jaxb 관련 라이브러리가 필요한가?
+
+# Difference Between Hibernate and Spring Data JPA 
+> https://www.javaguides.net/2018/12/what-is-difference-between-hibernate-and-spring-data-jpa.html
+> hibernate 와 spring data jpa 의 차이 
+  Hibernate is a JPA implementation, while Spring Data JPA is a JPA Data Access Abstraction. 
+  Spring Data offers a solution to GenericDao custom implementations. 
+  It can also generate JPA queries on your behalf through method name conventions.
 
 ```
 
 ###### 참고 
 [https://victorydntmd.tistory.com/195?category=795879](https://victorydntmd.tistory.com/195?category=795879 'JPA와 hibernate')
 [https://34codefactory.medium.com/bootstrapping-hibernate-5-with-spring-code-factory-367a87d35630](https://34codefactory.medium.com/bootstrapping-hibernate-5-with-spring-code-factory-367a87d35630 'Bootstrapping Hibernate 5 with Spring')
+
+## hiberante repository 
+```
+#1. select(1) 단순
+        
+        Session session = sessionFactory.openSession();
+        CriteriaBuilder cb = session.getCriteriaBuilder();
+
+            CriteriaQuery<Board> query = cb.createQuery(Board.class);
+            Root<Board> root = query.from(Board.class);
+            cq.select(root).where(cb.equal(root.get("useYn"),"Y"));
+            List<Board> list = session.createQuery(cq).getResultList();
+
+        session.close();
+
+#2. select(2) 
+
+        CriteriaBuilder cb = session.getCriteriaBuilder();
+
+            CriteriaQuery<Board> query = cb.createQuery(Board.class);
+            Root<Board> root = query.from(Board.class);
+            
+            root.fetch("user"); // fetch join 
+
+            query.select(root).where(cb.equal(root.get("useYn"),"Y"));
+
+        final TypedQuery<Board> typedQuery = session.createQuery(query);
+        typedQuery.setFirstResult(0).setMaxResults(10); // (page-1)*pagesize
+        final List<Board> resultList = typedQuery.getResultList();
+
+        session.close();
+
+#3. select(3) hql 사용할 경우
+        Session session = sessionFactory.openSession();
+
+        String hql = " SELECT distinct b " +
+                     "  FROM Board b join fetch b.user " +
+                     " WHERE b.useYn = 'Y' " +
+                     "  and ( b.title like :keyword or b.content like :keyword ) ";
+
+        Query<Board> query= session.createQuery(hql, Board.class);
+        query.setParameter("keyword","%"+keyword+"%");
+        List<Board> list = query.getResultList();
+
+        session.close();
+
+# 4. select(4) 진짜 될 줄이야.
+
+        Session session = sessionFactory.openSession();
+
+        CriteriaBuilder cb = session.getCriteriaBuilder();
+
+            CriteriaQuery<Board> query = cb.createQuery(Board.class);
+            Root<Board> root = query.from(Board.class);
+
+        root.fetch("user");
+        // 이게 cb.and 하면 equal 다음에 and가 붙네
+        query.select(root)
+                        .where(
+                                cb.and(cb.equal(root.get("useYn"),"Y")),
+                                cb.or(
+                                        cb.like(root.get("title"),"%"+boardSearchDTO.getKeyword()+"%")
+                                        ,cb.like(root.get("content"),"%"+boardSearchDTO.getKeyword()+"%")
+                                )
+                        );
+
+        query.orderBy(cb.desc(root.get("id")));
+
+        final TypedQuery<Board> typedQuery = session.createQuery(query);
+
+        typedQuery.setFirstResult((boardSearchDTO.getPage()-1) * boardSearchDTO.getSize())
+                  .setMaxResults(boardSearchDTO.getSize());
+
+        final List<Board> list = typedQuery.getResultList();
+
+        return list;
+
+select
+        board0_.id as id1_0_0_,
+        user1_.id as id1_2_1_,
+        board0_.created_date as created_2_0_0_,
+        board0_.modified_date as modified3_0_0_,
+        board0_.content as content4_0_0_,
+        board0_.title as title5_0_0_,
+        board0_.use_yn as use_yn6_0_0_,
+        board0_.user_id as user_id8_0_0_,
+        board0_.view_cnt as view_cnt7_0_0_,
+        user1_.created_date as created_2_2_1_,
+        user1_.modified_date as modified3_2_1_,
+        user1_.authority as authorit4_2_1_,
+        user1_.email as email5_2_1_,
+        user1_.nickname as nickname6_2_1_,
+        user1_.password as password7_2_1_,
+        user1_.username as username8_2_1_ 
+    from
+        Board board0_ 
+    inner join
+        User user1_ 
+            on board0_.user_id=user1_.id 
+    where
+        board0_.use_yn=? 
+        and (
+            board0_.title like ? 
+            or board0_.content like ?
+        ) 
+    order by
+        board0_.id desc limit ?
+
+# 5. 게시판 count 
+(수정전)
+        Long result = 0L;
+        Session session = sessionFactory.openSession();
+        CriteriaBuilder cb = session.getCriteriaBuilder();
+
+            CriteriaQuery<Long> cq = cb.createQuery(Long.class);
+            Root<Board> root = cq.from(Board.class);
+            Query<Long> query = session.createQuery(cq.select(cb.countDistinct(root))
+                                                      .where(cb.equal(root.get("useYn"),"Y")));
+            result = query.getSingleResult();
+
+        session.close();
+
+# 6. 쿼리를 조금더 깔끔하게 
+
+        Session session = sessionFactory.openSession();
+        CriteriaBuilder cb = session.getCriteriaBuilder();
+
+            CriteriaQuery<Board> query = cb.createQuery(Board.class);
+            Root<Board> root = query.from(Board.class);
+
+            root.fetch("user");
+
+            query.select(root)
+                 .where(
+                        cb.and(cb.equal(root.get("useYn"),"Y")),
+                        cb.or(
+                                cb.like(root.get("title"),"%"+searchDTO.getKeyword()+"%")
+                                ,cb.like(root.get("content"),"%"+searchDTO.getKeyword()+"%")
+                        )
+                 )
+                 .orderBy(cb.desc(root.get("id")));
+        (수정전)
+            final TypedQuery<Board> typedQuery = session.createQuery(query);
+
+            typedQuery.setFirstResult((searchDTO.getPage()-1) * searchDTO.getSize())
+                      .setMaxResults(searchDTO.getSize());
+
+            final List<Board> list = typedQuery.getResultList();
+        (수정후)
+             final List<Board> list = session.createQuery(query)
+                                            .setFirstResult((searchDTO.getPage()-1) * searchDTO.getSize())
+                                            .setMaxResults(searchDTO.getSize())
+                                            .getResultList();
+
+        session.close();
+
+        return list;
+
+
+# 게시판 조회 백업
+public Long totalCount(SearchDTO searchDTO){
+
+        Long result;
+        Session session = sessionFactory.openSession();
+        CriteriaBuilder cb = session.getCriteriaBuilder();
+
+            CriteriaQuery<Long> query = cb.createQuery(Long.class);
+            Root<Board> root = query.from(Board.class);
+
+            query.select(cb.countDistinct(root))
+                 .where(
+                         cb.and(cb.equal(root.get("useYn"),"Y")),
+                         cb.or(
+                                 cb.like(root.get("title"),"%"+searchDTO.getKeyword()+"%")
+                                ,cb.like(root.get("content"),"%"+searchDTO.getKeyword()+"%")
+                         )
+                 );
+
+            result = session.createQuery(query).getSingleResult();
+
+        session.close();
+        return result;
+    }
+
+    public List<Board> findList(SearchDTO searchDTO){
+
+        Session session = sessionFactory.openSession();
+        CriteriaBuilder cb = session.getCriteriaBuilder();
+
+            CriteriaQuery<Board> query = cb.createQuery(Board.class);
+            Root<Board> root = query.from(Board.class);
+
+            root.fetch("user");
+
+            query.select(root)
+                 .where(
+                        cb.and(cb.equal(root.get("useYn"),"Y")),
+                        cb.or(
+                                cb.like(root.get("title"),"%"+searchDTO.getKeyword()+"%")
+                                ,cb.like(root.get("content"),"%"+searchDTO.getKeyword()+"%")
+                        )
+                 )
+                 .orderBy(cb.desc(root.get("id")));
+
+            List<Board> list = session.createQuery(query)
+                                      .setFirstResult((searchDTO.getPage()-1) * searchDTO.getSize())
+                                      .setMaxResults(searchDTO.getSize())
+                                      .getResultList();
+
+        session.close();
+        return list;
+    }
+
+# 댓글 조회 백업 
+ublic Long totalCount(Long id){
+
+        Long result;
+        Session session = sessionFactory.openSession();
+        CriteriaBuilder cb = session.getCriteriaBuilder();
+
+            CriteriaQuery<Long> query = cb.createQuery(Long.class);
+            Root<Comment> root = query.from(Comment.class);
+
+            query.select(cb.countDistinct(root))
+                            .where(cb.equal(root.get("board"), id));
+
+            result = session.createQuery(query).getSingleResult();
+
+        session.close();
+        return result;
+
+    }
+
+    public List<Comment> findList(Long id, SearchDTO searchDTO){
+
+        Session session = sessionFactory.openSession();
+        CriteriaBuilder cb = session.getCriteriaBuilder();
+
+            CriteriaQuery<Comment> query = cb.createQuery(Comment.class);
+            Root<Comment> root = query.from(Comment.class);
+
+            root.fetch("board");
+            root.fetch("user");
+
+            query.select(root)
+                  .where(cb.equal(root.get("board"), id))
+                  .orderBy(cb.desc(root.get("parent_no")), cb.asc(root.get("sort_order")));
+
+            List<Comment> list = session.createQuery(query)
+                                        .setFirstResult((searchDTO.getPage()-1) * searchDTO.getSize())
+                                        .setMaxResults(searchDTO.getSize())
+                                        .getResultList();
+
+        session.close();
+        return list;
+    }
+
+# 게시판 hql 백업
+public Long totalCount(SearchDTO searchDTO){
+
+        Session session = sessionFactory.getCurrentSession();
+
+        String hql = "SELECT count(b) " +
+                     "FROM Board b " +
+                     "WHERE b.useYn = 'Y' " +
+                     "  and ( b.title like :keyword or b.content like :keyword ) ";
+
+        Query<Long> query= session.createQuery(hql, Long.class);
+        query.setParameter("keyword","%"+searchDTO.getKeyword()+"%");
+
+        return query.getSingleResult();
+    }
+
+    public List<Board> findList(SearchDTO searchDTO){
+
+        Session session = sessionFactory.getCurrentSession();
+
+        String hql = "SELECT b " +
+                     "FROM Board b join fetch b.user " +
+                     "WHERE b.useYn = 'Y' " +
+                     "  and ( b.title like :keyword or b.content like :keyword )" +
+                     "ORDER BY b.id desc " ;
+
+        Query<Board> query= session.createQuery(hql, Board.class)
+                                    .setParameter("keyword","%"+searchDTO.getKeyword()+"%")
+                                    .setFirstResult((searchDTO.getPage()-1) * searchDTO.getSize())
+                                    .setMaxResults(searchDTO.getSize());
+
+        return query.getResultList();
+    }
+# 댓글 hql 백업 
+public Long totalCount(Long id){
+        Session session = sessionFactory.getCurrentSession();
+
+            String hql = "SELECT count(c) " +
+                         "FROM Comment c " +
+                         "WHERE c.board.id = :id ";
+
+            Query<Long> query = session.createQuery(hql,Long.class);
+            query.setParameter("id" , id);
+
+        return query.getSingleResult();
+    }
+
+    public List<Comment> findList(Long id, SearchDTO searchDTO){
+
+        Session session = sessionFactory.getCurrentSession();
+
+        String hql = "SELECT distinct c " +
+                     "FROM Comment c join fetch c.user " +
+                     "WHERE c.board.id = :id and c.useYn = 'Y' " +
+                     "ORDER BY c.parent_no desc, c.sort_order asc ";
+
+        Query<Comment> query = session.createQuery(hql, Comment.class)
+                                      .setParameter("id", id)
+                                      .setFirstResult((searchDTO.getPage()-1) * searchDTO.getSize())
+                                      .setMaxResults(searchDTO.getSize());
+
+        return query.getResultList();
+    }
+
+```
