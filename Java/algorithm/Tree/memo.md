@@ -84,6 +84,10 @@
   - 노드 사이의 거리 - 골드 5 
   - https://www.acmicpc.net/problem/1240 
 
+- 추천문제10 // 공통 조상 찾기 문제 
+  - LCA 1504- 골드 3
+  - ex10_11437.java
+  - https://www.acmicpc.net/problem/11437
 
 #### 문제1. 트리의 부모찾기(11725)      --- 10/21 bfs로 문제를 풀었었음
 - 1. 인접리스트로 저장하기

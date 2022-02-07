@@ -116,7 +116,7 @@
     //    return new CoffeeMakerImpl(coffeeBeans);
     // }
 
-    private grindBeans(shots){
+    private grindBeans(shots:number){
       console.log(`grinding beans for ${shots}`);
       if(this.coffeeBeans < shots * CoffeeMakerImpl.BEANS_GRAMM_PER_SHOT){
         throw new Error('Not enough coffee beans!');

@@ -98,9 +98,6 @@
 ## Testcontainers
 ```
 1. build.gradle에 testcontainer 의존성 추가 및 설정 추가 
-2. 
-
-
 ```
 
 
