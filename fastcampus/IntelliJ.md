@@ -30,12 +30,12 @@
 | 빠른 찾기                 |      ⌘B              |   ctrl + B               |
 | 파일내 찾기               |      ⌘F              |  ctrl + F                |
 | 찾은 결과 이동            |   ⌘G, ⌘⇧G           |   F3, shift + F3         |
-| 경로내 검색               |    ⌘⇧F               |   ctrl + shift + F       |
-| *전체 검색                |      ⇧2번             |   shift 2번              |
+| 경로내 검색               |    ⌘⇧F               |   **ctrl + shift + F**  |
+| *전체 검색                |      ⇧2번             |   shift 2번             |
 | 최근 파일 열기            |     ⌘E               |    ctrl + E              |
 | 터미널 창                |   ⌥F12                 |  alt + f12              |
 | 구문 완성                |   ⇧⌘Enter             |   shift + ctrl + enter   |
-| 파일 내 Replace(키워드)* |    ⌘R                 |  **ctrl + R **               |
+| 파일 내 Replace(키워드)* |    ⌘R                 |  **ctrl + R**               |
 | 경로 내 Replace(키워드)* |    ⌘⇧R                |  **ctrl + shift + R**        |
 | Run anything            |     ⌃ 2번                |  ctrl 2번               |
 | 에디터 실행              |     ⌃⇧R                 |    ctrl + shift + F10   |
