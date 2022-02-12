@@ -30,12 +30,12 @@
 | 빠른 찾기                 |      ⌘B              |   ctrl + B               |
 | 파일내 찾기               |      ⌘F              |  ctrl + F                |
 | 찾은 결과 이동            |   ⌘G, ⌘⇧G           |   F3, shift + F3         |
-| 경로내 검색               |    ⌘⇧F               |   ctrl + shift + F       |
-| *전체 검색                |      ⇧2번             |   shift 2번              |
+| 경로내 검색               |    ⌘⇧F               |   **ctrl + shift + F**  |
+| *전체 검색                |      ⇧2번             |   shift 2번             |
 | 최근 파일 열기            |     ⌘E               |    ctrl + E              |
 | 터미널 창                |   ⌥F12                 |  alt + f12              |
 | 구문 완성                |   ⇧⌘Enter             |   shift + ctrl + enter   |
-| 파일 내 Replace(키워드)* |    ⌘R                 |  **ctrl + R **               |
+| 파일 내 Replace(키워드)* |    ⌘R                 |  **ctrl + R**               |
 | 경로 내 Replace(키워드)* |    ⌘⇧R                |  **ctrl + shift + R**        |
 | Run anything            |     ⌃ 2번                |  ctrl 2번               |
 | 에디터 실행              |     ⌃⇧R                 |    ctrl + shift + F10   |
@@ -186,3 +186,19 @@ Preferences > Build, Execution, Deployment > Application Servers > + 클릭 > To
 > 인텔리제이 plugin 인 request mapper 설치 
 > ctrl + shift + \(백스페이스) 누르고 검색 
 ```
+
+## git bash 연동 
+- Setting(ctrl + alt + s) > Tools > Terminal 메뉴 이동
+- Shell path 가 default 로 cmd.exe 되어 있는데 아래와 같이 변경
+```
+"C:\Program Files\Git\bin\sh.exe" -login -i
+```
+
+![Alt text](/images/intellij/gitbash연동1.png)
+
+- 저장 후 인텔리제이 재시작 하면 Terminal 탭이 git bash 로 변경되어 있음 
+
+![Alt text](/images/intellij/gitbash연동2.png)
+
+###### 참고
+[https://goddaehee.tistory.com/250](https://goddaehee.tistory.com/250 '갓대희의 작은공간')
