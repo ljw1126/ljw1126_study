@@ -279,5 +279,29 @@ ctrl + z
   > git branch -r        //원격저장소 branch 확인 
   > git branch -a        //로컬, 원격 저장소 branch 확인
   > git checkout -t origin/브랜치명       // 지정 브랜치로 checkout됨 
-   
+<<<<<<< HEAD
+    ex) git checkout -t origin/develop 
+        git checkout -t origin/release 
+ ----------------------------------------------------------------------------
 
+- Branch 명 변경 
+  $ git branch -m oldBranchNm newBranchNm 
+
+- Branch 삭제 ( Remote Repository )
+  $ git push origin --delete BranchNm
+
+- remote url 변경 
+  $ git remote set-url origin 신규주소
+
+- remote 명칭 변경 
+  $ git remote rename origin upstream        // origin -> upstream으로 명칭 변경 
+  $ git remote -v                            // 확인
+
+- 원격 저장소에서 이미 삭제된 브랜치들의 로컬 사본 정리하기 
+  $ git fetch --all --prune  // 모든 원격 저장소에 대해 삭제된 브랜치 정보 정리 
+  $ git fetch [remote-name] --prune //특정 원격 저장소에 대해 삭제된 브랜치 정보 정리
+=======
+   
+6. remote 주소 변경 하기 
+  > git remote set-url origin 깃주소
+>>>>>>> 5d26fee... 동기화

@@ -422,3 +422,24 @@ public Long totalCount(Long id){
     }
 
 ```
+
+
+## hiberante batch 
+
+```
+
+- batch 사용시  Entity Id의 Generation Strategy 를 IDENTITY 로 할 경우 hibernate가 조용히 disable 처리한다함 
+    GenerationType.IDENTITY  >> GenerationType.SEQUENCE 
+
+- 상대적으로 IDENTITY가 AUTO, SEQUENCE 방식 보다 빠르지만 정책상 batch에서 IDENTITY는 제한 있음 .. 
+
+
+## 참고
+https://www.baeldung.com/jpa-hibernate-batch-insert-update
+https://techblog.woowahan.com/2695/      // 우아한 형제들
+https://jaehun2841.github.io/2020/08/08/2020-08-08-spring-batch-db-connection-issue/#%EB%A7%88%EB%AC%B4%EB%A6%AC
+https://www.popit.kr/%ED%95%98%EC%9D%B4%EB%B2%84%EB%84%A4%EC%9D%B4%ED%8A%B8%EB%8A%94-%EC%96%B4%EB%96%BB%EA%B2%8C-%EC%9E%90%EB%8F%99-%ED%82%A4-%EC%83%9D%EC%84%B1-%EC%A0%84%EB%9E%B5%EC%9D%84-%EA%B2%B0%EC%A0%95%ED%95%98/
+https://github.com/HomoEfficio/dev-tips/blob/master/JPA-GenerationType-%EB%B3%84-INSERT-%EC%84%B1%EB%8A%A5-%EB%B9%84%EA%B5%90.md
+https://abramsm.wordpress.com/2008/04/23/hibernate-batch-processing-why-you-may-not-be-using-it-even-if-you-think-you-are/        // order_insert=true 에 대한 설정관련 
+https://jaehun2841.github.io/2020/11/22/2020-11-22-spring-data-jpa-batch-insert/#%EC%84%B1%EB%8A%A5-%EB%B9%84%EA%B5%90
+```
