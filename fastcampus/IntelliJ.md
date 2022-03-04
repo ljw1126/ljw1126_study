@@ -157,7 +157,7 @@ Preferences > Editor > File Encodings > Properties Files : Transparent native-to
 
 9. 코드 폴딩 해제
 
-Preferences > Editor > General > Imports 체크 해제, One-line methos 체크 해제, "Closures" 체크 해제, Generic constructor and method parameters 체크 해제
+Preferences > Editor > General > Code Folding > Imports 체크 해제, One-line methos 체크 해제, "Closures" 체크 해제, Generic constructor and method parameters 체크 해제
 
  
 
@@ -185,6 +185,17 @@ Preferences > Build, Execution, Deployment > Application Servers > + 클릭 > To
 15. Request Mapping 주소 찾기 
 > 인텔리제이 plugin 인 request mapper 설치 
 > ctrl + shift + \(백스페이스) 누르고 검색 
+
+[에러]
+1. finished with non-zero exit value 1
+  # 해결 
+    > Setting(ctrl + alt + s) 에서 [build, execution, deployment > Build tools > Gradle] 메뉴 이동 
+    > gradle에 build and run using 과 Run tests using을 IntelliJ IDEA로 변경 후 저장 
+
+  # 참고 
+  https://yjh5369.tistory.com/entry/intellij-%EC%8B%A4%ED%96%89-%EC%8B%9C-finished-with-non-zero-exit-value-1-%EC%98%A4%EB%A5%98
+
+
 ```
 
 ## git bash 연동 
