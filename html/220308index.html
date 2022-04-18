@@ -1,0 +1,469 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ taglib uri="http://tiles.apache.org/tags-tiles" prefix="tiles" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib tagdir="/WEB-INF/tags" prefix="tag" %>
+<div class="row">
+    <div class="col-lg-12">
+        <div class="panel panel-default">
+            <div class="panel-body">
+                <select id="version" class="form-control version-selector">
+                    <c:forEach items="${version}" var="v" varStatus="status">
+                        <option value="${v}" ${status.first ? 'selected' : ''}>${v}</option>
+                    </c:forEach>
+                </select>
+                <input type="button" id="search" value="Search" class="btn btn-primary floatL" />
+            </div>
+        </div>
+    </div>
+
+    <div id="updateProgressContents">
+        <div class="col-lg-4">
+            <div class="panel panel-default">
+                <div class="panel-body update-progress-panel-body">
+
+                    <style>
+
+                        .card_info{
+                            background: inherit ;
+                            border:none;
+                            box-shadow:none;
+                            border-radius:0;
+                            padding:0;
+                            overflow:visible;
+                            cursor:help;
+                            background-color: transparent;
+                        }
+
+                        .card_info:focus, .card_info:hover{
+                            /*opacity: 1;*/
+                            /*outline: none;*/
+                        }
+
+                        .card_info img{
+                            pointer-events: none;
+                        }
+
+                        [data-msg]{
+                            position: relative;
+                        }
+                        /*
+                         white-space 여백을 줄바꿈으로..
+                         */
+                        [data-msg]:focus::before, [data-msg]:hover::before{
+                            content : attr(data-msg);
+                            white-space: pre;
+                            /*display: inline-block;*/
+                            position: absolute;
+                            width: auto;
+                            height:auto;
+                            /*min-width:500px;*/
+                            /*min-height:100px;*/
+
+                            padding:1rem;
+                            background-color: #ffffff;
+                            border : 1px solid #9d9d9d;
+                            left:50%;
+                            transform : translate(3%, 1px);
+                            border-radius: 5px;
+                            z-index: 1;
+                            text-align: left;
+
+                            font-size: 14px;
+                            color: black;
+
+                            cursor:text;
+                            -webkit-user-select: all !important;
+                            -moz-user-select: all !important;
+                            -ms-user-select: all !important;
+                            user-select: all !important;
+
+                        }
+
+                        /*
+                        transform 아래 속성 때문에 투명한 외곽선 발생
+                        transparent == 투명한
+                         */
+                        [data-msg]:focus::after, [data-msg]:hover::after{
+                            content:'';
+                            position: absolute;
+                            top: -18px;
+                            left: 50%;
+                            /*transform:translateX(-50%);
+                            border-top:15px solid white;
+                            border-left:15px solid transparent;
+                            border-right:15px solid transparent;*/
+
+
+                        }
+
+                       /* [data-msg]:focus::before [data-min-width='500px'], [data-msg]:hover::before [data-min-width='500px']{min-width : 500px;}
+                        [data-min-width='750px']{min-width : 750px;}
+                        [data-min-width='1000px']{min-width : 100px;}*/
+
+                        .info-modal{
+                            /*content : attr(data-msg);*/
+                            /*white-space: pre;*/
+                            /*display: inline-block;*/
+                            position: absolute;
+                            width: auto;
+                            height:auto;
+                            /*min-width:500px;*/
+                            /*min-height:100px;*/
+
+                            padding:1rem;
+                            background-color: #ffffff;
+                            border : 1px solid #9d9d9d;
+                            transform: translate(0px, 18px);
+                            border-radius: 5px;
+                            z-index: 1;
+                            text-align: left;
+
+                            font-size: 14px;
+                            color: black;
+
+                            cursor:text;
+                            -webkit-user-select: text !important;
+                            -moz-user-select: text !important;
+                            -ms-user-select: text !important;
+                            user-select: text !important;
+                            display: block;
+                        }
+                        .d-none{
+                            display: none;
+                        }
+                    </style>
+                    <p class="update-progress-label">테스트 진행 상태
+                       <%-- <button type="button" class="card_info"
+                                data-msg="iOS 테스트 미진행 : iOS 테스트가 진행되기 전 단계
+iOS 테스트 진행중 : iOS 테스트가 진행중인 단계
+iOS 테스트 완료 : iOS 테스트가 완료된 상태
+(AOS 테스트 단계도 동일)">
+                            <img src="/resources/images/info-circle.svg" alt="info-circle-icon" style="padding-bottom: 5px;"/>
+                        </button>--%>
+                        <button type="button" class="card_info" data-target="#info1" >
+                            <img src="/resources/images/info-circle.svg" alt="info-circle-icon" style="padding-bottom: 5px;"/>
+                        </button>
+                    </p>
+                    <div class="info-modal d-none" id="info1" style="left: 25%;top: 0;">
+                        iOS 테스트 미진행 : iOS 테스트가 진행되기 전 단계<br/>
+                        iOS 테스트 진행중 : iOS 테스트가 진행중인 단계<br/>
+                        iOS 테스트 완료 : iOS 테스트가 완료된 상태<br/>
+                        (AOS 테스트 단계도 동일)
+                    </div>
+                    <p class="update-progress-value">iOS 테스트 <span id="iosTestStatus"></span></p>
+                    <p class="update-progress-value">AOS 테스트 <span id="aosTestStatus"></span></p>
+                </div>
+            </div>
+        </div>
+
+
+
+        <div class="col-lg-4">
+            <div class="panel panel-default">
+                <div class="panel-body update-progress-panel-body">
+                    <p class="update-progress-label">테스트 기간</p>
+                    <p class="update-progress-value">&nbsp;</p>
+                    <p class="update-progress-value" id="testPeriod"></p>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-4">
+            <div class="panel panel-default">
+                <div class="panel-body update-progress-panel-body">
+                    <p class="update-progress-label">테스트 인원&nbsp;<span id="testerCnt"></span></p>
+                    <p class="update-progress-value">&nbsp;</p>
+                    <p class="update-progress-value" id="tester"></p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="col-lg-6">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="panel panel-default h240">
+                    <div class="panel-body registed-process-issue">
+                        <p class="update-progress-label">등록 이슈/처리 상태</p>
+                        <style>
+
+                            #registedAndProcessIssue tbody tr:nth-child(odd){
+                                background-color: #d7e7f6;
+                            }
+                            #registedAndProcessIssue tbody tr th,#registedAndProcessIssue tbody tr td{
+                                border: 1px solid #36c;
+                            }
+                        </style>
+                        <table class="table table-bordered" id="registedAndProcessIssue">
+                            <colgroup>
+                                <col style = "width:14%;">
+                                <col style = "width:14%;">
+                                <col style = "width:14%;">
+                                <col style = "width:14%;">
+                                <col style = "width:14%;">
+                                <col style = "width:14%;">
+                                <col style = "width:14%;">
+                            </colgroup>
+                            <tbody></tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="panel panel-default h480">
+                    <div class="panel-body">
+                        <button type="button" class="card_info" data-target="#info2"
+                                style="position: absolute !important;right: 25px;top: 10px;z-index: 1;">
+                            <img src="/resources/images/info-circle.svg" alt="info-circle-icon"/>
+                        </button>
+                        <div id="comboChart" class="combo-chart"></div>
+                    </div>
+                    <div class="info-modal d-none" id="info2" style="top:20px;right:20px;">
+                        등록된 이슈 : 해당 일에 등록된 이슈의 개수 (A,B,C 등급별 이슈, 개선사항, 사양문의 포함)<br/>
+                        완료된 이슈 : 해당 일에 수정되어 완료 처리된 이슈의 개수 (수정된 이슈 개수 아님)<br/>
+                        잔존 이슈 : 이슈 등록되어 있거나 수정 진행중인 이슈의 개수 (완료된 이슈를 제외한 이슈)<br/>
+                        누적 이슈 : 등록된 이슈의 총 개수<br/>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="panel panel-default update-progress-daily">
+                    <div class="panel-body h220">
+                        <style>
+                            #updateProgressDailyTable thead tr:first-child{
+                                background-color: #d7e7f6;
+                            }
+
+                            #updateProgressDailyTable thead tr td, #updateProgressDailyTable tbody tr td{
+                                border: 1px solid #36c;
+                            }
+
+                            #updateProgressDailyTable thead tr td, #updateProgressDailyTable tbody tr td:first-child{
+                                font-weight: bold;
+                            }
+
+                        </style>
+                        <table class="table table-bordered" id="updateProgressDailyTable">
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="col-lg-3">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="panel panel-default h490">
+                    <div class="panel-body">
+                        <p class="update-progress-label">Jira Issue
+                            <button type="button" class="card_info" data-target="#info3">
+                                <img src="/resources/images/info-circle.svg" alt="info-circle-icon" style="padding-bottom: 5px;"/>
+                            </button>
+                        </p>
+                        <div class="info-modal d-none" id="info3" style="right: -20px;top: -10px;">
+                            등록된 이슈 중 이슈 심각도에 A등급으로 판명된 중요한 이슈가 표시되는 항목
+                        </div>
+                        <div id="jiraIssues">
+                            <ul></ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="panel panel-default h490">
+                    <div class="panel-body">
+                        <p class="update-progress-label">이슈 심각도
+                            <button type="button" class="card_info" data-target="#info4">
+                                <img src="/resources/images/info-circle.svg" alt="info-circle-icon" style="padding-bottom: 5px;"/>
+                            </button>
+                        </p>
+                        <div class="info-modal d-none" id="info4" style="right: 40px;top: 0px;">
+                            이슈 심각도에 대한 자세한 설명은 하단 링크 참조<br/>
+                            <a href="https://treenod.atlassian.net/wiki/spaces/QA/pages/33302128227" target="_blank" title="이슈 심각도 분류 바로가기">
+                               https://treenod.atlassian.net/wiki/spaces/QA/pages/33302128227
+                            </a>
+                        </div>
+                        <div id="pieChart" class="w100p h400"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-lg-3">
+        <div class="panel panel-default h1000">
+            <div class="panel-body">
+                <ul class="nav nav-tabs nav-justified dashboard-chart-tab" id="tabMenuSelector">
+                    <li class="active">
+                        <a href="#iosTestTab" data-toggle="tab" data-tab-id="#iosTestTable" aria-expanded="true">
+                            iOS 테스트 진행현황
+                        </a>
+                    </li>
+                    <li class="">
+                        <a href="#aosTestTab" data-toggle="tab" data-tab-id="#aosTestTable" aria-expanded="false">
+                            AOS 테스트 진행현황
+                        </a>
+                    </li>
+                </ul>
+                <div class="taC mt20">
+                    <input type="color" name="progress1" value="#7d2cff" data-target="#progress1"/><span class="progressSelector selected" id="progress1">&nbsp;1차&nbsp;</span>&nbsp;
+                    <input type="color" name="progress2" value="#b152ff" data-target="#progress2"/><span class="progressSelector" id="progress2">&nbsp;2차&nbsp;</span>&nbsp;
+                    <input type="color" name="progress3" value="#0bab8b" data-target="#progress3"/><span class="progressSelector" id="progress3">&nbsp;3차&nbsp;</span>&nbsp;
+                    <button type="button" class="card_info" data-target="#info5">
+                        <img src="/resources/images/info-circle.svg" alt="info-circle-icon" style="padding-bottom: 5px;"
+                             data-container="body" data-toggle="popover" data-placement="top" data-content="Vivamus sagittis lacus vel augue laoreet rutrum faucibus."
+                        />
+                    </button>
+                </div>
+                <div class="info-modal d-none" id="info5" style="">
+                    이슈 테스트 진행상황과 진행차수를 표시함<br/><br/>
+
+                    진행률 : 테스트 진행상황에 따라 0~100%로 표시됨<br/>
+                    1차 : 테스트가 1번 완료된 상태<br/>
+                    2차 : 테스트가 2번 완료된 상태<br/>
+                    3차 : 테스트가 3번 완료된 상태<br/><br/>
+
+                    ※ 모든 항목이 동일한 차수로 테스트가 진행되는 것은 아님<br/>
+                    ※ 최대한 아래의 정해진 회차별로 테스트를 진행하나 프로젝트 별 환경과 상황에 따라서
+                    테스트 회차는 상이할 수 있음<br/><br/>
+
+                    항목에 따라서 1~3회차까지 테스트가 진행되며 진행차수는 사전에 식별된
+                    리스크 관리 등급에 따라 진행됩니다.<br/>
+                    STA : 2~3회차 테스트<br/>
+                    ITA(Tech), ITA(Biz) : 1~2회차 테스트<br/>
+                    FTA : 1회차 테스트<br/>
+                </div>
+                <div class="tab-content col-sm-12 mt20" id="tabContent">
+                    <div class="tab-pane active" id="iosTestTable"></div>
+                    <div class="tab-pane" id="aosTestTable"></div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+<script type="text/javascript">
+    google.charts.load('current', {'packages': ['corechart', 'timeline']});
+    const service = "${service}";
+</script>
+<script type="text/javascript" src="/resources/scripts/chart.js"></script>
+<script type="text/javascript" src="/resources/scripts/updateProgress.js"></script>
+
+<script type="t-tmpl-mustache" id="registedAndProcessIssueTbody">
+{{#.}}
+    <tr>
+        <th rowspan="2">등록이슈</th>
+        <th>합계</th>
+        <th>A</th>
+        <th>B</th>
+        <th>C</th>
+        <th>개선사항</th>
+        <th>사양문의</th>
+    </tr>
+    <tr>
+        <td>{{합계}}</td>
+        <td>{{A}}</td>
+        <td>{{B}}</td>
+        <td>{{C}}</td>
+        <td>{{Improvement}}</td>
+        <td>{{사양문의}}</td>
+    </tr>
+    <tr>
+        <th rowspan="2">처리상태</th>
+        <th>QA수정<br/>확인완료</th>
+        <th>수정 후<br/>빌드반영</th>
+        <th>수정 진행 중</th>
+        <th>수정 대기 중</th>
+        <th>추후 수정</th>
+        <th>-</th>
+    </tr>
+    <tr>
+        <td>{{닫힘}}</td>
+        <td>{{Resolved}}</td>
+        <td>{{진행 중}}</td>
+        <td>{{할일}}</td>
+        <td>{{Epic Link}}</td>
+        <td>-</td>
+    </tr>
+{{/.}}
+{{^.}}
+
+{{/.}}
+
+</script>
+
+<script type="x-tmpl-mustache" id="jiraIssuesTmpl">
+{{#.}}
+    <li>
+        <a href="https://treenod.atlassian.net/browse/{{jiraId}}" target="_blank" title="{{summary}} 바로가기">{{summary}}</a>
+    </li>
+{{/.}}
+{{^.}}
+{{/.}}
+</script>
+<script type="x-tmpl-mustache" id="dailyIssueTmpl">
+{{#.}}
+     <thead>
+        <tr>
+            <td>-</td>
+            {{#dailyDates}}
+            <td class="w75">{{.}}</td>
+            {{/dailyDates}}
+        </tr>
+     </thead>
+     <tbody>
+        <tr>
+            <td>등록된 이슈</td>
+            {{#registed}}
+            <td class="w75">{{.}}</td>
+            {{/registed}}
+        </tr>
+        <tr>
+            <td>완료된 이슈</td>
+            {{#completed}}
+            <td class="w75">{{.}}</td>
+            {{/completed}}
+        </tr>
+        <tr>
+            <td>잔존 이슈</td>
+            {{#remain}}
+            <td class="w75">{{.}}</td>
+            {{/remain}}
+        </tr>
+        <tr>
+            <td>누적 이슈</td>
+            {{#accumulate}}
+            <td class="w75">{{.}}</td>
+            {{/accumulate}}
+        </tr>
+     </tbody>
+{{/.}}
+{{^.}}
+    <p>데이터가 없습니다.</p>
+{{/.}}
+</script>
+<script type="x-tmpl-mustache" id="testProgressBarTmpl">
+{{#.}}
+    <div class="test-progress-bar">
+        <p>{{name}}</p>
+        <div class="progress-bar-background">
+            <div class="progress-bar" data-width="{{progress}}">
+                <div class="progress-bar-value">{{progress}}%</div>
+            </div>
+        </div>
+    </div>
+{{/.}}
+</script>
