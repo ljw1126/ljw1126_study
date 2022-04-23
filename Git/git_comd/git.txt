@@ -279,8 +279,9 @@ ctrl + z
   > git branch -r        //원격저장소 branch 확인 
   > git branch -a        //로컬, 원격 저장소 branch 확인
   > git checkout -t origin/브랜치명       // 지정 브랜치로 checkout됨 
-    ex) git checkout -t origin/develop 
-        git checkout -t origin/release 
+   
+6. remote 주소 변경 하기 
+  > git remote set-url origin 깃주소
  ----------------------------------------------------------------------------
 
 - Branch 명 변경 
