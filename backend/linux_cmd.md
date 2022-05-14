@@ -695,3 +695,24 @@ Conn.  characterset:    utf8mb4
 ```
 참고사이트 - https://hello-bryan.tistory.com/160
 ```
+
+
+#### ubuntu 시스템 로그 확인 
+``` 
+$ sudo cat /var/log/messages | grep -i "ERROR"
+```
+
+#### ec2 instance 재부팅 이력 확인 
+[https://aws.amazon.com/ko/premiumsupport/knowledge-center/ec2-instance-automatic-reboot-cause/](https://aws.amazon.com/ko/premiumsupport/knowledge-center/ec2-instance-automatic-reboot-cause/)
+
+``` 
+// 재부팅 기록 보기 
+# grep reboot /home/*/.bash_history
+# grep reboot /root/.bash_history
+# history | grep -i reboot
+# history | grep -i init
+# last reboot
+```
+
+#### 참고 
+[https://harryp.tistory.com/880](https://harryp.tistory.com/880 '리눅스 시스템 로그 파일 정리')

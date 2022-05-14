@@ -154,6 +154,8 @@ ctrl + z
   git branch -a -v         //전체 브랜치 목록 + 상세 출력
   git branch 브랜치명   // 해당시점의 branch를 생성함 ( branch 만드는 이유 ? 특정 기능을 만들어 master 브랜치에 합치거나, 급한 버그를 해결하기 위해 브랜치를 만들기도 함 )
   git checkout -b 브랜치명 // **브랜치 생성하고 checkout 함
+  
+  git remote update
   git checkout -t origin/leejinwoo   //원격지(remote)에 있는 브랜치를 내려받고 체크아웃**
   git push origin 브랜치명 // remote에 브랜치 생성함
   git branch --set-upstream-to origin/브랜치명  //해당 로컬브랜치를 리모트 브랜치와 연동 ..
@@ -300,3 +302,24 @@ ctrl + z
 - 원격 저장소에서 이미 삭제된 브랜치들의 로컬 사본 정리하기 
   $ git fetch --all --prune  // 모든 원격 저장소에 대해 삭제된 브랜치 정보 정리 
   $ git fetch [remote-name] --prune //특정 원격 저장소에 대해 삭제된 브랜치 정보 정리
+
+
+---------------------------------------------------------------------------
+## stash 
+
+git stash --help  // 도움말
+
+git stash list 
+
+git stash show -p stash@{번호}    // 특정 stash 내용 확인
+git stash show -p stash@{번호} | grep "찾으려는 텍스트"
+
+
+git stash apply stash@{번호}
+git stash pop stash@{번호}
+
+git stash push -m "메시지"        // untracked 파일은 저장 되지 않음
+git stash push -um "메시지"       // [-u|--include-untracked]  , untracked 파일까지 전부 임시 저장 
+
+git stash drop stash@{번호}
+---------------------------------------------------------------------------
