@@ -196,6 +196,33 @@ Preferences > Build, Execution, Deployment > Application Servers > + 클릭 > To
   https://yjh5369.tistory.com/entry/intellij-%EC%8B%A4%ED%96%89-%EC%8B%9C-finished-with-non-zero-exit-value-1-%EC%98%A4%EB%A5%98
 
 
+16. Java Import * 설정 off
+  File > Settings > Project Settings > Code Style > Java > Imports 탭 
+  import할 때 *을 사용하지 않도록 아래 항목 숫자를 늘려둔다
+  ㄴ Class count to use import with '*' : 999
+  ㄴ Names count to use static Import with '*' : 999
+
+17. third party javascript library warning 제거
+
+jquery의 $를 인식못하는 등 자꾸 warning을 뿜어내는데, 인터넷에 있는 방법으로는 깔끔하게 처리가 안된다.
+File > Settings > Language & Frameworks > Javascript > Libraries > Add
+아래 그림과 같이 Attach Diretories에서 javascript library가 모여있는 Diretory를 선택한다. (File만 등록하면 제대로 동작을 안한다 ;;;;)
+
+18. 아래는 못 찾음..
+Plug in
+Save Actions
+아래 옵션 체크
+
+Optimize imports
+
+Add missing @Override annotations
+
+Add a serialVersionUID field for Serializable classes
+
+Remove unneccessary this to field and method
+
+Remove unnecessary semicolon
+
 ```
 
 ## git bash 연동 

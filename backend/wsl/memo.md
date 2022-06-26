@@ -239,6 +239,15 @@ $ ssh -i keyfile user@ip        // -i 옵션은 키 파일 사용 (경로)
 
   For details about using Docker Desktop with WSL 2, visit:
 
+>> docker 프로그램 실행 > 설정 
+   > General 에서 Use the WSL2 based engine 항목 체크된 상태로 비활성화 되어있는지 확인 
+   > Resources > WSL INTEGRATION에서 선택 후 저장
+
+   ㅁ 공식 사이트 https://docs.docker.com/desktop/windows/wsl/
+
+## 뭔가 찝찝한 문구는 docker 실행 안 해서 출력되는 문구..
+compinit:503: no such file or directory: /usr/share/zsh/vendor-completions/_docker
+https://github.com/docker/for-win/issues/8336
 
 ```
 
@@ -260,6 +269,9 @@ $ ssh -i keyfile user@ip        // -i 옵션은 키 파일 사용 (경로)
   - https://github.com/microsoft/WSL/issues/184  👍
   - stack overflow > https://stackoverflow.com/questions/59061816/git-forces-refresh-index-after-switching-between-windows-and-linux  
 
+  https://github.com/microsoft/WSL/issues/184#issuecomment-209913528
+
+
   ## For the current repository
     git config core.filemode false 
     git config core.autocrlf true 
@@ -267,6 +279,19 @@ $ ssh -i keyfile user@ip        // -i 옵션은 키 파일 사용 (경로)
     git config --global core.autocrlf true
     git config --global core.filemode false
 
- 
+```
 
+
+## wsl 기본 editor 설정 
+- NANO 뭐시기 이상한걸로 되어 있음 .. 
+
+```
+* 기본 에디터 설정 
+> apt-get install vim -y        // 설치되있을 경우 생략
+> vi ~/.zshrc           // esc 후 :wq!
+	------------------------
+	export EDITOR='vim'
+	------------------------
+> source ~/.zshrc 
+> git config --global -e    
 ```
