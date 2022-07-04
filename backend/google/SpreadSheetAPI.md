@@ -157,3 +157,143 @@ https://docs.google.com/spreadsheets/d/{sheet id}/edit#gid=9자리난수
   - Integer frozenColumnCount : 고정 열 카운트
   - Integer frozenRowCount : 고정 행 카운트
   - Integer rowCount : 행 끝 번호 카운트
+
+
+#### options - hAxis 관련 
+- reference가 뿔뿔이 흟어져 있어서 여기저기서 찾아야 함 
+- https://developers.google.com/chart/interactive/docs/gallery/linechart
+
+#### Axis 별 format 
+- MM/dd \nE  ==> 10/25 \n월 
+  - https://stackoverflow.com/questions/14062420/google-charts-how-to-line-break-axis-label-into-two-rows-multiple-x-axes
+
+
+#### row label 을 상단으로 이동.
+- option에 **axes** 속성 통해서 처리 가능할 거 같지만 timeline의 경우 되지 않음(22-06-27, 지원하지 않는 것으로 파악)
+  > 다른 차트의 경우 stack overflow 주소 확인 [https://stackoverflow.com/questions/32122142/haxis-label-position-google-charts](https://stackoverflow.com/questions/32122142/haxis-label-position-google-charts)
+  > 공식 문서에 timeline 유형만 빠짐 [https://developers.google.com/chart/interactive/docs/customizing_axes](https://developers.google.com/chart/interactive/docs/customizing_axes)
+- timeline의 경우 어쩔 수 없이, dom 요소 복사해서 처리하는 방식으로 함 
+  > 참고 stack overflow [https://stackoverflow.com/questions/55185413/how-to-stick-freeze-an-svg-header-to-top](https://stackoverflow.com/questions/55185413/how-to-stick-freeze-an-svg-header-to-top)
+```
+- ready 이벤트 동작
+    // 차트 그리기
+  searchMonthlyEventSchedule : function() {
+            const _ = this;
+
+            $.ajax({
+                url : "/ajax/report/service/getMonthlyEventSchedule",
+                type : "POST",
+                data : JSON.stringify(_.getMonthlyEventScheduleParam()),
+                contentType : 'application/json',
+                dataType : 'json',
+                success : function(res) {
+                    _.elements.forEach(($element) => {
+                        const elementId = "#" + $element.id;
+                        const monthlyEventScheduleData = res[$element.category];
+
+                        if (monthlyEventScheduleData.length === 0) {
+                            $(elementId).css("min-height", "10px");
+                            $(elementId).html("has no data");
+                        } else {
+                            $(elementId).css("min-height", "450px");
+
+                            const rows = [];
+                            monthlyEventScheduleData.forEach((obj) => {
+                                const row = [];
+                                row.push(obj.subCategory);
+                                row.push(obj.eventName);
+                                row.push(new Date(obj.startDate));
+                                row.push(new Date(obj.endDate));
+                                rows.push(row);
+                            });
+
+                            chart.draw({
+                                firstColumnIsNotDate : true,
+                                column : [
+                                    { type : 'string', name : 'category' },
+                                    { type : 'string', name : 'eventName' },
+                                    { type : 'date', name : 'startDate' },
+                                    { type : 'date', name : 'endDate' }
+                                ],
+                                data : rows,
+                                chartId : $element.id,
+                                type : "timeline",
+                                option : {
+                                    timeline : {
+                                        //colorByRowLabel : true       해당 속성 사용시 row 별로 색상이 일관성은 있는데, 다른 row에 비슷한 색상이 있어서 별로..
+                                        singleColor : '#184D41'
+                                    },
+                                    hAxis : {
+                                        format : 'MM/dd \nE',   // E가 요일을 나타내고 \n 들어가니.. <text> 두개 생성됨
+                                    },
+                                    vAxis : {
+                                        gridlines: {
+                                            interval : 1
+                                        }
+                                    }
+                                },
+                                eventListener : [{
+                                    type : 'ready',
+                                    callback : function() {
+                                        _.moveRowLabelToHeader($element);
+                                    }
+                                }]
+                            });
+                        }
+                    });
+                },
+                error: common.ajaxError
+            });
+        },
+        moveRowLabelToHeader : function($element) {
+            const header = $("#" + $element.header);
+            header.empty();
+
+            const svg = $("#" + $element.id).find("svg:eq(0)");
+            header.append(svg.clone());
+
+            const headerSvg = header.find("svg");
+
+            headerSvg.removeAttr("width");
+            headerSvg.removeAttr("height");
+            headerSvg.css({height: '50px', width: '100%'});
+
+            let idx = 0;
+            headerSvg.find("text").each(function() {
+                if (idx % 2 === 0) {  // 짝수인 경우 MM/dd
+                  $(this).attr("y", "-20");
+                } else { // 홀수 인 경우 '요일'
+                  const day = $(this).text();
+                  $(this).text(day.toKorean); // prototype 선언 해서 날짜 변환해줌
+                  $(this).attr("y", "-5");
+                }
+
+                idx++;
+
+                $(this).css({transform : 'translate(15px, 50px)'}); // x 축으로 15px 이동, y축으로 50px 이동
+                if ($(this).attr("font-weight")) { // font-weight 가 있는 경우와 없는 경우가 있어 걍 다 없애 버림 
+                    $(this).removeAttr("font-weight");
+                }
+            });
+
+            svg.remove();
+        }
+
+
+// 한국어로 요일 변환
+String.prototype.toKorean = function() {
+    if (!this.textContent) return "";
+
+    switch(this.textContent) {
+        case 'Sun' : return '일';
+        case 'Mon' : return '월';
+        case 'Tue' : return '화';
+        case 'Wed' : return '수';
+        case 'Thu' : return '목';
+        case 'Fri' : return '금';
+        case 'Sat' : return '토';
+        default : return '';
+    }
+}
+
+```

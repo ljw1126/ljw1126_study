@@ -295,3 +295,41 @@ https://github.com/docker/for-win/issues/8336
 > source ~/.zshrc 
 > git config --global -e    
 ```
+
+## nyancat 
+> sudo apt-get install nyancat -y 
+> nyancat
+
+
+## tmux 
+
+tmux 세션으로 프로세스 돌릴시 세션을 나가도 프로세스 유지
+
+```
+//설치 
+> sudo apt-get install tmux -y
+> tmux        // tmux 실행 
+> tmux ls     // 세션 목록
+
+
+> tmux at     //tmux attach , 기존 tmux 세션 연결 
+
+# 명령어 모드 
+> ctrl + b      // 해당 키를 누르면 명령어 모드가 켜지고, 이후 키에 따라 명령 실행됨 
+```
+
+## git 기존 ssh key 연동 
+
+```
+// 1. Copy keys to WSL 
+cp -r /mnt/c/Users/Administrator/.ssh ~/.ssh            // -r 옵션 붙이면 폴더 내용 까지 복사 해옴 , 굳이 복사 안하고 심볼릭 링크 처리하는 방식도 있는 듯
+chmod 600 ~/.ssh/id_rsa                                 // .. 여기까지 해도 비밀번호 물어봄
+            
+// 2. 한국인 블로그 보니 아래 명령어 입력해라 함 (정상동작 확인🎇)
+// 의미는 WSL에 설치된 git의 credential로 하여금 윈도우에 설치된 Git의 credential을 참고하게 하겠다고 선언해 주는 것이다
+git config --global credential.helper "/mnt/c/Program\ Files/Git/mingw64/libexec/git-core/git-credential-manager-core.exe"
+```
+
+[https://pinedance.github.io/blog//2020/05/04/git-ssh-wsl](https://pinedance.github.io/blog//2020/05/04/git-ssh-wsl)
+[https://devblogs.microsoft.com/commandline/sharing-ssh-keys-between-windows-and-wsl-2/](https://devblogs.microsoft.com/commandline/sharing-ssh-keys-between-windows-and-wsl-2/)
+[https://florianbrinkmann.com/en/ssh-key-and-the-windows-subsystem-for-linux-3436/](https://florianbrinkmann.com/en/ssh-key-and-the-windows-subsystem-for-linux-3436/)
