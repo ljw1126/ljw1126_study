@@ -170,8 +170,11 @@
 ※ 콜론(:) 뒤에 쌍따옴표(")로 둘러싼 영역 안에 여러 개의 파일명을 써주면 된다. 만약 보내는 파일명이 공백을 포함하는 경우에는 그냥 따옴표(')로 해당 파일명을 둘러싸도록 한다.
 
 ※ 43서버에 있는 파일 현재 위치로 가져오기
-> scp -P 10022 root@211.57.203.43:/home/u2-cms.tar ./
+> scp -P 10022 root@서버IP주소:/home/u2-cms.tar ./
 
+※ pulickey 접속(wsl로 동작 테스트함)
+> scp -i  ~/.ssh/파일명.key -P 포트번호 ubuntu@서버IP주소:/경로/파일명.war ./
+https://stackoverflow.com/questions/20939562/scp-permission-denied-publickey-on-ec2-only-when-using-r-flag-on-directories
 
 ```
 
