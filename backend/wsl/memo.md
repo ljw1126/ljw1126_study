@@ -300,10 +300,14 @@ https://github.com/docker/for-win/issues/8336
 > sudo apt-get install nyancat -y 
 > nyancat
 
+## cmatrix 
+> sudo apt-get install cmatrix -y 
+> cmatrix
 
 ## tmux 
 
 tmux 세션으로 프로세스 돌릴시 세션을 나가도 프로세스 유지
+tmux 세션이 살아있다면, ssh 접속해서 tmux 세션 접근가능(그대로 실행 프로세스 동작 중)
 
 ```
 //설치 
@@ -313,10 +317,12 @@ tmux 세션으로 프로세스 돌릴시 세션을 나가도 프로세스 유지
 
 
 > tmux at     //tmux attach , 기존 tmux 세션 연결 
-
-# 명령어 모드 
-> ctrl + b      // 해당 키를 누르면 명령어 모드가 켜지고, 이후 키에 따라 명령 실행됨 
 ```
+
+## tmux 명령어 모드 (ctrl + B 입력 후 다른 키 입력시 동작)
+[https://gptjs409.github.io/infra/2019/07/29/tmux.html](https://gptjs409.github.io/infra/2019/07/29/tmux.html)
+[https://bluecolorsky.tistory.com/32](https://bluecolorsky.tistory.com/32)
+[https://dgkim5360.tistory.com/entry/the-first-steps-for-tmux-terminal-multiplexer](https://dgkim5360.tistory.com/entry/the-first-steps-for-tmux-terminal-multiplexer)
 
 ## git 기존 ssh key 연동 
 
