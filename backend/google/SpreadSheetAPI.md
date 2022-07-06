@@ -250,7 +250,7 @@ https://docs.google.com/spreadsheets/d/{sheet id}/edit#gid=9자리난수
             header.empty();
 
             const svg = $("#" + $element.id).find("svg:eq(0)");
-            header.append(svg.clone());
+            header.append(svg.clone()); // svg.clone().appendTo(header); 동일하게 동작함
 
             const headerSvg = header.find("svg");
 
