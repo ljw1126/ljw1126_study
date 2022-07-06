@@ -6,6 +6,7 @@
 [https://dataonair.or.kr/db-tech-reference/d-guide/data-practical/?mod=document&uid=402](https://dataonair.or.kr/db-tech-reference/d-guide/data-practical/?mod=document&uid=402)
 
 **👨‍💻Apache hadoop 명령어 공식 문서**
+[https://hadoop.apache.org/docs/](https://hadoop.apache.org/docs/)
 [https://hadoop.apache.org/docs/r2.10.1/hadoop-project-dist/hadoop-common/FileSystemShell.html](https://hadoop.apache.org/docs/r2.10.1/hadoop-project-dist/hadoop-common/FileSystemShell.html)
 
 **ssh config 설정/접속 관련**
@@ -13,6 +14,15 @@
 
 **ec2 로 하는 예제인데 제일 잘되어 있음 .. slave1/2 왜 통신 안되었는지 이유를 여기서 찾음**
 [https://1mini2.tistory.com/84](https://1mini2.tistory.com/84)
+
+**(사용안함) docker hadoop 셋팅 다 되어있는게 있는듯**
+[https://github.com/big-data-europe/docker-hadoop](https://github.com/big-data-europe/docker-hadoop)
+
+**하둡 트러블 슈팅 관련**
+[https://www.cs.brandeis.edu/~cs147a/lab/hadoop-troubleshooting/](https://www.cs.brandeis.edu/~cs147a/lab/hadoop-troubleshooting/)
+
+**하둡 v1.x 설치 영상** 
+[https://www.youtube.com/watch?v=KDC2Nto4NfE](https://www.youtube.com/watch?v=KDC2Nto4NfE)
 
 ---
 // START
@@ -86,7 +96,27 @@ HDFS는 하둡의 스토리지 계층으로, Hadoop 분산파일시스템(hdfs)�
   YARN 서비스 : ResourceManager, NodeManager 
      
 
+## hadoop 재시작시 put으로 올린 데이터 다 사라지는가 ?
 
+## HDFS / YARN 개별 재시작시 NameNode 실행이 안되는데 어떻게 처리 가능 ? 
+
+## 하둡 핵심 설정파일 
+core-site.xml
+  $HADOOP_HOME/etc/hadoop/core-site.xml     
+
+hdfs-site.xml
+  $HADOOP_HOME/etc/hadoop/hdfs-site.xml
+
+mapred-site.xml
+  $HADOOP_HOME/hadoop-2.10.2/etc/hadoop
+
+yarn-site.xml 
+  $HADOOP_HOME/etc/hadoop
+
+
+## bash_profile과 bashrc의 차이점 
+  .bash_profile : 로그인 쉘 환경 (사용자 로그인, ssh, su - 할때만 로드)
+  .bashrc : 로그인 이외의 쉘 환경 (터미널 창을 열때, bash 쉘에 접근할때 로드)
 
 // END
 ---
@@ -290,7 +320,7 @@ $ cd $HADOOP_CONFIG_HOME
 
     <property>
             <name>fs.default.name</name>
-            <value>hdfs://master:9000</value>     >> hdfs://localhost:9000 으로 수정
+            <value>hdfs://master:9000</value>     >> hdfs://master:9000 으로 수정      , localhost 문제있음..
             <final>true</final>
             <description>The name of the default file system.  A URI whose
             scheme and authority determine the FileSystem implementation.  The
@@ -310,7 +340,7 @@ $ cd $HADOOP_CONFIG_HOME
 <configuration>
     <property>
         <name>dfs.replication</name>
-        <value>3</value>      >> 1로 수정
+        <value>3</value>      >> 1로 수정 -> 3 
         <final>true</final>
         <description>Default block replication.
         The actual number of replications can be specified when the file is created.
@@ -359,10 +389,17 @@ $ vi mapred-site.xml
         and reduce task.
         </description>
     </property>
+
+        <!-- job 내역 확인 가능한 web ui 접속간으 : localhost:19888-->
+        <property>
+                <name>mapreduce.jobhistory.webapp.address</name>
+                <value>master:19888</value>
+        </property>
+    
 </configuration>
 ------------------------------------------------------------------------------------------
 
-5. yarn-site.xml 
+4. yarn-site.xml 
 - 매개변수 정보 : [https://hadoop.apache.org/docs/r2.7.6/hadoop-yarn/hadoop-yarn-common/yarn-default.xml](https://hadoop.apache.org/docs/r2.7.6/hadoop-yarn/hadoop-yarn-common/yarn-default.xml)
 
 ------------------------------------------------------------------------------------------
@@ -427,9 +464,10 @@ docker run -i -t -h slave2 --name slave2 --link master:master ubuntu_hadoop:hado
 
 > docker ps -a     // 실행확인
 
-// slave 컨테이너 ip확인 
-docker inspect slave1 (172.17.0.4)          // 뭔가 ip 검사는 안되네.. 172.17.0.4
-docker inspect slave2 (172.17.0.5)          // 172.17.0.5
+// master, slave 컨테이너 ip확인 
+docker inspect master | grep IPAddress   
+docker inspect slave1 | grep IPAddress   // 뭔가 ip 검사는 안되네.. 172.17.0.4
+docker inspect slave2 | grep IPAddress   // 172.17.0.5
 
 // 하둡 설정 및 구동
 docker attach master          // 컨테이너 구동중이여야 함 
@@ -590,33 +628,46 @@ $ hadoop fs -get /adnerson_result   //폴더채로 분산파일 시스템 상의
 
 1. Master 에서 slaves 설정 누락 
 
-  # vi $HADOOP_HOME/etc/hadoop/slaves
+  # vi $HADOOP_HOME/etc/hadoop/slaves             
+    전체 경로 :: /home/hadoop_home/hadoop-2.10.2/etc/hadoop/slaves
+
+    v1.x 하둡의 경우 slaves 파일에 
+    [마스터 ip 주소]
+    [첫번째 슬레이브 IP주소]
+    [두번째 슬레이브 IP주소]
+    
 
     -- localhost  지워버리던가
-    -- master
+    master             // 국룰인가봄(?), 경유한다면..
     slave1
     slave2
 
-2-1. slave1, 2 서버에 hosts 수정 
+2. master, slave1/2 각각 적용
+  2-1. slave1, 2 서버에 hosts 수정 
 
-  172.17.0.3  master master       // 이거는 docker run 할때 --link 옵션 줘서 이럼
-  172.17.0.4  slave1
-  172.17.0.5  slave2
+    172.17.0.3  master master       // 이거는 docker run 할때 --link 옵션 줘서 이럼
+    172.17.0.4  slave1
+    172.17.0.5  slave2
 
-2-2. slave 서버에 ssh 키 생성 및 ssh 설정 변경 
-  $ ssh-keygen -t rsa -P '' -f ~/.ssh/id_dsa
-  $ cat ~/.ssh/id_dsa.pub >> ~/.ssh/authorized_keys
-  $ ssh localhost       
+  2-2. slave 서버에 ssh 키 생성 및 ssh 설정 변경 
+    $ ssh-keygen -t rsa -P '' -f ~/.ssh/id_dsa
+    $ cat ~/.ssh/id_dsa.pub >> ~/.ssh/authorized_keys
+    $ ssh localhost       
 
-  $ vi /etc/ssh/sshd_config
-    // 주석 해제
-    PermitRootLogin yes       
-    PasswordAuthentication yes
+    $ vi /etc/ssh/sshd_config
+      // 주석 해제
+      PermitRootLogin yes       
+      PasswordAuthentication yes
 
-  $ systemctl restart sshd  // 대몬 재시작 .. 안되네.. 
-  $ sudo passwd root      // 통계는구라다!!
+    //$ systemctl restart sshd  // 대몬 재시작 .. 안되네..  sudo service sshd  restart 안됨
+    $ sudo passwd root      // 통계는구라다!!
 
-  # docker restart slave1  // slave2도 설정 후 재시작
+    // sshd 재시작 관련.. 
+    apt-get install openssh-server 
+    netstat -tnlp | grep sshd       // 실행 확인 
+    /etc/init.d/ssh restart         // 동작확인됨
+
+    # docker restart slave1  // slave2도 설정 후 재시작
 
 3. Master 서버 접속후 slave1, slave2 와 키 교환
    // master 에서만 수행 
@@ -668,7 +719,134 @@ $ hadoop fs -get /adnerson_result   //폴더채로 분산파일 시스템 상의
 
 # 이슈 
   > namenode 가 켜지지 않는 이슈 존재 (50070포트 웹페이지 접속 안됨)
-  
-
+  // sbin 폴더에서 
+  ./hadoop-daemon.sh start datanode 
 ```
 
+## hadoop 명령어 입력시 WARING 로그 관련 
+
+```bash
+root@master:/# hadoop fs -ls / 
+WARNING: An illegal reflective access operation has occurred 
+WARNING: Illegal reflective access by org.apache.hadoop.security.authentication.util.KerberosUtil (file:/home/hadoop_home/hado
+op-2.10.2/share/hadoop/common/lib/hadoop-auth-2.10.2.jar) to method sun.security.krb5.Config.getInstance()
+WARNING: Please consider reporting this to the maintainers of org.apache.hadoop.security.authentication.util.KerberosUtil
+WARNING: Use --illegal-access=warn to enable warnings of further illegal reflective access operations 
+WARNING: All illegal access operations will be denied in a future release 
+```
+
+#### 관련 stackoverflow
+[https://stackoverflow.com/questions/52155078/how-to-fix-hadoop-warning-an-illegal-reflective-access-operation-has-occurred-e](https://stackoverflow.com/questions/52155078/how-to-fix-hadoop-warning-an-illegal-reflective-access-operation-has-occurred-e)
+
+> 요약하자면, java version과 라이브러리(hadoop-auth-2.10.2.jar) 관련되어 출력하는 로그로 직접 설정 고칠 수 있는게 없음. 단, hadoop 3.x 버전부터 fixed 되었다함.
+
+#### hadoop log level 변경에 대해 찾아보자. -> 근데 라이브러리에서 발생하는 로그인데 제어가 가능한가 싶음.
+
+
+#### 하둡 에러 
+hadoop fs -mkdir -p /hadoop-dir/mydir01
+hadoop fs -mkdir -p /hadoop-dir/mydir02
+
+echo "this is test file 01" > testfile01.txt
+echo "this is test file 02" > testfile02.txt
+
+hadoop fs -copyFromLocal testfile01.txt /hadoop-dir/mydir01          // 아래 에러 출력 
+hadoop fs -copyFromLocal testfile01.txt /hadoop-dir/mydir02
+```
+- 데이터 노드가 없구나 .. jps 확인해보니 확인 
+22/07/06 05:09:52 WARN hdfs.DataStreamer: DataStreamer Exception
+eplicated to 0 nodes instead of minReplication (=1).  There are 0 datanode(s) running and no node(s) are excluded in this operation
+
+# 참고
+https://stackoverflow.com/questions/26545524/there-are-0-datanodes-running-and-no-nodes-are-excluded-in-this-operation?answertab=trending#tab-top
+https://stackoverflow.com/questions/11889261/datanode-process-not-running-in-hadoop
+```
+
+hadoop fs -ls -R /                           // 나니모 나캇다 
+
+```
+일단 hadoop namenode -format 을 재실행하면 
+/tmp 에 생성되는 h**_유저아이디 폴더삭제 해주고.. (중요한듯..)
+다 삭제 후 재 생성 
+/home/hadoop_home/datanode
+/home/hadoop_home/namenode 
+/home/hadoop_home/temp 
+
+chmod -R 755 datanode 
+chmod -R 755 namenode 
+chmod -R 755 temp 
+
+hadoop namenode -format        // tmp 폴더 안에 또 생성해줌
+
+> ./hadoop-daemon.sh start datanode        // ***************** datanode 올라옴
+
+하둡 로그 관련 참고 >> https://myeonguni.tistory.com/1472
+https://www.edureka.co/community/28196/datanode-process-not-running-in-hadoop
+
+
+// 당연히 하둡에 올라와 있어야 하는데.. 
+hadoop jar /home/hadoop_home/hadoop-2.10.2/share/hadoop/mapreduce/hadoop-mapreduce-examples-2.10.2.jar wordcount /hadoop-dir/mydir01/testfile01.txt wordcount_output
+
+에러..) 느낌이 slave1에서는 master의 ssh 키가 없어서.. slave끼리 교환했는데 master는 안되노 ;; ssh-copy-id root@master
+java.net.ConnectException: Call From slave1/172.17.0.4 to localhost:9000 failed on connection exception: java.net.ConnectExce
+ption: Connection refused; For more details see:  http://wiki.apache.org/hadoop/ConnectionRefused
+
+> vim /etc/ssh/sshd_config  ✨✨🤔
+  // 수정했는데 반영이 .. 
+  PermitRootLogin yes  
+  PasswordAuthentication yes 
+
+> /etc/init.d/ssh restart 
+> netstat -tnlp | grep sshd
+
+// slave1, slave2에서 각각 실행하면 동작함 
+> ssh-copy-id -f root@master
+
+// 우욱 .. wordcount 실행해도 에러 
+  > vim /home/hadoop_home/hadoop-2.10.2/etc/hadoop/core-site.xml   // localhost:9000 을 master:9000으로 수정
+
+  > ./stop-all.sh
+  > ./start-all.sh 
+
+에러)org.apache.hadoop.hdfs.server.namenode.SafeModeException: Cannot delete /tmp/hadoop-yarn/staging/root/.staging/job_1657090927  Name node is in safe mode.
+  // safe mode 종료 
+  > hdfs dfsadmin -safemode leave 
+  또는 
+  > hdfs dfsadmin -safemode forceExit
+  // 상태 확인
+  > hdfs dfsadmin -safemode get
+
+
+에러)  DataStreamer Exception
+eplicated to 0 nodes instead of minReplication (=1).  There are 0 datanode(s) running and no node(s) are excluded in this operation
+// 데이터 노드 재시작 ($HADOOP_HOME/sbin) , start-all.sh || stop-all.sh 와 별개로 동작하는 듯함
+  > ./hadoop-daemon.sh stop datanode 
+  > ./hadoop-daemon.sh start datanode 
+
+// 결과 추출 됨 .. ✨🤔🤔😁
+
+  # echo "this is test file 01" > testfile01.txt
+
+  # hadoop fs -mkdir -p /hadoop-dir/mydir01
+  # hadoop fs -copyFromLocal testfile01.txt /hadoop-dir/mydir01
+
+  # hadoop fs -ls -R / 
+
+  # hadoop jar /home/hadoop_home/hadoop-2.10.2/share/hadoop/mapreduce/hadoop-mapreduce-examples-2.10.2.jar wordcount /hadoop-dir/mydir01/testfile01.txt wordcount_output
+  # hadoop fs -text /wordcount/part-r-00000
+  01      1
+  file    1
+  is      1
+  test    1
+  this    1
+
+
+에러..) 파일 있어서 이럼.. 
+org.apache.hadoop.mapred.FileAlreadyExistsException: Output directory hdfs://localhost:9000/user/root/wordcount_output already exists
+> hadoop fs -ls /     
+> hadoop fs -rmr /wordcount*
+
+참고 ) How to track which data block is in which data node in hadoop?
+# hadoop fsck /hadoop-dir/mydir01/testfile01.txt -files -blocks -locations 
+
+```
