@@ -1,5 +1,7 @@
 ## 리눅스 명령어
 
+[https://ss64.com/bash/](https://ss64.com/bash/)
+
 #### 환경 확인
 
 ```
@@ -719,3 +721,4 @@ $ sudo cat /var/log/messages | grep -i "ERROR"
 
 #### 참고 
 [https://harryp.tistory.com/880](https://harryp.tistory.com/880 '리눅스 시스템 로그 파일 정리')
+[https://etloveguitar.tistory.com/m/20](https://etloveguitar.tistory.com/m/20 'Redirection 프로그램 실행 로그저장')

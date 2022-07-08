@@ -1,5 +1,9 @@
 > vim 과 emacs (이맥스)는 편집기 양대산맥 ( 커맨드 라인 기반 시스템용 에디터 )
 
+## 참고
+[https://ss64.com/vi.html](https://ss64.com/vi.html)
+[https://ss64.com/vi-reference.html](https://ss64.com/vi-reference.html)
+
 ## vim 설정파일 
 - $HOME/.vimrc 생성하면 되는 듯 
 

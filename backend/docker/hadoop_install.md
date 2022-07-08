@@ -24,6 +24,9 @@
 **하둡 v1.x 설치 영상** 
 [https://www.youtube.com/watch?v=KDC2Nto4NfE](https://www.youtube.com/watch?v=KDC2Nto4NfE)
 
+**하둡 NameNode 기동과정과 메커니즘의 이해**
+[https://likebnb.tistory.com/162](https://likebnb.tistory.com/162)
+
 ---
 // START
 
@@ -319,7 +322,7 @@ $ cd $HADOOP_CONFIG_HOME
     </property>
 
     <property>
-            <name>fs.default.name</name>
+            <name>fs.default.name</name>           >> 해당 property는 deprecated 되었네.. --> fs.defaultFS 사용하길
             <value>hdfs://master:9000</value>     >> hdfs://master:9000 으로 수정      , localhost 문제있음..
             <final>true</final>
             <description>The name of the default file system.  A URI whose
@@ -850,3 +853,4 @@ org.apache.hadoop.mapred.FileAlreadyExistsException: Output directory hdfs://loc
 # hadoop fsck /hadoop-dir/mydir01/testfile01.txt -files -blocks -locations 
 
 ```
+
