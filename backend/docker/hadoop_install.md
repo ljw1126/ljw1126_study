@@ -241,6 +241,11 @@ $ apt-get install vim  -y    // root 아닌 경우 앞에 sudo 붙이기
 > apt-get install net-tools
 ```
 
+## zip, unzip 설치 
+```
+> apt-get install -y zip unzip
+```
+
 ##  우분투 ssh 서버 구축 
 https://davelogs.tistory.com/17?category=933085
 ```
@@ -853,4 +858,3 @@ org.apache.hadoop.mapred.FileAlreadyExistsException: Output directory hdfs://loc
 # hadoop fsck /hadoop-dir/mydir01/testfile01.txt -files -blocks -locations 
 
 ```
-

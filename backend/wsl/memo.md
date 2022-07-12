@@ -339,3 +339,63 @@ git config --global credential.helper "/mnt/c/Program\ Files/Git/mingw64/libexec
 [https://pinedance.github.io/blog//2020/05/04/git-ssh-wsl](https://pinedance.github.io/blog//2020/05/04/git-ssh-wsl)
 [https://devblogs.microsoft.com/commandline/sharing-ssh-keys-between-windows-and-wsl-2/](https://devblogs.microsoft.com/commandline/sharing-ssh-keys-between-windows-and-wsl-2/)
 [https://florianbrinkmann.com/en/ssh-key-and-the-windows-subsystem-for-linux-3436/](https://florianbrinkmann.com/en/ssh-key-and-the-windows-subsystem-for-linux-3436/)
+
+
+## 220712 테마 powerlevel10k로 테마 변경 
+- font 가 안 맞아서 icon 깨지고 난리도 아님 
+```
+* zsh 관련 
+https://digiconfactory.tistory.com/entry/Zsh-%EA%B0%9C%EC%9A%94-%EC%84%A4%EC%B9%98-OH-MY-ZSH
+
+  $ echo $SHELL        // 현재 사용중이 shell 
+  $ echo $0 
+  $ cat /etc/shells    // 지원하는 로그인 shell 목록 
+  $ chsh -s /bin/zsh   // shell 변경
+
+
+* zsh - prompt-expansion 
+https://zsh.sourceforge.io/Doc/Release/zsh_toc.html#SEC_Contents
+https://zsh.sourceforge.io/Doc/Release/Prompt-Expansion.html
+
+* zsh - prompt generator 
+https://zsh-prompt-generator.site/
+
+* powerlevel10k 
+https://subicura.com/mac/dev/shell.html#oh-my-zsh-%E1%84%91%E1%85%B3%E1%86%AF%E1%84%85%E1%85%A5%E1%84%80%E1%85%B3%E1%84%8B%E1%85%B5%E1%86%AB
+
+* 공식 깃 
+https://github.com/romkatv/powerlevel10k#some-prompt-styles-are-missing-from-the-configuration-wizard
+
+* font 가 안 맞아서 깨짐  -- DejaVu Sans Mono for Powerline 폰트로 설정해야 안 깨지는데 설치도 안되고.. 
+https://log4cat.tistory.com/5
+https://stackoverflow.com/questions/2035193/how-to-run-a-powershell-script
+
+
+> git clone --depth=1 https://github.com/romkatv/powerlevel10k.git ${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/themes/powerlevel10k
+
+> vim ~/.zshrc
+ 
+  ZSH_THEME="powerlevel10k/powerlevel10k"
+
+> set-executionpolicy unrestricted
+
+> powershell.exe -noexit "& 'D:\personal_gitRepo\fonts\install.ps1'"           //굳이 여기까지..
+
+> set-executionpolicy default       // 끝나고 나면 다시 설정 원복
+
+// 이제보니 폰트가 없네 (중요**)
+https://mong9data.tistory.com/113
+
+개별로 MesloLGS NF 깔아서 실행해서 설치후  (공식 git hub에 https://github.com/romkatv/powerlevel10k#manual-font-installation)
+setting.json  // 터미널 설정 파일 (GUI에서 하면 죽어도 안됨)
+
+"defaults" : {
+   "fontFace" : "MesloLGS NF" 
+}
+
+// 재실행하고 
+p10k configure 실행해서 설정하면됨 !! 아이콘도 나옴 
+
+```
+
+## 이슈) tmux 실행시 zsh 색상 테마 적용 안 되는 이슈
