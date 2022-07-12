@@ -160,6 +160,8 @@ nginx 가동하고 접속확인! (안될시 catalina.log 에러로그 확인 및
     # application-real.propertise 내용 중 'useSSL=true&enabledTLSProtocols=TLSv1.2' 옵션 추가
     spring.datasource.url=jdbc:디비서버:3306/디비명?characterEncoding=UTF-8&useSSL=true&enabledTLSProtocols=TLSv1.2
 
+
+
 ```
 
 ## 참고 
