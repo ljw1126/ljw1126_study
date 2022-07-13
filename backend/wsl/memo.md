@@ -399,3 +399,12 @@ p10k configure 실행해서 설정하면됨 !! 아이콘도 나옴
 ```
 
 ## 이슈) tmux 실행시 zsh 색상 테마 적용 안 되는 이슈
+[https://unix.stackexchange.com/questions/1045/getting-256-colors-to-work-in-tmux](https://unix.stackexchange.com/questions/1045/getting-256-colors-to-work-in-tmux)
+```
+$ vim ~/.zshrc 
+  // 적당한 위치에 저장 
+  export TERM=screen-256color
+
+$ source ~/.zshrc 
+$ tmux
+```

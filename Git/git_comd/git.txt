@@ -281,9 +281,8 @@ ctrl + z
   > git branch -r        //원격저장소 branch 확인 
   > git branch -a        //로컬, 원격 저장소 branch 확인
   > git checkout -t origin/브랜치명       // 지정 브랜치로 checkout됨 
-   
-6. remote 주소 변경 하기 
-  > git remote set-url origin 깃주소
+    ex) git checkout -t origin/develop 
+        git checkout -t origin/release 
  ----------------------------------------------------------------------------
 
 - Branch 명 변경 
@@ -302,7 +301,6 @@ ctrl + z
 - 원격 저장소에서 이미 삭제된 브랜치들의 로컬 사본 정리하기 
   $ git fetch --all --prune  // 모든 원격 저장소에 대해 삭제된 브랜치 정보 정리 
   $ git fetch [remote-name] --prune //특정 원격 저장소에 대해 삭제된 브랜치 정보 정리
-
 
 ---------------------------------------------------------------------------
 ## stash 
@@ -323,6 +321,7 @@ git stash push -um "메시지"       // [-u|--include-untracked]  , untracked �
 
 git stash drop stash@{번호}
 ---------------------------------------------------------------------------
+
 ## git 내장 GUI 실행 
 > git config --global gui.encoding utf-8       // 처음 gitk 실행시 한글깨져서 설정함
 > gitk 
@@ -331,6 +330,6 @@ git stash drop stash@{번호}
 > git add -i        // 친절하게 번호로 해서 어떤 명령어 처리할지 힌트를 주네 
 ---------------------------------------------------------------------------
 
-
 ## 참고 
 [https://rogerdudler.github.io/git-guide/index.ko.html](https://rogerdudler.github.io/git-guide/index.ko.html)
+
