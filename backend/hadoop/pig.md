@@ -180,3 +180,95 @@ run: a /usr/bin/env bash script, ASCII text executable
 
 ## 
 1. FILTER BY 에 like 는 없을까?
+
+## 참고 
+1. DISTINCT 
+https://pig.apache.org/docs/latest/basic.html#distinct
+
+2. Type Construction Operators -- (), [], {}
+https://pig.apache.org/docs/latest/basic.html#type-construction
+    () - tuple constructor , 객체 같은 느낌
+    {} - bag constructor , 배열 같은 느낌
+    [] - map constructor , [key#value] , #으로 구분하는 듯, 이건 map임 ..
+
+    ※ 좀 더 이쁘게 Operators ㅓㅇ리되어 있는 사이트
+    https://data-flair.training/blogs/pig-latin-operators-statements/
+
+
+```
+* group by 후 DISTINCT COUNT 
+https://stackoverflow.com/questions/9247296/select-count-distinct-using-pig-latin
+
+- COUNT(DISTINCT logs.user_id) 로 하면 unique한 user_id 로 집계가 될 줄 알았는데.. 안됨.. 밖에서 변수 하나 빼고 해야 하는가 싶음 
+
+    FOREACH logs {
+        unique_user_id = DISTINCT logs.user_id 
+        GENERATE 
+                group AS placement,
+                COUNT($1) as impressions,
+                COUNT(unique_user_id) as engaged_user 
+    }
+```
+
+3. matches (== expression을 사용하는 like)
+
+```
+countedLogs = FOREACH logsGroupByFields {
+  unique_user_id = DISTINCT logs.user_id;
+
+  GENERATE
+    group.placement AS placement,
+    (UPPER(group.ad_unit_name) matches '.*AND.*' ? 'android' : 'ios') as os, // ad_unit_name 값을 대문자로 변환 후 AND 텍스트 포함여부확인
+    group.country as country,
+    COUNT($1) AS impressions,
+    COUNT(unique_user_id) AS engaged_user;
+};
+```
+
+
+
+
+
+## 에러 
+[main] ERROR org.apache.pig.tools.grunt.Grunt  - ERROR 1000: Error during parsing. Encountered " <PATH> "#DUMP "" at line 18, column 1.
+Was expecting one of:
+>> 주석이 있으면 안되는 듯? 주석 지우니 잘 동작함 
+
+
+## hadoop 데이터 확인 관련 명령어 
+```
+hadoop fs -text s3://treenod-data-analysis/uid_collect/cblossom/daily/2022/06
+hadoop fs -text "s3://treenod-data-analysis/applovin/2022/07/01/*" | grep CollectionReset
+hadoop fs -text "s3://treenod-data-analysis/applovin/pokopang/2022/07/01/*" | grep CollectionReset
+cat applovin.pig | head
+hadoop fs -text "s3://treenod-data-analysis/applovin/pokopang/2022/07/01/*" | grep CollectionReset > a
+cat a | awk '{print $11}'
+cat a | awk '{print $11}' | sort | uniq
+cat a | awk '{print $11}' | sort | uniq | wc -l
+cat a | grep CollectionReset | wc -l
+cat a | awk '{print $11}' | sort | uniq | wc -l
+cat a | grep PremiumSummons_NPU_Level3 | wc -l
+cat a | grep PremiumSummons_NPU_Level3
+cat a
+hadoop fs -text "s3://treenod-data-analysis/applovin/pokopang/2022/07/01/*" | grep PremiumSummons_NPU_Level3 > a
+cat a | wc -l
+cat a | awk '{print $11}' | sort | uniq | wc -l
+vim cat a
+vim a
+vim applovin.pig
+cat a | awk '{print $11}'
+vim a
+cat a | awk '{print $12}'
+cat a | awk -F '\t' '{print $11}'
+cat a | awk -F '\t' '{print $11}' | sort | uniq
+cat a | awk -F '\t' '{print $11}' | sort | uniq | wc -l         // wc : word coutn , -l : line 단위
+pwd
+ls
+rm a
+cat a | awk -F '\t' '{print $11}' | sort | uniq | wc
+cat a | wc -l
+vim aw
+cat aw | wc
+vim applovin.pig
+hadoop fs -text "s3://treenod-data-analysis/applovin/pokopang/2022/07/01/*" | awk -F '\t' '{print $7}' | sort | uniq
+```

@@ -722,3 +722,17 @@ $ sudo cat /var/log/messages | grep -i "ERROR"
 #### 참고 
 [https://harryp.tistory.com/880](https://harryp.tistory.com/880 '리눅스 시스템 로그 파일 정리')
 [https://etloveguitar.tistory.com/m/20](https://etloveguitar.tistory.com/m/20 'Redirection 프로그램 실행 로그저장')
+
+
+---
+
+
+## uniq 명령어 
+[https://jaynamm.tistory.com/entry/%EB%A6%AC%EB%88%85%EC%8A%A4-uniq-%EB%AA%85%EB%A0%B9%EC%96%B4?category=800124](https://jaynamm.tistory.com/entry/%EB%A6%AC%EB%88%85%EC%8A%A4-uniq-%EB%AA%85%EB%A0%B9%EC%96%B4?category=800124)
+[https://manpages.ubuntu.com/manpages/focal/man1/uniq.1.html](https://manpages.ubuntu.com/manpages/focal/man1/uniq.1.html)
+
+## find 명령어 
+[https://jaynamm.tistory.com/entry/%EB%A6%AC%EB%88%85%EC%8A%A4-find-%EB%AA%85%EB%A0%B9%EC%96%B4?category=800124](https://jaynamm.tistory.com/entry/%EB%A6%AC%EB%88%85%EC%8A%A4-find-%EB%AA%85%EB%A0%B9%EC%96%B4?category=800124)
+
+## 리눅스 bz2(bzip2), bzcat 명령어 
+[https://jaynamm.tistory.com/entry/bz2bzip2-bzcat-%EB%AA%85%EB%A0%B9%EC%96%B4?category=800124](https://jaynamm.tistory.com/entry/bz2bzip2-bzcat-%EB%AA%85%EB%A0%B9%EC%96%B4?category=800124)
