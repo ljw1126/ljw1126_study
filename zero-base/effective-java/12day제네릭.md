@@ -1,7 +1,7 @@
 ﻿# Item26. 로(law) 타입은 사용하지 말라.
 
 ## 용어 정리 
-// 이미지 
+![Alt text](/images/zero-base/effective-java/%EC%A0%9C%EB%84%A4%EB%A6%AD-%EC%9A%A9%EC%96%B4%EC%A0%95%EB%A6%AC.png)
 
 ## 만약 type parameter 가 없다면 ? (비권장 코드)
 - 타입이 없다면 Object로 간주함 
