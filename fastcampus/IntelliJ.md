@@ -8,69 +8,134 @@
 
 ## IntellJ 단축키 정리 
 
+- alt + 좌우 방향키로 열려있는 탭 이동 가능 (ctrl + tab은 방향키 안 쓰고 탭 이동 가능)
+- ctrl + w (w 연타하면 선택 확장됨) <-> ctrl + shift + w (w 연타하면 반대로 선택 영역 축소)
+
+- 인덴트를 하지 않는 것은 가독성을 떨어뜨리고, 장기적으로 유지보수 악영향 주실 수 있음 
+  - 인덴트 잘 맞춰서 코딩 하는 습관을 들이는게 좋다
+
+- 파일 내 전체 자동 인덴트
+  - ctrl + a (전체 선택) 후 ctrl + alt + i 하면 됨
+
+- 메소드 사용처 찾기 
+  - 메소드 위에서 ctrl + b 누르면 목록 뜨고 이동가능 (여러개 인 경우 선택해야 함) 
+  - alt + f7 눌러서 에디터 아래에 미리보기 통해 확인도 가능
+
+- 검색시 
+  - ctrl + f 로 단어 검색 
+  - f3 다음 이동, shift + f3 으로 이전 결과 이동
+
+- 최근 열었던 파일 목록 
+  - ctrl + e 
+ 
+
+
 |                       |       맥                  |        윈도우          |
 |:---------------------:|:-------------------------:|:---------------------:|
 | 프로젝트 창 포커스 이동 |      ⌘1                  |     Alt +1            |
 | 에디터 창으로 이동      |     ESC                   |     ESC               |
 | 프로젝트 창 미리보기    |    space                  |      space            |
-| *에디터 창만 남기고 숨김|      ⇧⌘F12                |  ctrl + shift + F12   |
-| 에디터 창 이동         |     ⌃tab                  |    ctrl + tab         |
+| 에디터 창만 남기고 숨김✨|      ⇧⌘F12                |  ctrl + shift + F12   |
+
+| 에디터 탭 창 이동✨      |     ⌃tab                  |    ctrl + tab // tab 으로 선택 |
+
 | 새파일 생성- 에디터에서 |      ⌃⌥N                 |  ctrl + alt + Insert   |
 | 새파일 생성- 프로젝트창에서|     ⌘N                |    alt + Insert        |
+
 | 단어별 커서 이동          |     ⌥ + ← →           |    ctrl + ← →          |
 | 라인 시작/끝 커서 이동     |    fn + ← →           |   home, end            |
 | 페이지 위/아래 커서 이동   |    fn + ↑ ↓           |  page up, page down    |
+
 | 영역 선택 확장/축소        |    ⌥↑,⌥↓            |   ctrl + W, ctrl + shift + W  |
+
 | 한 줄 주석                |       ⌘/             |   ctrl + /             |
 | 블록 주석                 |     ⌥⌘/             |    shift + ctrl + /     |
+
 | 들여쓰기                  |     tab               |    tab                  |
 | 들여쓰기 취소             |     ⇧tab              |    shift + tab          |
-| 자동 들여쓰기             |    ⌃⌥I               |   ctrl + alt + I         |
+| 자동 들여쓰기 ✨            |    ⌃⌥I               |   ctrl + alt + I         |
+
 | 사용차 찾기               |     ⌥F7              |   alt + F7               |
 | 빠른 찾기                 |      ⌘B              |   ctrl + B               |
+
 | 파일내 찾기               |      ⌘F              |  ctrl + F                |
-| 찾은 결과 이동            |   ⌘G, ⌘⇧G           |   F3, shift + F3         |
-| 경로내 검색               |    ⌘⇧F               |   **ctrl + shift + F**  |
-| *전체 검색                |      ⇧2번             |   shift 2번             |
-| 최근 파일 열기            |     ⌘E               |    ctrl + E              |
+| 찾은 결과내 이동            |   ⌘G, ⌘⇧G           |   F3, shift + F3         |
+
+| *경로내 검색                 |    ⌘⇧F               |   **ctrl + shift + F**  |
+| *전체 검색(intellij 기능 포함)|      ⇧2번             |   shift 2번             |
+
+| 최근 파일 열기✨            |     ⌘E               |    ctrl + E              |
+
+|Live template             |                       |     ctrl + j              |
+|퀵픽스  ✨ (psvm, sout)  |        ⌥ Enter      |       alt + enter               |
+
+| 코드 이슈 별로 이동      |                       |  F2, shift + f2               |
+| import 최적화 ✨          |                       | ctrl + alt + o                |
+
+| 코드 생성✨ (getter, setter) |                       |   alt + insert             |
+
+|override 메소드 자동 완성 ✨ |                       |  ctrl + o                     |
+|implement 메소드 자동 완성 ✨|                       |  ctrl + i   (퀵 픽스가 더 빠를 수도)|
+
 | 터미널 창                |   ⌥F12                 |  alt + f12              |
-| 구문 완성                |   ⇧⌘Enter             |   shift + ctrl + enter   |
-| 파일 내 Replace(키워드)* |    ⌘R                 |  **ctrl + R**               |
-| 경로 내 Replace(키워드)* |    ⌘⇧R                |  **ctrl + shift + R**        |
-| Run anything            |     ⌃ 2번                |  ctrl 2번               |
+
+| 구문 완성 🤔(아직 안써봄)|   ⇧⌘Enter             |   shift + ctrl + enter   |
+
+| 파일 내 Replace(키워드)✨        |    ⌘R                 |  **ctrl + R**               |
+| 패키지 경로 내 Replace(키워드)✨ |    ⌘⇧R                |  **ctrl + shift + R**        |
+
+| Run anything  (별로👎)   |     ⌃ 2번                |  ctrl 2번               |
+
 | 에디터 실행              |     ⌃⇧R                 |    ctrl + shift + F10   |
 | 실행                     |     ⌃R                 |   shift + F10            |
 | 실행 종료                |     ⌘F2                |    ctrl + F2            |
+
 | 라인 복사                |     ⌘D                 |   ctrl + D              |
 | 라인 삭제                |     ⌘delete           |  ctrl + y                |
-| 메소드 파라미터 정보 확인 |  ⌘P                   | ctrl + P                 |
-| Quick Definition        |     ⌥space            |  ctrl + shift + I        |
-| Quick Document          |    F1                  |   ctrl + Q               |
-| *기능(action) 찾기       |     ⇧⌘A               |   shift + ctrl + A       |
+
+| 메소드 파라미터 정보 확인✨ |  ⌘P                   | ctrl + P                 |
+
+| Quick Definition✨(구현부 간단히 확인 가능) |     ⌥space            |  ctrl + shift + I        |
+| Quick Document✨        |    F1                  |   ctrl + Q               |
+
+//Action에 검색어 입력하면 단축키 확인 가능
+| 기능(action) 찾기 ✨      |     ⇧⌘A               |   shift + ctrl + A       |
+
 | Java Doc                |  양식 맞춰 작성          |   양식 맞춰 작성          |
-| 주요 단축키              | help-keymap ref.. 메뉴  |  help-keymap ref.. 메뉴   |
+| 주요 단축키              | help-keymap ref.. 메뉴  |  [Help > keymap ref..] 메뉴   |
 
 
 ## 단축키 응용 
+- 클래스 명에 포커스 두고 alt + enter 눌러서 테스트 코드 파일 생성
+- 타입변경에 파라미터 타입과 매소드 타입을 구분
+- 시그니처 
+  - 메소드에 포커스 두고, 접근자, 리턴타입, 파라미터 등 변경 가능
+
 |                       |       맥                  |        윈도우          |
 |:---------------------:|:-------------------------:|:---------------------:|
 | 테스트 코드 생성       |      ⌥⏎                  |       alt + enter     |
 | 테스크 코드 이동       |      ⇧⌘T                 |      ctrl + shift + T |
+
 | 선택된 테스트 코드 실행 |     ⌃⇧R                   |       Ctrl+Shift+F10  |
 | 정지                  |     ⌘F2                   |       Ctrl+F2         |
+
 | 리팩토링 - 클래스 이동 |         F6                 |          F6           |
 | 리팩토링 - 타입 변경   |          ⇧⌘F6             |  ctrl +shift + F6     |
 | 리팩토링 - 시그니처변경 |        ⌘F6               |       ctrl + F6       |
-| 리팩토링 - 이름변경    |        ⇧F6                 |        shift + F6     |
-| 리팩토링 기능 리스트*  |          ⌃T                | ctrl + alt + shift + T|
-| 디버깅 - brk pt 설정  |         ⌘F8                |        ctrl + F8     |
-| 디버깅 - brk pt 보기  |       ⌘⇧F                  |  ctrl + shift + F8   |
-| 디버깅 - 모드 실행    |          ⌃D                  |     shift + F9       |
+| 리팩토링 - 이름변경✨ |        ⇧F6                 |        shift + F6     |
+
+| 리팩토링 기능 리스트✨|          ⌃T                | ctrl + alt + shift + T|
+
+| 디버깅 - brk pt 설정✨  |         ⌘F8                |        ctrl + F8     |
+| 디버깅 - brk pt 보기✨  |       ⌘⇧F                  |  ctrl + shift + F8   |
+| 디버깅 모드 실행✨    |          ⌃D                  |     shift + F9       |
 | 디버깅 - 데이터 실행  |        ⌃⇧D                   |   마우스로 직접 실행   |
-| 디버깅 - step into(실행라인)|    F7                   |   F8                |
+
+| 디버깅 - step into(메소드 내부 안으로)|    F7                   |   F8                |
 | 디버깅 - step over(다음라인)|    F7                   |   F8                |
-| 디버깅 - resume program |       ⌘⌥R                 |     F9              |
-| Git                   |        ⌃V                    |        alt + `      |
+| 디버깅 - resume program(다음 brk로) |       ⌘⌥R                 |     F9              |
+
+| Git✨                  |        ⌃V                    |        alt + `      |
 
 - 시그니처 == 오버로딩 메소드 생성 
 - shift 2번 -> keymap 검색  
@@ -78,8 +143,8 @@
 ## live template 설정 (psvm , sout 과 같은) 
 -  메뉴 
 - 단축키 확인은 setting(ctrl + alt + s) > 좌측 keymap 메뉴 > 검색 
-  - auto formatting > **alt + ctrl + L**
-  - import 정리 > **alt + ctrl + O**
+  - auto formatting(✨) > **alt + ctrl + L**
+  - import 정리(✨) > **alt + ctrl + O**
   - macro 설정기능도 있음 
 - 최근 열었떤 파일 확인 : ctrl + e
 - DMakerService.java에 validateCreateDeveloperRequest() 보면 인텔리제이 리팩토링 기능 활용해서 지역변수 선언해서 좀더 깔끔하게 할 수 있음 
