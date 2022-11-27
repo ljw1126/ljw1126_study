@@ -425,7 +425,7 @@ to.
 
     👨‍💻 나는 커서 이동할때 3l과 insert mode 돌입시 i 사용함(a 사용시 커서 한칸식 밀려서)
     ✨ p 매크로 적용 , 25~73 라인 까지
-    :25,73normal @p 
+    :25,73 normal @p 
 
     :reg q 
     (예시) "p   I(^[llla) ^[llla-^[j
@@ -484,7 +484,7 @@ to.
     2dd    // Delete the current line and the next line with 2dd.
     q      // Finally type q to stop recording the macro.
 
-    👨‍💻 나머지 매크로 적용 
+    👨‍💻 나머지 매크로 적용  (@ == at 이라 읽는 듯)
     4@c
 
     :reg c 
