@@ -300,7 +300,7 @@ ratings: {userID: int,movieID: int,rating: int,ratingTime: int}
 
 ratingsByMovieID: {group: int,ratings: {(userID: int,movieID: int,rating: int,ratingTime: int)}}
 
-avgRatings: {movieID: int,avgRating: double}  -- AVG를 하게 되면 해당 그룹 :: {} 내에 모든 객체 :: () 를 알아서 구해주는게 아닌가 싶음
+avgRatings: {movieID: int,avgRating: double}  -- AVG를 하게 되면 해당 배열{} 내에 모든 튜플() 를 알아서 구해주는게 아닌가 싶음
 ```
 
 
@@ -443,4 +443,90 @@ DUMP oldestFiveStarMovies;
 (생략..)
 ```
 
+---
 
+## 자료 구조 유형별 속성 값 꺼내기
+
+#### 1. tuple ()
+```
+
+```
+
+#### 2. bag {}
+```
+
+```
+
+#### 3. map  []
+```
+logs = FOREACH logs GENERATE JsonToMap(log) AS log;      // json 을 map으로 변환
+logs = FOREACH logs GENERATE
+    log#'encmid' AS encmid,        // alias를 log로 줬기 때문에 log#'필드명' 형태로 파라미터를 꺼냄
+    log#'country' AS country,
+    log#'ts' AS ts,
+    log#'event_name' AS event,
+    JsonToMap(log#'params') As params;   
+
+logs = FILTER logs BY ts <= '$ts';
+
+logs = FOREACH logs GENERATE
+    encmid, country, event,    // map에서 꺼낸 경우 alias 호출바로 하면 됨
+    '$event_id' AS event_id,
+    params#'L_GMOD' AS gmod,
+    params#'L_STG' AS stage,
+    params#'L_PWIN' AS win,
+    params#'L_ANM' AS anm,
+    params#'L_TAG' AS tag,
+    params#'L_MRSN' AS mrsn,
+    params#'L_MRSN_DTL' AS mrsn_dtl;
+```
+
+#### 4. join
+```
+
+```
+
+
+에러 
+Could not infer the matching function for org.apache.pig.builtin.COUNT as multiple or none of them fit. Please use an explicit cast.
+
+
+
+-------------------------------------------------------------------------
+mission_reward = FILTER logs BY event == 'ACHIEVEMENT' AND tag == 'EVENT_STAGE_MISSION';
+mission_reward = JOIN mission_reward BY encmid, clear BY encmid;
+
+mission_reward = FOREACH mission_reward GENERATE mission_reward::event_id AS event_id, mission_reward::encmid AS encmid, 'mission_reward' AS data_type;
+mission_reward = DISTINCT mission_reward;
+
+-------------------------------------------------------------------------
+clear_reward =  FILTER logs BY event == 'MONEY' AND mrsn == 'G007' AND mrsn_dtl == 'Event' AND tag == '1';
+clear_reward =  JOIN clear_reward BY encmid, clear BY encmid;
+
+clear_reward = FOREACH clear_reward GENERATE clear_reward::event_id AS event_id, clear_reward::encmid AS encmid, 'clear_reward' AS data_type;
+clear_reward = DISTINCT clear_reward;
+
+-------------------------------------------------------------------------
+all_reward = JOIN mission_reward BY (event_id, encmid) FULL OUTER, clear_reward BY (event_id, encmid);
+all_reward = FOREACH all_reward {
+    GENERATE (mission_reward::event_id IS NULL ? clear_reward::event_id : mission_reward::event_id) AS event_id,
+    (mission_reward::encmid IS NULL ? clear_reward::encmid : mission_reward::encmid) AS encmid,
+    (mission_reward::encmid IS NOT NULL ? 'true' : 'false') AS existMission,
+    (clear_reward::encmid IS NOT NULL ? 'true' : 'false') AS existClear;
+};
+
+normal_reward_user_count = FOREACH (GROUP all_reward BY event_id) {
+    missions = FILTER all_reward BY existMission == 'true';
+    boths = FILTER all_reward BY existMission == 'true' AND existClear == 'true';
+    clears = FILTER all_reward BY existClear == 'true';
+
+    GENERATE group AS event_id,      // 동일한 이름을 해줘야 하는듯
+            (COUNT(missions) > 0 ? COUNT(boths) : COUNT(clears)) AS cnt;
+};
+
+// union 할 때 컬럼 순서 동일하게 맞춰줘야 원하는 필드에 들어감 (alias로 들어갈거란 생각 ㄴㄴ)
+normal_reward_user_count = FOREACH normal_reward_user_count GENERATE
+        'normal_reward_user_count' as data_type,
+        'event_stage|normal' as data_key,
+        event_id as meta,
+        cnt as value;

@@ -261,7 +261,7 @@ vim a
 cat a | awk '{print $12}'
 cat a | awk -F '\t' '{print $11}'
 cat a | awk -F '\t' '{print $11}' | sort | uniq
-cat a | awk -F '\t' '{print $11}' | sort | uniq | wc -l         // wc : word coutn , -l : line 단위
+cat a | awk -F '\t' '{print $11}' | sort | uniq | wc -l         // wc : word count , -l : line 단위
 pwd
 ls
 rm a

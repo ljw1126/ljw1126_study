@@ -193,6 +193,8 @@ pull 명령어는 merge와 rebase 옵션을 선택해서 동작할 수 있는데
   // 예제 압출 파일에서 log를 풀어서 사용
   git log --patch  또는 git log --p         # 변경된 파일내역까지 나옴 
 
+    > git log -p <commit아이디>
+
   git log --oneline                         # 로그를 한줄로 간략하게 볼 수 있음
   ----------------------------------------------------------
     d643a6e (HEAD -> master) Update Welcome page
@@ -700,11 +702,15 @@ pull 명령어는 merge와 rebase 옵션을 선택해서 동작할 수 있는데
 
    $ git config --global mergetool.keepBackup false  // *.orig 파일 안 만들어지도록 옵션 변경 !!!!!!!!
    $ git merge --abort       //merge 취소하기
+   $ git clean -dn           //삭제 대상 파일 확인 
    $ git clean -fd           //쓸데없는 파일 삭제 *.orig 
      > 다시 merge 하고 conflict 수정하고 status 확인하면 *.orig 생성 되지 않는 것을 확인 가능 함 !
    $ git merge --continue    //merge 끝 .. 
 
  
+#### git clean 관련 
+https://nesoy.github.io/articles/2018-10/Git-clean
+
 
 [4.8 P4Merge로 conflict 해결하기] // 안할래
   # https://www.perforce.com/downloads/visual-merge-tool 다운로드 후 설치 ( 설문은 skip ! )

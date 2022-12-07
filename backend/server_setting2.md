@@ -843,3 +843,11 @@ bytes:10294042 bytes:4062086
 
 
 ```
+
+
+## Mysql 관련 
+
+- Error Code: 1175. You are using safe update mode and you tried to update a table without a WHERE that uses a KEY column To disable safe mode, toggle the option in Preferences -> SQL Editor and reconnect.
+  - MySQL의 특징으로 데이터를 추가나 갱신할 경우 동일한 테이블로 서브쿼리를 사용할 수 없도록 되어 있기 때문 (oracle, postgresql 문제 없음) => 서브쿼리를 한번 더 감싸도 소용없었음 
+  - Mysql Workbench 에서 [Edit > Preference > Sql Editor] 하단에 체크 박스("Safe Update(rejectes Updates and DELETEs with no restrictions)") 해제 후 재시작 => 정상적으로 update 확인
+  - (참고) 변수 변경하는거 동작 안했음

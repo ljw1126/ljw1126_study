@@ -272,12 +272,12 @@ https://github.com/docker/for-win/issues/8336
   https://github.com/microsoft/WSL/issues/184#issuecomment-209913528
 
 
-  ## For the current repository
-    git config core.filemode false 
-    git config core.autocrlf true 
+## For the current repository
+  git config core.filemode false 
+  git config core.autocrlf true 
 
-    git config --global core.autocrlf true
-    git config --global core.filemode false
+  git config --global core.autocrlf true
+  git config --global core.filemode false
 
 ```
 
@@ -408,3 +408,31 @@ $ vim ~/.zshrc
 $ source ~/.zshrc 
 $ tmux
 ```
+
+
+## 이슈) ls: cannot access '/mnt/d': Input/output error
+```
+## 해결방법1. 
+https://github.com/microsoft/WSL/issues/4377
+
+> wsl.exe //shutdown 은 안 먹힘 .. wsl.exe 파일 경로 까지 움직여야 되지 않을까 싶은데
+
+## 해결방법2. WSL 종료 또는 재부팅 
+https://jootc.com/p/202007093546
+
+> Restart-Service LxssManager    //powershell 관리자 권한 실행 후 입력
+                                 //💡다시 wsl 실행하면 정상 출력됨
+
+```
+
+## 이슈) 인텔리제이 터미널 연결시 escapse (esc) 누르면 file directory 로 focus 맞춰짐 -> command mode 전환 안됨 
+https://sw-architect.tistory.com/20
+
+```
+- file - setting 창 (ctrl + alt + s)
+- 좌측 keymap 메뉴 선택 -> "Switch Focus To Editor" 해제
+
+👩‍💻 인텔리제이 터미널에서 vim 켜고 테스트 해보면 command mode 전환 잘됨!
+```
+
+![Alt text](/images/intellij/escape-keymap%EC%84%A4%EC%A0%95%ED%95%B4%EC%A0%9C.png)

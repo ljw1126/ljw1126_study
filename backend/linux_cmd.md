@@ -176,6 +176,9 @@
 
 ※ pulickey 접속(wsl로 동작 테스트함)
 > scp -i  ~/.ssh/파일명.key -P 포트번호 ubuntu@서버IP주소:/경로/파일명.war ./
+
+// scp -i ~/.ssh/data-analysis.key 20220906 hadoop@서버IP:/home/hadoop/restore
+
 https://stackoverflow.com/questions/20939562/scp-permission-denied-publickey-on-ec2-only-when-using-r-flag-on-directories
 
 ```
