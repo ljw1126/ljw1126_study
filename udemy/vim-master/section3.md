@@ -7,23 +7,42 @@ $ vim nav.txt
 (왼쪽)h     l(오른쪽)
        j(아래)
 
-* page down
+## Motion  
+#### page up/down ✨
+* page down is the same as the "page down" operation.
   "ctrl" + "f" (forward)
 
-* page up
+* page up is the same as the "page up" operation
   "crtl" + "b" (backward) 
 
-* To move forward by word 
+#### 단어 단위 ✨
+* To move **forward** by word 
   "w" 또는 "W" 
+  - word 단위 : w
+  - white space as word boundaries : W     // 공백 단위로 단어 이동
 
-* To move backward by word 
+> Remember that the w motion will stop at punctuation while the W motion ignores punctuation and stops the cursor after white space
+
+* To move **backward** by word 
   "b" 또는 "B" 
-    
+  - word 단위 : b
+  - white space as word boundaries : B    // 공백 단위로 단어 이동
+
+#### 라인 번호 이동 ✨
 * To go to the begining of the file (맨 처음 시작부분으로 이동)
   "1gg" 또는 "gg" 
 
 * To move to the last line of the file 
   "$G" 또는 "G"(대문자)  
+
+* To go to a specific line number 
+  <LINE_NUMBER>gg 또는 <LINE_NUMBER>G
+  ex) to go to line27, 👉 "27gg" 또는 "27G"       
+  
+  또는 line mode 통해서도 이동 가능 
+  ":32<ENTER>"  
+
+---
 
 * 번호 표시 
   :set number <-> :set nonumber 
@@ -31,12 +50,8 @@ $ vim nav.txt
   :set ruler <-> :set noruler
   :set ruler! (on이든 off든)  
 
-* To go to a specific line number 
-  <LINE_NUMBER>gg 또는 <LINE_NUMBER>G
-  ex) to go to line27, 👉 "27gg" 또는 "27G"       
-  
-  또는 line mode 통해서도 이동 가능 
-  ":32<ENTER>"
+  // ruler는 우측 하단에 상태바 뜻 함 
+  참고 링크. [https://codeyarns.com/tech/2010-11-28-vim-ruler-and-default-ruler-format.html#gsc.tab=0](https://codeyarns.com/tech/2010-11-28-vim-ruler-and-default-ruler-format.html#gsc.tab=0)
 
   To go to the last line 마지막 라인 이동 
   ":$"     // shift + g 로도 이동 가능 ! 
@@ -60,13 +75,17 @@ $ : 문장의 끝으로 이동
 ( : (마침표 기준) 이전 문장의 시작 위치로 커서 이동함 
 ) : (마침표 기준) 다음 문장의 시작 위치로 커서 이동함
 
-
-$
 --- 
  
-#### Deleting Text and "Thinking in Vim" ( D operator )
+#### Deleting Text and "Thinking in Vim" ( D operator ✨ )
 $ vim deletinglession.txt
-  일반 모드에서 "x"를 사용해서 하나씩 삭제 가능 (upper case "X" 는 뒤로 삭제)
+
+
+#### 한 자리 삭제
+  - 일반 모드에서 "x"를 사용해서 하나씩 삭제 가능 (오른쪽 커서 이동) 
+  - upper case "X" 는 뒤로 삭제 (왼쪽으로 커서)
+  ㄴ x 누를시 한자리씩 지워지는데 :reg 에 "" 영역에 한자리씩 들어가는게 확인됨
+
   dw (operation{motion} 형태) 
   ㄴ d = the delete "operation" 
   ㄴ w = the word "motion"
@@ -102,3 +121,61 @@ $ vim deletinglession.txt
   dh 왼쪽 
   dj 아래 삭제 (커서 있는 줄 + 아래 한 줄)
   dk 윗줄 삭제
+
+ #### 연습 문제 
+ $ vim practicedeleting.txt
+
+```bash
+# 1
+## 3번 라인으로 이동 : 3gg, 3G, :3
+## x key를 눌러서 텍스트 수정하기 
+First, fix this spelling mistakke.  
+First, fix this spelling mistake.   //✨   
+
+# 2
+# 4번 라인 이동하여 마찬가지로 중복 알파벳 삭제 
+Fixx theese allso.
+Fix these also. //✨   
+
+# 3. 문장 삭제 
+## $ key, l key 활용하여 맨 끝으로 이동 후 X 로 삭제, 그리고 dot(.) 반복
+Delete this text with the X command.
+
+
+# 4. 물음표 뒤 cats 삭제
+## ? 뒤로 커서 이동 후 D 또는 d$ (동일)
+Who let the dogs out? cats
+Who let the dogs out?   //✨   
+
+# 5. Far, far 삭제 
+## 43gg (:43 이나 43G)로 라인 이동, dw, dW 사용 
+## d operator
+Far far away, behind the wild mountains, far from the countries Vokalia and
+far away, behind the wild mountains, far from the countries Vokalia and //✨ 
+
+# 6. away, 삭제 
+## 참고. Remember that the w motion will stop at punctuation while the W motion ignores punctuation and stops the cursor after white space. 
+## dw 하면 punctuation 구두점 앞에서 먼춤, 그래서 dW 로 다음 공밲까지 삭제
+
+away, behind the wild mountains, far from the countries Vokalia and
+behind the wild mountains, far from the countries Vokalia and //✨ 
+
+# 7. the 에서 앞에 behind 삭제
+## 0 > W > db 또는 dB     // reverse motion : b 또는 B 
+the wild mountains, far from the countries Vokalia and //✨ 
+
+# 8. the whild 삭제 
+## 2dw      // forward motion : w
+mountains, far from the countries Vokalia and //✨
+
+# 9. mountains, far 삭제
+## d2W      // forward motion : 2W
+from the countries Vokalia and //✨
+``` 
+
+- 한 라인 삭제 : dd
+- multiple line 삭제 : [count]dd 또는 [count]D
+  - ex) 3dd  // 3줄 삭제 , dot (.) command 와 같이 활용 가능
+
+The End
+---

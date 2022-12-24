@@ -1,18 +1,22 @@
-﻿# Deleting, Yanking, and Putting 
+﻿#### 참고 
+[https://www.baeldung.com/linux/vim-registers](https://www.baeldung.com/linux/vim-registers 'Vim Register : baeldung')
+
+---
+# Deleting, Yanking, and Putting 
 - Move text around a file.
 - Duplicate text.
 - Make an in-file backup.
 - Reuse* the same text.
 
-## You're already been cutting.
+## You're already been cutting. ✨
 - 'd' and 'x' cut text, not just delete it.
 - cut = delete and save into a register 
 - Register is a clipboard-like storage 
 
-## Standard vs Vim 
+## Standard vs Vim ✨
 cut = 'd'elete 
 copy = 'y'ank 
-paste = 'p'ut 
+paste = 'p'ut  // p 는 blow(아래), P는 above(위) 라인에 붙여넣기 됨
 
 ## 연습 
 > $ vim cutcopypaste.txt
@@ -32,7 +36,7 @@ u    // undo, 취소하기 🤔😅(여태까지 잘못 쓰고 있었네)
 ctrl + r    // redo, 다시하기
 
 ## Register Types 
-- Unnamed  // 이해 못함 😅🤔
+- Unnamed  // 이해 못함 😅🤔 >> default register 인듯 !
   - = ""
 - Numbered
   - = "0 ,"1, .., "9
@@ -40,7 +44,7 @@ ctrl + r    // redo, 다시하기
   - There are 26 named registers from A to Z
   - "a, .., "z
 
-- "" holds text from d,c,s,x and y operations.
+- "" holds text from d,c,s,x and y operations. // operation 사용시 default로 Unnamed Register("")에 등록됨
 - "0 holds last text yanked (y).
 - "1 holds last text deleted (d) or changed (c). 
 - Numbered registerrs shift with each d or c.
@@ -53,7 +57,7 @@ yy       // normal mode
     l  "0   TODO^J
     l  "1   ^JMany discourses concerning realism exist. Therefore, Sartre's model of^J
 
-""p       // 붙여넣기 됨 
+""p       // 붙여넣기 됨 , 아 Unnamed Register에 있는 내용을 붙여 넣기 하라는 뜻!!
 
 dd        
 :reg      // 삭제한 줄이 있는데??
@@ -98,9 +102,8 @@ ex.
 --- 
 
 ## 연습 
-```
 $ vim dyp.txt      // 예제 파일, Exercise05 꼭 해보기 !! 
-```
+
 
 "jy
 "Jy       // j 레지스터 내용에 append 
@@ -109,3 +112,46 @@ $ vim dyp.txt      // 예제 파일, Exercise05 꼭 해보기 !!
 "fy
 "Fy
 "fP
+
+```bash
+
+
+```
+# 1. 삭제 후 붙여 넣기 
+## 첫번째 줄 dd 후 p    // p를 할 경우 다음 줄에 입력됨 (P는 현재 커서 위치에 붙여넣기 )
+
+# 2. 단어에 알파벳 틀린거 고치기 
+## x로 삭제 후 붙여넣기 
+## p 의 경우 한칸 띄우고 들어가고, P의 경우 커서 위치에 붙여넣기 됨
+psell = spell
+vmi = vim
+wrod = word
+taht = that
+
+# 3. 단어 삭제 후 옮기기 
+## dW , W(공백 포함 커서 이동, motion), P (붙여넣기)
+second, First, third.
+First, second, third. //✨
+
+# 4. 생략 
+
+# 5. 단어 중복 복사 
+## r 앞에 커서 이동 후 y2W -> P (붙여넣기)
+I really, really, love vim!
+I really, really, really, really, love vim! //✨
+
+# 6. Use named register  // 레지스터 활용해서 텍스트 편집하고 붙여넣고 하는듯
+- "jyy     // "j 레지스터에 한 줄 복사 
+- "fyy     // "f 레지스터에 한 줄 복사 
+- "jp or "jP     // "j 레지스터 내용 붙여넣기 
+- "fp or "fP    // 소문자 p는 바로 다음 줄에 붙여 넣고, P는 현 위치
+- "Jyy     // "j 레지스터에 append
+- "Pyy     // "p 레지스터에 append
+
+# 마지막. Undo And Redo 
+- Undo(취소) : u 
+- Redo(다시 실행) : ctrl + r 
+
+---
+
+
