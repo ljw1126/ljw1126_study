@@ -56,7 +56,7 @@ Replace Mode : shift + r
 shift + r 누르고 cat 입력하고 esc  // 🤔 전체 교체라기 보다는 insert mode 같음 
 
 11. canine -> cat 
-cw (change word) 누르고 cat 입력 후 esc // 커서가 있는 canine 지워지고 insert mode 됨
+cw (change word) 누르고 cat 입력 후 esc // 커서가 있는 canine 지워지고 insert mode 됨, c : cut 인 듯
 
 12. a register에 저장 
 "acw -> cat 입력 -> esc (수정 종료)
@@ -132,7 +132,7 @@ the mouse.
 > $ vim searching.txt
 
 ```
-# f{char}
+# linewise search  : f{char} 한 문자 찾기 <-> F{char} 뒤로 한문자 찾기 
 fA      // 해당 라인 내에서 A 문자 찾음 , forward 
 Fa      // 해당 라인, 커서 위치에서 뒤로 a 문자 찾음, backward
 ;              // 다음 문자 찾음 (해당 라인 내에서), forward 
@@ -159,7 +159,8 @@ df (space)     //라인 내에서 다음 space 까지 삭제
 n            // 다음 and 단어 찾음, 마지막에 한번더 n 누르면 top으로 올라가 처음 and 찿음 
 N            // 이전 and 단어 찾음
 
-* is / incsearch  -- 무슨 설정인지 전혀 모르겠음(command mode에서 사용 )
+* is / incsearch  -- 무슨 설정인지 전혀 모르겠음(command mode에서 사용 ) , 검색어 칠때마다 바로바로 highlight 처리 해주는 듯 
+[https://m.blog.naver.com/PostView.naver?isHttpsRedirect=true&blogId=nfwscho&logNo=220425168299](https://m.blog.naver.com/PostView.naver?isHttpsRedirect=true&blogId=nfwscho&logNo=220425168299 '밤앙개의 vim 강좌')
 :set is?          // 무슨 search 설정하는거 같은데 .. 뭐지 ?? incsearch
 :set is 
 :set nois
@@ -206,7 +207,7 @@ d
 
 ## Search, Find, and Replace 2 
 
-> 일괄 변경, 수정에 대한 커맨드 설명인듯 
+> 일괄 변경, 수정에 대한 커맨드 설명인듯 (Commnad Mode에서 동작)
 
 ```
 형식1 >> :s/old/new/
@@ -222,13 +223,13 @@ d
 
     #### [range] 에 사용 가능한 예약어 
     . = current line
-    $ = last line
+    $ = last line  (.,$ from current line to last line)
     % = All lines (entire file, % == 1,$)
 
     :1s/is/isn't/g         // :set number할때 보이는 그 line number 구나
                            1번 줄에 is를 isn't으로 수정
 
-    :1,5s/for/FOR/g        // 1~5 같지만 1번줄만 수정됨 
+    :1,5s/for/FOR/g        // 1~5 번에 for를 FOR로 수정
     
     (전체 단어 수정 예시✨👨‍💻👍)
     :%s/net/org/g          // entire file 행에 있는 모든 net 을 org로 수정 -- g를 안주면 행 당 1개씩 수정됨 
@@ -238,30 +239,30 @@ d
     :/Global/,/Local/s/net/org/g          -- g flag를 붙여야 한 행에 하나만 아닌 한 행에 대상 전체가 수정됨👨‍💻
 
     (수정전)
-    # Global configuration
+        # Global configuration
 
-    DOMAIN=example.net                      # The example.net domain.
-    MAIL_SERVER=mail.example.net
-    MAIL_PATH=/var/spool/mail
+        DOMAIN=example.net                      # The example.net domain.
+        MAIL_SERVER=mail.example.net
+        MAIL_PATH=/var/spool/mail
 
-    # Local configuration
+        # Local configuration
 
-    LOCAL_DOMAIN=internal.example.net       # The internal.example.net domain.
-    LOCAL_MAIL_SERVER=mail.internal.example.net
-    MAIL_PATH=/var/spool/mail    
+        LOCAL_DOMAIN=internal.example.net       # The internal.example.net domain.
+        LOCAL_MAIL_SERVER=mail.internal.example.net
+        MAIL_PATH=/var/spool/mail    
 
-    (수정후) -- 패턴이면 LOCAL에도 변경되야 하는거 아닌가?? 🤔 Global ~ Local 문맥 안에 대해서만 수정 수행하네
-    # Global configuration      ----- 여기부터 
+    (✨수정후) -- 패턴이면 LOCAL에도 변경되야 하는거 아닌가?? 🤔 Global ~ Local 문맥 안에 대해서만 수정 수행하네
+        # Global configuration      ----- 여기부터 
 
-    DOMAIN=example.org                      # The example.org domain.
-    MAIL_SERVER=mail.example.org
-    MAIL_PATH=/var/spool/mail
+        DOMAIN=example.org                      # The example.org domain.
+        MAIL_SERVER=mail.example.org
+        MAIL_PATH=/var/spool/mail
 
-    # Local configuration   ----- 여기까지 범위
+        # Local configuration   ----- 여기까지 범위
 
-    LOCAL_DOMAIN=internal.example.net       # The internal.example.net domain.
-    LOCAL_MAIL_SERVER=mail.internal.example.net
-    MAIL_PATH=/var/spool/mail
+        LOCAL_DOMAIN=internal.example.net       # The internal.example.net domain.
+        LOCAL_MAIL_SERVER=mail.internal.example.net
+        MAIL_PATH=/var/spool/mail
 
     ✨응용 
     :/Local/,$s/net/org/g          --- Local matching 되는 부분 부터 $(끝)까지
@@ -284,10 +285,13 @@ d
     :s/\/var\/spool/\/usr\/local/       -- hard 하네 백스페이스 써써 
 
     :s#old#new#                    -- 좀더 simply 한 방식 
-    :s#/var/spool#/usr/local#      -- 커서가 위치하고 있는 행만 대상으로 /var/spool -> /usr/local로 수정 (g flag 없으니 1개만) 
-    :1,$s#/var/spool#/usr/local#g   -- 1~끝까지 변경 (g는 안붙이고 실행했지만 분명 될거임)
+        :s#/var/spool#/usr/local#      -- 커서가 위치하고 있는 행만 대상으로 /var/spool -> /usr/local로 수정 (g flag 없으니 1개만) 
+        :1,$s#/var/spool#/usr/local#g   -- 1~끝까지 변경 (g는 안붙이고 실행했지만 분명 될거임)
 
 ```
+
+[https://wh00300.tistory.com/228](https://wh00300.tistory.com/228 'vim 단어 수정, 치환')
+
 
 > :set nu  == :set number , :set nonu == :set nonumber, :set nu! (! 붙이는게 토글 동작 뜻함✨👨‍💻)
 

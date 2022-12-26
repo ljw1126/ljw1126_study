@@ -7,8 +7,8 @@
 
 ```
 👨‍💻✨ 핵심 문법 2가지
-{operator}{a}{object}
-{operator}{i}{object}
+{operator}{i}{object}      -- i : inner word 
+{operator}{a}{object}      -- a : a word, 공백 포함하여 삭제
 
 Ex. 'word, 단어
     daw = Delete A Word  // 단어 한개 삭제
@@ -43,7 +43,7 @@ Ex. bracket
 
 Ex.
     a( = a)   🤔 밑에 꺼 설명하기 위한 용도일까 싶음
-    i( = i)   🤔 밑에 꺼 설명하기 위한 용도일까 싶음 
+    i( = i)   🤔 밑에 꺼 설명하기 위한 용도일까 싶음
     
     ci( = ci) -- 마찬가지로 괄호 안에 내용만 지우고 insert mode
     ca( = ca) -- 마찬가지로 괄호 포함하여 지우고 insert mode
@@ -59,8 +59,8 @@ Ex. tag 관련
     cit -- 태그쌍 안에 내용만 지움 
     cat -- 태그쌍 포함하여 내용 지움  
 
-    dit -- 태그쌍 안에 내용 삭제인데 삭제 후 insert mode는 안되네
-    dat -- 내용뿐만 아니라 태그쌍 까지 삭제 (insert mode 전화❌)
+    dit -- 태그쌍 안에 내용 삭제인데 삭제 후 insert mode는 안되네  -- normal mode 동작
+    dat -- 내용뿐만 아니라 태그쌍 까지 삭제 (insert mode 전환❌)
 
     사용전 -- <p>This is <strong>so, so, very</strong> cool!</p>
     dit(또는 cit)사용 후 -- <p></p>
@@ -89,7 +89,7 @@ Ex. curl braces, 중괄호
 
 Ex. qutoe ( " , ' )
     👨‍💻 double qutoe
-    a" 
+    a"         // register는 "a 😅
     i"
 
     ci"      -- "" 쌍따옴표 안에 내용만 삭제 후 insert mode 
@@ -130,6 +130,108 @@ Ex. back tick (`, 1번 옆에 있는거)
     HOST=``
     HOST=
 
+```
+
+## Practice
+
+> $ vim textobjectspractice.txt
+
+```
+
+## block Object ()
+### (..) 안에 내용 삭제 후 수정 
+
+    ci( 또는 ci)      -- normal mode ✨
+
+### print("...") 괄호 삭제 
+
+    da( 또는 da) ✨
+
+    To. 
+        print
+
+## Quoted Strings
+    from
+        print("The weatherman said, 'This weekend will be warm,' but that was a lie.")
+    To 
+        print("It was cold!")
+    
+    /"
+    ci"  -- normal mode, 수정하면 됨✨
+
+    from 
+        'This weekend will be warm,' 
+    to 
+        'It is hot outside,'.
+
+    /' 
+    ci'  -- normal mode, 수정하며 됨 ✨
+
+## Block Object[]
+    To
+        scripts=[]
+
+    /bin    -- [] 안으로 이동
+    di[ 또는 di]  -- normal mode, ✨    
+
+## Block Object <>  -- angle bracket
+    <yank_me> 해당 태그에서 
+
+    태그명만 reg에 담기 
+    "iyi> 또는 "iyi< 
+    :reg i
+
+    태그포함하여 reg에 담기 
+    "aya< 또는 "aya>
+    :reg a 
+
+## Tag Objects
+    from.
+    <p><a href="https://linuxtrainingacademy.com">Linux Training Academy</a></p>
+
+    to.
+    <p><a href="https://linuxtrainingacademy.com">LTA</a></p>
+
+    :11 -- 이동
+    /h  
+    cit   -- it : inner tag , 삭제 후 insert mode 가 됨 ✨  
+    
+    from.
+    <?xml version="1.0" encoding="UTF-8"?>
+    <CATALOG>
+    <CD> 👈 해당 태그 블록 삭제
+        <TITLE>Jazz At Massey Hall</TITLE>
+        <ARTIST>The Quintet</ARTIST>
+    </CD>
+    <CD>
+        <TITLE>Blue Train</TITLE>
+        <ARTIST>John Coltrane</ARTIST>
+    </CD>
+    <CD>
+        <TITLE>Saxophone Colossus</TITLE>
+        <ARTIST>Sonny Rollins</ARTIST>
+    </CD>
+    </CATALOG>
+
+    dat   -- at : a tag block ✨
+
+##  Block Object { }
+    to.
+    musicians = {}
+
+    di{ 또는 di}✨
+
+## Sentence Objects   (Sentence : 문장)
+    문단에서 "s 레지스터에 아래 문장만 복사하기
+    Praesent rutrum purus ultricies, dignissim massa id, elementum felis.
+
+    "syas  -- as : a sentence, :h as로 확인
+    :reg s 
+
+    ※ A sentence is defined as ending at a '.', '!' or '?' followed by either the end of a line, or by a space or tab.
+
+## Paragraph Objects (절)
+    dap 
 ```
 
 
