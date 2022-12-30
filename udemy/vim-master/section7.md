@@ -13,7 +13,8 @@
 Ex. 'word, 단어
     daw = Delete A Word  // 단어 한개 삭제
     ciw - Change Inner Word      // 공백 또는 마침표 전까지 지우고 insert mode
-    ciW                          // 공백만 인식해서 공백가지만 지우고 insert mode                
+    ciW                          // 공백만 인식해서 공백가지만 지우고 insert mode       
+    yaw          
 
 Remember that the lowercase 'w' uses spaces and punctuation as word boundaries,
                                      여백과     구두점을        단어 경계로    
@@ -222,7 +223,7 @@ Ex. back tick (`, 1번 옆에 있는거)
     di{ 또는 di}✨
 
 ## Sentence Objects   (Sentence : 문장)
-    문단에서 "s 레지스터에 아래 문장만 복사하기
+    문단에서 "s 레지스터에 아래 문장만 복사하기 -- 삭제할때 위로 한칸 올라가는 이유가..?
     Praesent rutrum purus ultricies, dignissim massa id, elementum felis.
 
     "syas  -- as : a sentence, :h as로 확인
@@ -483,7 +484,7 @@ to.
     qb        // b register에 등록 시작 
     yaw       // default register에 username Yank
     I         // insert mode 들어간 후 "passwd -l "내용 입력 <ESCAPE>
-    A         // A and type " && echo ".  Press <ESCAPE> to return to normal mode.
+    A         // A and type " && echo ".  Press <ESCAPE> to return to normal mode. // echo 뒤에 공백까지 넣어 줘야 p 할 때 제대로 붙음 !! 
     p         //  paste the contents of the unnamed register after the cursor position with p.
     A         // " >> locked_users.txt" followed by <ESCAPE>.
     j 
@@ -629,7 +630,7 @@ to.
     teleworm.us
 
     qq        // q register에 등록 시작 
-    df@       // Delete the text up to and including "@" with df@. ( f : find character after cursor in current line)
+    df@       // Delete the text up to and including "@" with df@. ( f : find character after cursor in current line), f 가 linewise search 
     f<        //Position the cursor under the "<" with f<.
     cf><ENTER><ESCAPE> // > 까지 변경하겠다는 의미인듯, Replace "</a>" with <ENTER> by typing cf><ENTER><ESCAPE>.
     q         // 종료 

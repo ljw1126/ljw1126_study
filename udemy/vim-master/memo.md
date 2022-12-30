@@ -84,5 +84,14 @@ Global Substitution :
 
 [https://vim.fandom.com/wiki/Search_and_replace]('https://vim.fandom.com/wiki/Search_and_replace' 'Search and Replace 참고')
 
+---
+
+### Text Objects 처리 
+
+> :h objects     // objects 종류 확인 가능👍
+
+
+
+
 #### vim 안에서 화면 분리
 [https://m.blog.naver.com/nfwscho/220357935591](https://m.blog.naver.com/nfwscho/220357935591)

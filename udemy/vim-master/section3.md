@@ -164,7 +164,7 @@ behind the wild mountains, far from the countries Vokalia and //✨
 ## 0 > W > db 또는 dB     // reverse motion : b 또는 B 
 the wild mountains, far from the countries Vokalia and //✨ 
 
-# 8. the whild 삭제 
+# 8. the whild 삭제
 ## 2dw      // forward motion : w
 mountains, far from the countries Vokalia and //✨
 
