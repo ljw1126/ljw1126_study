@@ -247,7 +247,7 @@ $ cat /etc/passwd | sort -t ':' -k 3 -n
 $ cat /etc/passwd | sort -t ':' -k 3 -n -r
 
 # visit url count
-$ cd /vagrant/
+$ cd /vagrant/              # 나는 VM 사용안해서 해당 폴더 없음;;
 $ cat access_log 
 $ cat access_log  | cut -d '"' -f 2
 $ cut -d '"' -f 2 access_log        # same result
@@ -277,4 +277,108 @@ $ chome 755 luser-demo14.sh
 $ ./luser-demo14.sh  dsjaklsda     # print condition text
 $ ./luser-demo14.sh  access_log 
 
+```
+
+---
+
+### 42. Sed 
+- Sed = Stream editor.
+- A stream is data that travels from : 
+    - One process to another through a pipe.
+    - One file to another as a redirect.
+    - One device to another.
+- Standard Input = Standard Input Stream, etc 
+- Streams are typically textual data.
+
+Sed Usage 
+- Sed performs text transformations on streams.
+- ex.
+    - Substitute some text for other text.
+    - Remove lines.
+    - Append text after given lines.
+    - Insert text before certain lines.
+- Sed is used programmatically, not interactively(대화식으로).
+
+```bash
+$ type -a sed 
+
+$ man sed          # q : quit
+
+$ echo 'Dwight is the assistant regional manager.' > manager.txt
+$ cat manager.txt
+
+# s : substitude, using ragular expression  정규식 형태로 바꿔준다는 듯
+$ sed 's/assistant/assistant to the/' manager.txt 
+
+$ cat manager.txt      # 그대로, sed가 입력만 받아서 변경만 할 뿐 저장은 안함*
+
+$ echo 'I love my wife.' > love.txt 
+$ sed 's/my wife/sed/' love.txt
+
+$ sed 's/MY WIFE/sed' love.txt       # doesnt effect , follow case 
+# $ sed 's/search-pattern/replacement-string/flags' 
+
+$ sed 's/MY WIFE/sed/i' love.txt        # i : ignore case flag, work!
+$ sed 's/MY WIFE/sed/I' love.txt        # same result (?)
+
+$ echo 'Thie is line 2.' >> love.txt      # append
+$ echo 'I love my wife with all of my heart.' >> love.txt
+$ cat love.txt
+
+$ sed 's/my wife/sed/' love.txt 
+
+$ echo 'I love my wife and my wife loves me. Also, my wife loves the cat.' >> love.txt
+$ sed 's/my wife/sed/g' love.txt         # g : global, 전체 내용 중 수정
+
+$ sed 's/my wife/sed/2' love.txt       # 2 ? 라인 지정하는거 같은데.. 번호가 안 맞는듯?? 왜 마지막 줄이 수정되지??
+
+# replace and output
+$ sed 's/my wife/sed/g' love.txt > my-new-love.txt
+$ sed -i.bak 's/my wife/sed/g' love.txt   # love.txt.bak 생성, 기존 love.txt 는 수정 결과 담기고, 백업파일에 원본 내용이 있네 !! 
+$ sed -i .bak 's/my wife/sed/g' love.txt  # error. !! space with i option 
+
+$ sed 's/love/like/gw like.txt' love.txt  # like.txt 
+
+# same result
+$ cat like.txt | sed 's/my wife/sed/g'      # powerful
+$ sed 's/my wife/sed/g' like.txt
+
+#
+$ echo '/home/jason'
+$ echo '/home/jason' | sed 's/\/home\/jason/\/export\/users\/jsonc/'
+$ echo '/home/jason' | sed 's#/home/jason#/export/users/jasonc#'    # same result 
+$ echo '/home/jason' | sed 's:/home/jason:/export/users/jasonc:'    # same result 
+
+# 
+$ cat love.txt 
+$ sed '/This/d' love.txt        # d: delete line(?)
+$ sed '/love/d' love.txt        # love line all delete , but original file not change
+
+# using regular expressions
+$ echo '#User to run service as.' > config 
+$ echo 'User apache' >> config
+$ echo >> config 
+$ echo '# Group to run service as.' >> config
+$ echo 'Group apache' >> config 
+$ cat config
+$ sed '/^#/d' config        # using regular expression, delete containing # lines
+$ sed '/^$/d' config        
+$ sed '/^#/d ; /^$/d' config  # start with # line and blank line delete
+$ sed '/^#/d ; /^$/d ; s/apache/httpd' config     # and substitude apache to httpd
+$ sed -e '/^#/d' -e '/^$/d' -e 's/apache/httpd' config     # same result
+
+# 
+$ echo '/^#/d' > script.sed
+$ echo '/^$/d' >> script.sed
+$ echo 's/apache/httpd' >> script.sed         
+$ sed -f script.sed config  # script.sed 파일 내용을 뒤에 파일에 적용해서 실행한 결과를 표출
+
+# range
+$ cat config 
+$ sed '2 s/apache/httpd' config        # effect second line
+$ sed '2s/apache/httpd' config              # ? 
+$ sed '/Group/ s/apache/httpd' config        # ?
+$ sed '1,3 s/run/execute' config            # 1~3 line effect 
+$ sed '1,4 s/run/execute' config
+$ sed '/#User/,/^$/ s/run/execute/' config      # #User ~ blank line  
 ```
