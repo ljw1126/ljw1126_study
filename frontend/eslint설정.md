@@ -16,6 +16,7 @@ $ curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.1/install.sh | bas
 $ command -v nvm 
 $ nvm --version      // git bash 설치시 안 먹힘 > 스택 오버플로우 참고 https://stackoverflow.com/questions/16904658/node-version-manager-install-nvm-command-not-found
                      // source ~/.nvm/nvm.sh     ✨ git bash 동작 확인 됨
+                     // ubuntu 환경에서도 "nvm command not found" 출력 !!
 $ nvm ls
 
     nvm            N/A
