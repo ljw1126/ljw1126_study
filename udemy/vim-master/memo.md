@@ -95,3 +95,17 @@ Global Substitution :
 
 #### vim 안에서 화면 분리
 [https://m.blog.naver.com/nfwscho/220357935591](https://m.blog.naver.com/nfwscho/220357935591)
+
+#### vim 안에서 화면 분리하여 내용 가져 오기 
+
+```bash
+
+
+```
+
+#### vim 편집 중에 실수로 ctrl + z 눌러서 나갔을 때
+```bash
+$ jobs 
+$ fg %[번호]
+```
+

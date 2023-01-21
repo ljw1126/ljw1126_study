@@ -92,8 +92,9 @@ set background=dark       "set bg=dark 와 동일
 
 > .vimrc 첨부파일 있음
 
-    1. 젤리빈 : 색상 테마 
+    1. 젤리빈 : 색상 테마 ✨
        [https://github.com/nanotech/jellybeans.vim](https://github.com/nanotech/jellybeans.vim)
+       [https://www.vim.org/scripts/script.php?script_id=2555](https://www.vim.org/scripts/script.php?script_id=2555)
     
     2. tagbar : 활성화시 오른쪽 탭에 class structure가 tree처럼 나옴 
        :tagbar 입력하면 활성화 됨(다른 사람은 f12로 하는 방법이 있던거 같음)
@@ -125,7 +126,11 @@ set background=dark       "set bg=dark 와 동일
         화면 분할 사용시 커서가 있는 화면에 커서 highlight 줄 표시해 줌 
         [https://github.com/blueyed/vim-diminactive](https://github.com/blueyed/vim-diminactive)
 
+
 > 가장 기본적이고 평가가 좋은 플러그인을 사용해보기 -> 셋팅 그만 두기 -> 개발자체에 집중 -> 개발 환경에 아쉬운 생각 들면 관련 플러그인 찾아보기
 
+
+밸덩 
+[https://www.baeldung.com/linux/vim-background-colors](https://www.baeldung.com/linux/vim-background-colors 'Setting the Vim Background Colors')
 
 

@@ -181,6 +181,12 @@
 
 https://stackoverflow.com/questions/20939562/scp-permission-denied-publickey-on-ec2-only-when-using-r-flag-on-directories
 
+파일 올리기 
+ex.  scp -i ~/.ssh/data-analysis.key ./generate_log/20221017 hadoop@13.124.13.163:/home/hadoop/restore
+
+파일 내려받기 (ssh 등록되어 있는 경우)
+ex. scp -r web-analytic:/data/221221sms1.hproj ./
+
 ```
 
 ---

@@ -1,3 +1,5 @@
+**master 에다가 pig 테스트 함
+
 ## (선택) zsh , oh-my-zsh 설치
 ```
 $ echo $SHELL        // 현재 사용중이 shell 
