@@ -56,7 +56,7 @@ V - Linewise Visual Mode 라인 단위 비쥬얼 모드
     방향키와 위k/아래j와 함께 사용가능
     
     /ex       -- ex 단어가 있는 라인까지 선택 
-    n         -- ex가 있는 다음 다린까지 선택
+    n         -- ex가 있는 다음 라인까지 선택
     U         -- highlight 내에 모두 대'문자 변환 
     u         -- highlight 내에 모두 소'문자 변환
 
@@ -85,6 +85,53 @@ V - Linewise Visual Mode 라인 단위 비쥬얼 모드
     블록모드
     3j
 
+ex. 
+    before)
+    class Person
+    def initialize(nick_name, birthdate, telephone, title)
+        nick_name=nick_name
+        birthdate=birthdate
+        telephone=telephone
+        title=title
+    end
+    end
+
+    after)
+    class Person
+    def initialize(nick_name, birthdate, telephone, title)
+        @nick_name=nick_name
+        @birthdate=birthdate
+        @telephone=telephone
+        @title=title
+    end
+    end
+
+    ctrl + v  -- block visual mode 
+    3j
+    I     -- lower case i doenst work in visual mode 
+    @ 입력 후 esc 하면 선택 영역에 @ 앞에 붙음 (조금 버벅 되면서 적용됨 😅)
+
+ex.
+    before)
+    john.nick_name = "Happy"
+    john.birthdate = "4/4/1984"
+    john.telephone = "(555) 612-2000"
+    john.TITLe = "Developer"
+
+    after)
+    billy.nick_name = "Happy"
+    billy.birthdate = "4/4/1984"
+    billy.telephone = "(555) 612-2000"
+    billy.TITLe = "Developer"
+
+    ctrl + v      -- 블록모드 돌입 
+    fn            -- john 선택되도록
+    3j      
+    c      -- cut and insert mode , (이건 또 소문자 동작하네, 😅)
+    billy 입력 후 esc 
+
+// 1. 비주얼 모드로 선택해서 복붙하는거.. 예제로 있으면 좋겠다..
+// 2. 다른 파일 열어서 해당 파일 내용 복사 붙여 넣기 하는 것도 좋겠다..
 ```
 
 
@@ -100,7 +147,7 @@ https://stackoverflow.com/questions/235839/indent-multiple-lines-quickly-in-vi
     <  -- left로 이동 
 
     👨‍💻설정 확인
-    :set shiftwidth?     -- ? :: shiftwidth 설정값 확인(8)
+    :set shiftwidth?     -- ? :: shiftwidth 설정값 확인(8)   // ? : question mark 
     :set tabstop?        -- ? :: tabstop 설정값 확인 (8), 탭 사용시 character 8칸씩 
     :set expandtab?
 
@@ -113,10 +160,43 @@ https://stackoverflow.com/questions/235839/indent-multiple-lines-quickly-in-vi
     :set expandtab 
 
 START: ~~~ List 에서 
-    gv -- 영역 선택 후 : 입력하면 replace하거나 정렬 가능한듯?
-    :'<,'>s/United States of America/USA  -- 문장을 USA로 치환
+    before) 
+    START:United States of America State Capital List
+    United States of America,Alabama,Montgomery
+    United States of America,Juneau,Alaska
+    United States of America,Phoenix,Arizona
+    United States of America,Little,Arkansas
+    United States of America,Sacramento,California
+    United States of America,Denver,Colorado
+    United States of America,Hartford,Connecticut
+    United States of America,Dover,Delaware
+    United States of America,Tallahassee,Florida
+    United States of America,Atlanta,Georgia
+    END:United States of America State Capital List
 
-Episode V:
+    after)
+    START:United States of America State Capital List
+    USA,Alabama,Montgomery
+    USA,Juneau,Alaska
+    USA,Phoenix,Arizona
+    USA,Little,Arkansas
+    USA,Sacramento,California
+    USA,Denver,Colorado
+    USA,Hartford,Connecticut
+    USA,Dover,Delaware
+    USA,Tallahassee,Florida
+    USA,Atlanta,Georgia
+    end:united States of America State Capital List
+
+    gv -- 영역 선택 후 : 입력하면 replace하거나 정렬 가능한듯?
+    ctrl + v
+    /G         === G가 있는 단어 찾음
+    :'<,'>s/United States of America/USA  -- 문장을 USA로 치환 
+                                          -- '<, '> 의 경우 visual mode 로 선택 영역 처음과 끝을 뜻함
+                                          -- ✨ visual mode로 영역 선택 후 command mode 들어가면 :'<, '> 입력되어 있음 !! 😄
+
+Episode V:        // 정렬 관련된 예제
+    V             -- visual mode 시작
     gv            -- 두줄 highlight선택 후 
     :'<,'>center  -- 가운데 정렬됨
     :'<,'>ce      -- 동일한 가운데 정렬 
@@ -127,4 +207,49 @@ Episode V:
     :'<,'>ri60
 
     그리고 마지막에 visual block 모드로 두줄 맨앞에 # 삽입
+```
+
+```
+Summary
+
+- characterwise : v
+- Linewise : V
+- Blockwise : ctrl + v 
+
+- Expanding the highlighted area:
+    - motions 
+    - text objects 
+    - o O       // visual mode 내에서 커서 앞 뒤로 이동하는 키
+
+- visual mode 로 영역 선택하고 아래 명령어를 사용하여 편집 가능 
+    ~ - Switch case (대문자 소문자 변환)
+    c - Change
+    d - Delete
+    y - Yank
+    r - Replace
+    x - Delete
+    I - Insert       // 소문자 I는 동작 안함😅
+    A - Append
+    J - Join
+    u - Make lowercase
+    U - Make uppercase
+    > - Shift right
+    < - Shift 
+    
+- Visual ranges 
+    - substitue 
+    - center
+    - right
+    - left
+```
+
+#### Exercisie. visual mode
+
+
+```
+// 연습 파일
+$ vim visual-practice.txt
+
+
+
 ```

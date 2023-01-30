@@ -1,0 +1,78 @@
+This was originally the first line in the file.
+This was originally the second line in the file.
+
+# Q)
+What was the first line in the file originally?  Place it below:
+
+# Q)
+What was the first line in the file originally?  Place it above:
+
+# Q) 오타 수정 ( x 와 p 활용 )
+Fix the following typing errors:
+teh
+psell
+vmi
+wrod
+taht
+
+# Q) First, second, third.
+# hit) dW 와 p 활용
+second, First, third.
+
+# Q) 한 줄 복사
+Duplicate this line.
+
+# Q) I really, really, really, really, love vim!
+# A) y2W 와 p 활용
+I really, really, love vim!
+
+# Q) Fix this 위에 TODO 붙여 넣기 & Delete this는 삭제
+# A) Use the numbered register 0 ("0P)
+TODO
+Fix this
+Delete this
+Delete this
+
+Fix this
+Delete this
+Delete this
+Delete this
+
+Fix this
+Delete this
+Delete this
+
+Fix this
+Delete this
+Delete this
+Delete this
+
+Fix this
+Delete this
+Delete this
+
+# A) "jyy , "fyy
+Yank this line into the "j register.
+Yank this line into the "f register.
+
+# A) "jp 
+Put the contents of the "j register below:
+
+# A) "fp
+Put the contents of the "f register below:
+
+# A) "Jyy, "Fyy     // 대문자로 register 적으면 Append 됨
+Append this line to the "j register.
+Append this line to the "f register.
+
+" A) "jyy, "fyy
+Put the contents of the "j register below:
+
+Put the contents of the "f register below:
+
+ONE)
+TWO)
+THREE)
+
+
+This training is being provided by LinuxTrainingAcademy.com.

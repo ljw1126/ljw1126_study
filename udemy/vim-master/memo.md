@@ -2,7 +2,7 @@
 [https://hea-www.harvard.edu/~fine/Tech/vi.html](https://hea-www.harvard.edu/~fine/Tech/vi.html 'vi Complete Key Binding List')
 [https://www.linuxtrainingacademy.com/]('https://www.linuxtrainingacademy.com/')
 [https://www.joinc.co.kr/w/Site/Vim/Documents/UsedVim]('https://www.joinc.co.kr/w/Site/Vim/Documents/UsedVim')
-
+[https://www.joinc.co.kr/w/Site/Vim/Documents/UsedVim#AEN303]('https://www.joinc.co.kr/w/Site/Vim/Documents/UsedVim#AEN303' '초보자를 위한 vim 입문서')
 
 ## 요약
 
@@ -95,17 +95,3 @@ Global Substitution :
 
 #### vim 안에서 화면 분리
 [https://m.blog.naver.com/nfwscho/220357935591](https://m.blog.naver.com/nfwscho/220357935591)
-
-#### vim 안에서 화면 분리하여 내용 가져 오기 
-
-```bash
-
-
-```
-
-#### vim 편집 중에 실수로 ctrl + z 눌러서 나갔을 때
-```bash
-$ jobs 
-$ fg %[번호]
-```
-

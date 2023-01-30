@@ -1,0 +1,51 @@
+The Time Traveller (for so it will be convenient to speak of him) was expounding.
+
+# () 삭제
+print("The weatherman said, 'This weekend will be warm,' but that was a lie.")
+# "" 내용 삭제 후 입력
+print("The weatherman said, 'This weekend will be warm,' but that was a lie.")
+# '' 내용 삭제 후 입력
+print("The weatherman said, 'This weekend will be warm,' but that was a lie.")
+
+# [] 내용 삭제 
+scripts=[ 'bin/backup',
+          'bin/backup-all',
+          'bin/backup-db-only',
+          'bin/backup-files-only' ]
+
+# 1) 레지스터에 태그명만 넣기 : yank_me  
+# 2) 레지스터에 태그 전체 넣기 : <yank_me>
+<yank_me>
+
+# a 태그 사이에 글자 삭제
+<p><a href="https://linuxtrainingacademy.com">Linux Training Academy</a></p>
+
+# 첫번째 CD 태그 group 삭제
+<?xml version="1.0" encoding="UTF-8"?>
+<CATALOG>
+  <CD>
+    <TITLE>Jazz At Massey Hall</TITLE>
+    <ARTIST>The Quintet</ARTIST>
+  </CD>
+  <CD>
+    <TITLE>Blue Train</TITLE>
+    <ARTIST>John Coltrane</ARTIST>
+  </CD>
+  <CD>
+    <TITLE>Saxophone Colossus</TITLE>
+    <ARTIST>Sonny Rollins</ARTIST>
+  </CD>
+</CATALOG>
+
+# {} 내용 삭제 
+musicians = {
+  'Charlie Parker': 'alto sax', 
+  'John Coltrane': 'tenor sax', 
+  'Sonny Rollins': 'tenor sax'
+}
+
+# 1) 한 문장 삭제 2) 한 구절 삭제
+
+Praesent rutrum purus ultricies, dignissim massa id, elementum felis. Vestibulum ullamcorper? Ligula quis pharetra aliquet! Felis ex vulputate justo, non commodo metus tellus ut tortor. Sed et orci quis augue pretium sagittis lobortis non nisi. Cras rhoncus congue est, ut dapibus neque gravida id. Mauris et urna consequat, semper sapien sit amet, sollicitudin enim. Vivamus aliquam erat non eros vehicula dictum. Etiam bibendum posuere leo nec commodo. Fusce in enim fermentum, vulputate odio at, semper sapien. Etiam erat lorem, convallis vel leo ac, euismod accumsan diam. Cras in sapien sed dui dictum imperdiet. Nam vel vehicula nisl.
+
+This training is provided by LinuxTrainingAcademy.com.

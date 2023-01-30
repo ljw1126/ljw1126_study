@@ -1,0 +1,65 @@
+# A) I 사용
+<= What is your favorite editor?
+
+<= What is your favorite color?
+
+# A) f> 후에 a 또는 f< 후에 i
+Enter your name here =><=
+
+# A) A 사용
+Enter your name here:
+
+# A) o 사용
+One the line below, type the name of your favorite movie.
+
+# A) O 사용
+^^^ One the line above, type the name of the editor you are using.
+
+# Q) This line belongs with the one below it.
+This line belongs
+with the one below it.
+
+# Q) her => our
+Vim is her favorite editor.
+
+# Q) car => cat
+I have a white car.
+
+# Q) great => brilliant 
+I am having a great time in this vim class!
+
+# Q) myself => everyone
+I love myself.
+
+# Q) 아래 줄 잘라내기 후 쓰기 (cc 또는 C)  
+Type something wonderful here.
+
+# Q) Monday => monday
+# A) ~ 
+Monday <= The "m" is supposed to be in uppercase.
+
+# Q) shout => SHOUT 
+# A) g~w
+Don't shout.  It's not nice.
+
+# Q) Monday's start better with COFFEE.
+# A) g~~
+mONDAY'S START BETTER WITH coffee.
+
+# Q) Shout => SHOUT 
+# A) gUw 또는 gUW
+Don't Shout.  It's just too loud.
+
+# Q) Whisper => whisper
+# A) guw 
+Please Whisper.
+
+# Q) ********************
+# A) 20i => * 입력 => (esc)
+Create a line of asterisks(*) below:
+
+# Q) - 들어간 3줄 삽입 
+# A) 3o => - 입력 => (esc)
+Create 3 lines that begin with "-" below:
+
+This training is provided by LinuxTrainingAcademy.com.
