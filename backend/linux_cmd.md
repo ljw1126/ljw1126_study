@@ -183,9 +183,11 @@ https://stackoverflow.com/questions/20939562/scp-permission-denied-publickey-on-
 
 파일 올리기 
 ex.  scp -i ~/.ssh/data-analysis.key ./generate_log/20221017 hadoop@13.124.13.163:/home/hadoop/restore
+ex.  scp -i ./example* emr-line:/home/hadoop/vim_example
 
 파일 내려받기 (ssh 등록되어 있는 경우)
 ex. scp -r web-analytic:/data/221221sms1.hproj ./
+ex. scp -ri ~/.ssh/키.pem ubuntu@공개도메인:/home/ubuntu/somthing ./ 
 
 ```
 

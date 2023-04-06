@@ -77,3 +77,38 @@ https://www.concretepage.com/spring-5/spring-value-default#String
 https://e2e2e2.tistory.com/15#message-converter
 https://hoonmaro.tistory.com/46#httpmessageconverter-%EA%B5%AC%ED%98%84%EC%B2%B4-%EB%AA%A9%EB%A1%9D
 https://velog.io/@kim_sunnnny/what-is-applicationoctet-stream
+
+
+
+## spring boot property 관련
+aws.amazon.com/ko/console/
+https://www.baeldung.com/spring-value-defaults
+https://blog.kingbbode.com/17
+
+- 230309 aws secrets manager에 설정된 {속성 : 값}을 읽어오는 테스트 진행 
+    - aws secrets manager 활성화시 1순위로 덮어 씌움 
+    - 비활성화시 시스템 변수, 그리고 사용자 설정 변수 순으로 덮어 씌우는 것으로 판단됨 
+        - user.name이 시스템 변수로 있다는 걸 기억 못했음. (window user name 호출해버림 😅)
+
+
+## Annotation 관련 
+https://velog.io/@jkijki12/annotation
+
+
+## url에 없는  경로 입력시 tomcat 에러 노출 방지
+https://www.leeby.one/posts/spring.web.resources.add-mappings-%EC%98%B5%EC%85%98/
+
+v2.1 -> v2.7로 올리니 속성명이 변경됨 >> spring.web.resources.add-mappings
+
+참고. spring boot 버전업
+https://devocean.sk.com/blog/techBoardDetail.do?ID=164482
+
+--- 
+
+#### 참고 
+build.gradle의 동작원리 한 번에 정리하기 
+    https://kotlinworld.com/321
+The Basics of Java Generics (밸덩)
+    https://www.baeldung.com/java-generics
+Spring Boot Starter Parent (밸덩)
+    https://www.baeldung.com/spring-boot-starter-parent

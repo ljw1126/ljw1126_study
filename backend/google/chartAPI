@@ -1,0 +1,13 @@
+
+
+```
+x 축에 1, 100 스테이지 번호에대한 정보만 필요한 데 type : number라서 minSpacing 으로 인해 1~100 까지 스케일 다 표출되서 보기 힘들었음 ..
+
+
+chartOption에 
+>> haxis : { type : 'category'} 추가하게 되니, x축 항목 들만 선별해서 처리하게 된듯함 !! (해결)
+
+관련 깃 이슈 
+https://github.com/google/google-visualization-issues/issues/1986
+https://jsfiddle.net/o02vw4L5/
+```

@@ -15,7 +15,7 @@ total_play_user = GROUP bingo BY (country, stage);
 
     DESCRUBE total_play_user;
     ✨ {
-        (group: (country: chararray,stage: bytearray), bingo: {(encmid: bytearray,country: chararray,stage: bytearray,win: bytearray)}), 
+        (group: (country: chararray, stage: bytearray), bingo: {(encmid: bytearray, country: chararray, stage: bytearray, win: bytearray)}), 
         .. }
     👩‍💻 
 
