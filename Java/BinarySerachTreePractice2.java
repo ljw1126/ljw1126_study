@@ -172,7 +172,7 @@ public class BinarySerachTreePractice2 {
                         changeNodeParent.left = null;
                     }
 
-                    parntNode.right = changeNode;
+                    parntNode.right = changeNode; // 여기만 달랐음.
                     changeNode.left = curntNode.left;
                     changeNode.right = curntNode.right;
                     curntNode = null;

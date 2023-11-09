@@ -81,7 +81,7 @@
             return true;
         }else if(this.head.data == existedData){//head 앞에 넣는 경우
             Node<T> newHead = new Node<T>(addData);
-            newHead.next = this.head; // prev 초기화시 null 
+            newHead.next = this.head; // prev 초기화시 null  .. 틀린거 같은데? this.head.next;아닌가
             this.head = newHead;
             newHead.next.prev = this.head; // 이게 빠졌네 
             return true;

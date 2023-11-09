@@ -15,6 +15,9 @@ public class MyStackTemplate<T> {
         return false;
     }
     
+    public void printAll() { // LIFO 
+    }
+
     public static void main(String[] args) {
         MyStackTemplate<Integer> ms = new MyStackTemplate<Integer>();
         ms.push(1);

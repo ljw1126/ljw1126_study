@@ -31,5 +31,6 @@ function countByRange(arr, leftValue, rightValue) {
 }
 
 const arr = [1, 2, 3, 3, 3, 3, 4, 4, 8, 9];
-console.log(countByRange(arr, 4, 4)); // 값이 4인 데이터의 개수 출력
+console.log(countByRange(arr, 4, 4)); // 값이 4인 데이터의 개수 출력 : 2개
 console.log(countByRange(arr, -1, 3)); // 값이 [-1, 3] 범위에 있는 데이터 개수 출력, 결과가 6인데..
+console.log(countByRange(arr, 3,3)); // 값이 3인 데이터의 개수 : 4개

@@ -30,7 +30,7 @@ function binarySearchByWhile(arr, target, left, right) {
     return -1;
 }
 
-const target = 7; // 찾고자 하는 값
+const target = 3; // 찾고자 하는 값
 const arr = [1, 3, 5, 7, 9, 11, 13, 15, 17, 19];
 
 let result = binarySearchByRecursiveCall(arr, target, 0, arr.length - 1);
