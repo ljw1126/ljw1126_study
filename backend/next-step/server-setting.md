@@ -106,7 +106,7 @@ $ mvn -version
 
 -깃 설치 
 $ sudo apt-get install -y git
-$ git --verseion 
+$ git --version 
 $ mkdir repositories
 $ cd repositories 
 $ git clone https://github.com/slipp/web-application-server.git   // web-application-server를 배포해본다
@@ -201,8 +201,8 @@ $ ps -ef | grep tomcat
 $ kill -9 $PID
 $ cd ~/tomcat/webapps
 $ rm -rf ROOT
-//$ mv target/jwp-basic ~/tomcat/webapps/RoOOT
-$ mv ~/repositories/jwp-basic/target/jwp-baisc ~/tomcat/webapps/ROOT
+//$ mv target/jwp-basic ~/tomcat/webapps/ROOT
+$ mv ~/repositories/jwp-basic/target/jwp-basic ~/tomcat/webapps/ROOT
 실행하고 로그 확인 // war파일 말고 빌드했을때 jwp-baisc 결과물 폴더을 옮겨서 실행하는거네 ****
 
 확인 http://172.19.0.11:8090/
@@ -252,7 +252,7 @@ tail -500f $TOMCAT_DIR/logs/catalina.out
 https://www.youtube.com/watch?v=UqocnEIX-mA
 
 
-$ mkdir ~/releases/jwp-basic           // 프로젝트때문에 하나더 분리 
+$ mkdir -p ~/releases/jwp-basic           // 프로젝트때문에 하나더 분리 
 $ cd ~/releases/jwp-basic 	// 아래 내용만 추가
 
 
@@ -381,7 +381,7 @@ $ sudo cp default jwp-basic-pm      // pm이라고 점검페이지라 하는듯
 5) vim으로 열어서 root를 아까 탬플릿 경로로 변경해줌 
 6) 테스트
 $ sudo rm -rf jwp-basic
-$ sudo ln -s ../sites/avaialable/jwp-basic-pm jwp-basic 
+$ sudo ln -s ../sites-avaialable/jwp-basic-pm jwp-basic 
 $ sudo nginx -s reload 
 7) 확인
 
